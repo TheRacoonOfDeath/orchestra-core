@@ -12,6 +12,13 @@
 - Never modify WordPress core
 - Prefer WordPress APIs
 
+## Namespaces
+
+- Orchestra\Core
+- Orchestra\Library
+- Orchestra\Projects
+- Orchestra\Members
+
 ## Plugins
 
 Every plugin owns its data.

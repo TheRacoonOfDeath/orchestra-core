@@ -35,6 +35,7 @@ class Plugin
             'orchestra-core'
         );
 
+        $updateChecker->setBranch('main');
         $updateChecker->getVcsApi()->enableReleaseAssets();
     }
 }

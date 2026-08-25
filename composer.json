@@ -1,0 +1,17 @@
+{
+    "name": "orchestra/core",
+    "description": "Core plugin providing shared infrastructure for the Orchestra plugin suite.",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": "^8.3",
+        "yahnis-elsts/plugin-update-checker": "^5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Orchestra\\Core\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}

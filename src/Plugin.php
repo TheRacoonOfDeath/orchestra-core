@@ -29,10 +29,19 @@ class Plugin
     private function register(): void
     {
         $this->registerUpdateChecker();
+        $this->registerCapabilities();
 
         if (\is_admin()) {
             $this->registerAdmin();
         }
+    }
+
+    private function registerCapabilities(): void
+    {
+        $pluginFile = dirname(__DIR__) . '/orchestra-core.php';
+        
+        \register_activation_hook($pluginFile, [CapabilitiesRegistrar::class, 'register']);
+        \register_deactivation_hook($pluginFile, [CapabilitiesRegistrar::class, 'unregister']);
     }
 
     private function registerUpdateChecker(): void

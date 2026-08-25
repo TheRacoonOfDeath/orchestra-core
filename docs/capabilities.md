@@ -295,9 +295,87 @@ Manages capability assignment to roles and user capability checking.
 - `syncRole($wordpress_role, $orchestra_role)` - Sync role (remove old, add new)
 - `userCan($user_id, $capability, $post_id)` - Check user capability with ownership rules
 
+### CapabilitiesRegistrar
+
+Centralizes role creation and capability assignment for plugin activation/deactivation.
+
+**Responsibilities:**
+- Create Orchestra roles on plugin activation
+- Assign capabilities to roles
+- Remove capabilities and roles on deactivation
+- Sync capabilities when updating capabilities definitions
+
+**Key Methods:**
+- `register()` - Called on plugin activation; creates roles and assigns capabilities
+- `unregister()` - Called on plugin deactivation; removes capabilities and roles
+- `sync()` - Update/sync capabilities (useful for plugin updates)
+
+**Roles Created:**
+- `conductor` - Musical directors with library and assignment management
+- `organizer` - Project coordinators with project and participation management
+- `subscriber` - Standard WordPress role mapped to Orchestra members
+- `administrator` - Core WordPress role automatically gets all capabilities
+
+**What Happens on Activation:**
+
+```php
+// Automatically called when orchestra-core activates
+CapabilitiesRegistrar::register();
+
+// This:
+// 1. Creates 'conductor' and 'organizer' roles (if not exists)
+// 2. Assigns all Orchestra capabilities to these roles
+// 3. Assigns member capabilities to 'subscriber' role
+// 4. Assigns all capabilities to 'administrator'
+```
+
 ---
 
-## Architecture Decisions
+## Setup & Installation
+
+### Automatic Setup (Recommended)
+
+When orchestra-core plugin is activated, `CapabilitiesRegistrar::register()` is automatically called via the plugin's activation hook. This:
+
+1. Creates `conductor` and `organizer` roles if they don't exist
+2. Assigns all Orchestra capabilities to the appropriate roles
+3. Assigns member capabilities to the WordPress `subscriber` role
+4. Ensures administrators have all capabilities
+
+**No additional setup required.** Simply activate orchestra-core and all roles/capabilities are ready.
+
+### Manual Setup
+
+If needed, you can manually register capabilities in your own plugin:
+
+```php
+use Orchestra\Core\CapabilitiesRegistrar;
+
+// In your plugin's activation hook:
+register_activation_hook(__FILE__, function() {
+    // Register Orchestra roles and capabilities
+    CapabilitiesRegistrar::register();
+});
+
+// In your plugin's deactivation hook:
+register_deactivation_hook(__FILE__, function() {
+    // Remove Orchestra roles and capabilities
+    CapabilitiesRegistrar::unregister();
+});
+```
+
+### Updating Capabilities
+
+When Orchestra updates with new capability definitions, you may need to sync existing roles:
+
+```php
+use Orchestra\Core\CapabilitiesRegistrar;
+
+// Update all role capabilities to match current definitions
+CapabilitiesRegistrar::sync();
+```
+
+---
 
 ### Separation of Concerns
 

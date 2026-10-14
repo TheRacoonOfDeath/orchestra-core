@@ -65,8 +65,9 @@ WordPress media library (attachment URLs are public).
   piece itself (any number of piece files).
 - Files are stored under generated names (e.g. a UUID). The original file name is kept in the
   metadata table and used in the `Content-Disposition` header.
-- Downloads go through a PHP endpoint that checks `orchestra_library_sheet_music_download` and a
-  nonce, then streams the file with `Cache-Control: private, no-store`.
+- Downloads go through a PHP endpoint that checks `orchestra_library_sheet_music_download` and
+  whether the user may read the piece, then streams the file with `Cache-Control: private, no-store`.
+  Downloads change nothing, so they need no nonce, and links stay valid across sessions.
 - The library offers a service that bundles several files into one zip download. orchestra-projects
   uses it for "download my sheet music" per project, passing the part IDs of the member's
   assignments.

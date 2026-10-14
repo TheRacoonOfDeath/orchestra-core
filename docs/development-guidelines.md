@@ -53,8 +53,15 @@ Every plugin owns its data. Cross-plugin database access is forbidden; use publi
 
 - Declare the dependency in the plugin header: `Requires Plugins: orchestra-core`. WordPress then
   refuses to activate the plugin without core.
-- Do **not** add `orchestra/core` as a Composer dependency. Core's classes are loaded by the
-  orchestra-core plugin itself; bundling a second copy would load conflicting versions.
+- Do **not** add `orchestra/core` as a runtime Composer dependency (`require`). Core's classes are
+  loaded by the orchestra-core plugin itself; bundling a second copy would load conflicting versions.
+  Add it to `require-dev` instead, from the GitHub repository, so PHPStan and tests know its
+  classes. Release builds use `--no-dev` and do not contain it:
+
+  ```json
+  "repositories": [{"type": "vcs", "url": "https://github.com/TheRacoonOfDeath/orchestra-core"}],
+  "require-dev": {"orchestra/core": "^0.2"}
+  ```
 - Only use core classes inside hooks (`plugins_loaded` or later), never while the plugin file is
   being loaded, because WordPress does not guarantee the plugin load order.
 - Register capabilities in the `orchestra_core_register_capabilities` action.

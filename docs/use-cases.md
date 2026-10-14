@@ -8,6 +8,8 @@ The purpose of the use cases is to define expected system behavior from a busine
 
 Implementation details such as database structures, APIs, or user interface designs are intentionally excluded.
 
+Business rules referenced here are defined in [domain-model.md](domain-model.md).
+
 ---
 
 # Actors
@@ -19,7 +21,39 @@ The system defines four actor types:
 - Organizer
 - Administrator
 
+Organizers can also act as Members (they may play in projects). Conductors cannot.
+
 Administrators may perform all actions available to other actors.
+
+---
+
+# Overview
+
+| ID | Use Case | Primary Actor |
+|----|----------|---------------|
+| UC-001 | Login | Member |
+| UC-002 | View Dashboard | Member |
+| UC-003 | Update Personal Profile | Member |
+| UC-004 | Create Piece | Conductor |
+| UC-005 | Create Part | Conductor |
+| UC-006 | Upload Sheet Music | Conductor |
+| UC-007 | Search Sheet Music | Member |
+| UC-008 | Download Sheet Music | Member |
+| UC-009 | Create Project | Organizer |
+| UC-010 | Assign Conductors | Organizer |
+| UC-011 | Build Program | Organizer, Conductor |
+| UC-012 | View Project Information | Member |
+| UC-013 | Accept Participation | Member |
+| UC-014 | Decline Participation | Member |
+| UC-015 | Change Participation Decision | Organizer |
+| UC-016 | View Participation Overview | Organizer |
+| UC-017 | Assign Member To Part | Conductor |
+| UC-018 | Change Project Status | Organizer |
+| UC-019 | Download Project Sheet Music | Member |
+| UC-020 | Send Email To Group | Organizer, Conductor |
+| UC-021 | Create Member Account | Administrator |
+| UC-022 | Deactivate Or Reactivate Member | Organizer |
+| UC-023 | Archive Piece | Conductor |
 
 ---
 
@@ -36,14 +70,27 @@ Member
 ## Preconditions
 
 - User account exists
-- User is active
 
 ## Flow
 
 1. User opens the login page.
 2. User enters credentials.
 3. System validates credentials.
-4. System grants access.
+4. System verifies that the member is active.
+5. System grants access.
+
+## Alternative Flows
+
+### 3a. Invalid credentials
+
+1. System shows the standard login error.
+
+### 4a. Member is inactive
+
+1. System denies access.
+2. System informs the user that their account is inactive and that they should contact an administrator.
+
+This message is only shown after valid credentials, so the account status is not revealed to others.
 
 ## Postconditions
 
@@ -70,10 +117,10 @@ Member
 
 1. User opens the dashboard.
 2. System displays:
-    - Active projects
-    - Participation status
-    - Assigned parts
-    - Relevant sheet music
+    - Visible projects (not Draft, not Archived)
+    - Own participation status per project, with a prompt to respond where it is Open
+    - Assigned parts per project
+    - Download of the assigned sheet music per project (UC-019)
 
 ## Postconditions
 
@@ -158,7 +205,8 @@ Conductor
 
 1. Conductor opens a piece.
 2. Conductor creates one or more parts.
-3. System stores the parts.
+3. System validates that part names are unique within the piece.
+4. System stores the parts.
 
 ## Example
 
@@ -178,7 +226,7 @@ Pirates of the Caribbean
 
 ## Goal
 
-Provide sheet music for a specific part.
+Provide sheet music for a specific part, or a file for the whole piece.
 
 ## Primary Actor
 
@@ -187,18 +235,26 @@ Conductor
 ## Preconditions
 
 - Piece exists.
-- Part exists.
+- For part sheet music: part exists.
 
 ## Flow
 
-1. Conductor selects a part.
-2. Conductor uploads a sheet music file.
-3. System validates the file.
+1. Conductor selects a part, or the piece itself.
+2. Conductor uploads a file.
+3. System validates the file type and size.
 4. System stores the file securely.
+
+## Alternative Flows
+
+### 2a. Part already has sheet music
+
+1. System asks for confirmation to replace the existing file.
+2. On confirmation, the new file replaces the old one.
 
 ## Postconditions
 
-- Sheet music is available for authorized users.
+- The part has exactly one sheet music file, or the piece has an additional piece file.
+- The file is available for authorized users.
 
 ---
 
@@ -232,7 +288,7 @@ Member
 
 ## Goal
 
-Download an authorized sheet music file.
+Download a sheet music file or piece file.
 
 ## Primary Actor
 
@@ -241,11 +297,10 @@ Member
 ## Preconditions
 
 - User is authenticated.
-- User has access to the file.
 
 ## Flow
 
-1. User selects a sheet music file.
+1. User selects a file.
 2. System validates permissions.
 3. System initiates download.
 
@@ -278,11 +333,11 @@ Organizer
     - Start date
     - End date
     - Concert date
-3. System stores the project.
+3. System stores the project with status Draft.
 
 ## Postconditions
 
-- Project exists.
+- Project exists and is not yet visible to members.
 
 ---
 
@@ -290,7 +345,7 @@ Organizer
 
 ## Goal
 
-Associate conductors with a project.
+Record which conductors lead a project.
 
 ## Primary Actor
 
@@ -303,12 +358,14 @@ Organizer
 ## Flow
 
 1. Organizer selects a project.
-2. Organizer adds one or more conductors.
-3. System stores assignments.
+2. Organizer adds or removes conductors.
+3. System stores the selection.
 
 ## Postconditions
 
-- Conductors can manage project assignments.
+- The project shows its conductors.
+
+The selection is informational. Every conductor can manage assignments in every project.
 
 ---
 
@@ -316,26 +373,34 @@ Organizer
 
 ## Goal
 
-Define the pieces performed within a project.
+Define the pieces performed within a project and their order.
 
 ## Primary Actor
 
-Organizer
+Organizer, Conductor
 
 ## Preconditions
 
 - Project exists.
-- Pieces exist.
+- Pieces exist and are not archived.
 
 ## Flow
 
-1. Organizer opens a project.
-2. Organizer selects pieces from the library.
-3. System creates program entries.
+1. User opens a project.
+2. User selects pieces from the library.
+3. User arranges the pieces in program order.
+4. System creates program entries.
+
+## Alternative Flows
+
+### 2a. User removes a piece that has assignments
+
+1. System warns that the assignments for this piece will be removed.
+2. On confirmation, the program entry and its assignments are removed.
 
 ## Postconditions
 
-- Project program exists.
+- Ordered project program exists.
 
 ---
 
@@ -352,6 +417,7 @@ Member
 ## Preconditions
 
 - User is authenticated.
+- Project is not in status Draft.
 
 ## Flow
 
@@ -361,7 +427,8 @@ Member
     - Description
     - Conductors
     - Program
-    - Participation status
+    - Own participation status
+    - Own assignments
 
 ## Postconditions
 
@@ -381,15 +448,16 @@ Member
 
 ## Preconditions
 
+- Project is Open for Participation.
 - Participation status is Open.
 
 ## Flow
 
 1. User reviews project information.
 2. User selects Accept.
-3. System asks for confirmation.
+3. System informs the user that the decision is final and asks for confirmation.
 4. User confirms.
-5. System locks the participation record.
+5. System stores the decision.
 
 ## Postconditions
 
@@ -410,15 +478,16 @@ Member
 
 ## Preconditions
 
+- Project is Open for Participation.
 - Participation status is Open.
 
 ## Flow
 
 1. User reviews project information.
 2. User selects Decline.
-3. System asks for confirmation.
+3. System informs the user that the decision is final and asks for confirmation.
 4. User confirms.
-5. System locks the participation record.
+5. System stores the decision.
 
 ## Postconditions
 
@@ -427,11 +496,11 @@ Member
 
 ---
 
-# UC-015 Unlock Participation Decision
+# UC-015 Change Participation Decision
 
 ## Goal
 
-Allow an organizer to modify a locked participation decision.
+Allow an organizer to change a member's participation, e.g. after the member asked for it.
 
 ## Primary Actor
 
@@ -444,12 +513,20 @@ Organizer
 ## Flow
 
 1. Organizer opens participation details.
-2. Organizer selects Unlock.
-3. System removes the lock.
+2. Organizer selects a new status (Open, Accepted or Declined).
+3. System stores the new status.
+
+## Alternative Flows
+
+### 2a. An Accepted participation with assignments is changed
+
+1. System warns that the member's assignments in this project will be removed.
+2. On confirmation, the status is changed and the assignments are removed.
 
 ## Postconditions
 
-- Member can submit a new decision.
+- Participation has the new status.
+- If the new status is Open and the project is Open for Participation, the member can respond again.
 
 ---
 
@@ -493,6 +570,219 @@ Conductor
 
 ## Preconditions
 
-- Project exists.
+- Project is Open for Participation or in Preparation.
 - Piece exists in project program.
-- Member participates
+- Member has Accepted participation.
+
+## Flow
+
+1. Conductor opens the assignments of a piece in the project.
+2. Conductor selects a part.
+3. System lists the accepted participants and marks for each of them:
+    - Played Last Time
+    - Played Before
+    - Never Played
+    - Already assigned to another part of this piece
+4. Conductor selects one or more members.
+5. System stores the assignments.
+
+## Alternative Flows
+
+### 4a. Member is already assigned to another part of this piece
+
+1. System asks whether to move the member to the selected part.
+2. On confirmation, the previous assignment is replaced.
+
+## Postconditions
+
+- Members are assigned to the part.
+- The assignments are shown on the members' dashboards.
+
+---
+
+# UC-018 Change Project Status
+
+## Goal
+
+Move a project through its lifecycle.
+
+## Primary Actor
+
+Organizer
+
+## Preconditions
+
+- Project exists.
+
+## Flow
+
+1. Organizer opens the project.
+2. Organizer selects the next status.
+3. System asks for confirmation.
+4. System stores the new status.
+
+## Alternative Flows
+
+### 4a. Project is opened for participation
+
+1. System creates a participation record with status Open for every active member and organizer
+   who has none for this project yet.
+
+## Postconditions
+
+- Project has the new status.
+- Visibility and allowed actions follow the status (see domain model).
+
+---
+
+# UC-019 Download Project Sheet Music
+
+## Goal
+
+Download all sheet music needed for one project in one step.
+
+## Primary Actor
+
+Member
+
+## Preconditions
+
+- User is authenticated.
+- User has assignments in the project.
+
+## Flow
+
+1. User opens the project or the dashboard.
+2. User selects "Download my sheet music".
+3. System bundles the sheet music of all parts assigned to the user in this project.
+4. System initiates download.
+
+## Postconditions
+
+- User receives all sheet music for their assigned parts.
+
+---
+
+# UC-020 Send Email To Group
+
+## Goal
+
+Inform a group of people by email.
+
+## Primary Actor
+
+Organizer, Conductor
+
+## Preconditions
+
+- User may send email to at least one group.
+
+## Flow
+
+1. User opens the email screen, optionally from a project (groups of that project are preselected).
+2. User selects one or more groups.
+3. System shows the number of recipients.
+4. User enters subject and message.
+5. User sends the email.
+6. System sends one email per recipient in the background and logs the sending.
+
+## Postconditions
+
+- Every active member of the selected groups receives the email.
+- Recipients do not see each other's addresses.
+
+---
+
+# UC-021 Create Member Account
+
+## Goal
+
+Give a new person access to the system.
+
+## Primary Actor
+
+Administrator
+
+## Preconditions
+
+- No account exists for the person.
+
+## Flow
+
+1. Administrator creates a WordPress user with name and email address.
+2. Administrator selects the role (Member, Conductor or Organizer).
+3. System sends the person a link to set a password.
+
+## Alternative Flows
+
+### 3a. A project is Open for Participation
+
+1. System creates a participation record with status Open for the new member (Members and Organizers only).
+
+## Postconditions
+
+- The person can log in.
+
+---
+
+# UC-022 Deactivate Or Reactivate Member
+
+## Goal
+
+Mark members who left the orchestra, or who return.
+
+## Primary Actor
+
+Organizer
+
+## Preconditions
+
+- Member exists.
+
+## Flow
+
+1. Organizer opens the member.
+2. Organizer sets the member to inactive.
+3. System informs the organizer that the sensitive profile data will be deleted and asks for confirmation.
+4. System sets the member to inactive and deletes financial support and dietary restriction data.
+
+## Alternative Flows
+
+### 2a. Reactivation
+
+1. Organizer sets an inactive member to active.
+2. System sets the member to active.
+3. System creates Open participation records for projects that are Open for Participation.
+
+## Postconditions
+
+- Inactive members cannot log in, receive no new participation records and no group emails.
+- Historical records remain.
+
+---
+
+# UC-023 Archive Piece
+
+## Goal
+
+Remove a piece from active use without losing history.
+
+## Primary Actor
+
+Conductor
+
+## Preconditions
+
+- Piece exists.
+
+## Flow
+
+1. Conductor opens the piece.
+2. Conductor archives the piece.
+3. System stores the archived status.
+
+## Postconditions
+
+- The piece cannot be added to new programs.
+- Existing programs, assignments and the assignment history keep referring to it.
+- The piece can be unarchived.

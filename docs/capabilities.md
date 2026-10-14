@@ -1,441 +1,223 @@
-# Capabilities Management
+# Roles and Capabilities
 
 ## Overview
 
-Orchestra implements a centralized capability system in `orchestra-core` that all plugins reference. Capabilities are organized by domain and follow a consistent naming convention.
+Access control is built on WordPress roles and capabilities.
 
-Every capability follows the pattern: `orchestra_{domain}_{resource}_{action}`
+Ownership is split:
 
-Examples:
-- `orchestra_library_piece_create`
-- `orchestra_projects_participation_manage_own`
-- `orchestra_members_profile_edit_any`
+- **orchestra-core** owns the *roles* and the *mechanism*: it creates the roles, collects
+  capabilities from all plugins and writes them onto the roles.
+- **Every domain plugin** owns its *capabilities*: it defines them and decides which roles receive them.
 
----
+Core therefore contains no domain-specific permission rules. Adding a feature to a domain plugin
+never requires a change to orchestra-core.
 
-## Capability Naming Conventions
+Code always checks **capabilities**, never roles:
 
-### Action Types
-
-- `read` - View or access a resource
-- `create` - Create a new resource
-- `edit` - Modify a resource
-- `delete` - Remove a resource
-- `manage` - Combine multiple actions (typically for complex operations)
-- `send` - Perform an action that affects others (e.g., send email)
-
-### Ownership Qualifiers
-
-Some capabilities have `_own` and `_any` variants:
-
-- `_own` - User can only perform action on resources they own
-- `_any` - User can perform action on any resource (admin/manager level)
-
-Example:
 ```php
-Capabilities::LIBRARY_PIECE_EDIT_OWN   // Edit only pieces you created
-Capabilities::LIBRARY_PIECE_EDIT_ANY   // Edit any piece in the library
+current_user_can('orchestra_library_piece_edit');            // primitive capability
+current_user_can('orchestra_members_profile_read', $userId); // meta capability for one object
 ```
 
 ---
 
-## Domains & Capabilities
+## Roles
 
-### Members Domain
+| Role | Slug | Constant |
+|------|------|----------|
+| Member | `orchestra_member` | `Roles::MEMBER` |
+| Conductor | `orchestra_conductor` | `Roles::CONDUCTOR` |
+| Organizer | `orchestra_organizer` | `Roles::ORGANIZER` |
+| Administrator | `administrator` (WordPress) | `Roles::ADMINISTRATOR` |
 
-Manages member profiles and orchestra-specific user information.
+- The slugs are prefixed to avoid collisions with roles of other plugins.
+- Orchestra roles only receive the WordPress `read` capability in addition to Orchestra capabilities.
+- Members have their own role. The WordPress `subscriber` role gets no Orchestra capabilities,
+  so self-registered or unrelated accounts never see orchestra data.
+- The administrator automatically receives **every** registered capability.
 
-| Capability | Description | Who Has It |
-|-----------|-------------|-----------|
-| `orchestra_members_profile_read` | View member profiles | Organizer, Conductor, Member, Admin |
-| `orchestra_members_profile_edit_own` | Edit your own profile | Member, Admin |
-| `orchestra_members_profile_edit_any` | Edit any member profile | Admin |
-
-### Library Domain
-
-Manages pieces, parts, and sheet music.
-
-#### Pieces
-
-| Capability | Description | Who Has It |
-|-----------|-------------|-----------|
-| `orchestra_library_piece_read` | View pieces | Organizer, Conductor, Member, Admin |
-| `orchestra_library_piece_create` | Create new pieces | Conductor, Admin |
-| `orchestra_library_piece_edit_own` | Edit your own pieces | Conductor, Admin |
-| `orchestra_library_piece_edit_any` | Edit any piece | Conductor, Admin |
-| `orchestra_library_piece_delete_own` | Delete your own pieces | Conductor, Admin |
-| `orchestra_library_piece_delete_any` | Delete any piece | Admin |
-
-#### Parts
-
-| Capability | Description | Who Has It |
-|-----------|-------------|-----------|
-| `orchestra_library_part_read` | View parts | Organizer, Conductor, Member, Admin |
-| `orchestra_library_part_create` | Create new parts | Conductor, Admin |
-| `orchestra_library_part_edit_own` | Edit your own parts | Conductor, Admin |
-| `orchestra_library_part_edit_any` | Edit any part | Conductor, Admin |
-| `orchestra_library_part_delete_own` | Delete your own parts | Conductor, Admin |
-| `orchestra_library_part_delete_any` | Delete any part | Admin |
-
-#### Sheet Music
-
-| Capability | Description | Who Has It |
-|-----------|-------------|-----------|
-| `orchestra_library_sheet_music_read` | Download/view sheet music | Organizer, Conductor, Member, Admin |
-| `orchestra_library_sheet_music_upload` | Upload sheet music | Conductor, Admin |
-| `orchestra_library_sheet_music_delete_own` | Delete your own uploads | Conductor, Admin |
-| `orchestra_library_sheet_music_delete_any` | Delete any sheet music | Admin |
-
-### Projects Domain
-
-Manages projects, participation, assignments, and communications.
-
-| Capability | Description | Who Has It |
-|-----------|-------------|-----------|
-| `orchestra_projects_project_read` | View projects | Organizer, Conductor, Member, Admin |
-| `orchestra_projects_project_create` | Create new projects | Organizer, Admin |
-| `orchestra_projects_project_edit` | Edit projects | Organizer, Admin |
-| `orchestra_projects_project_delete` | Delete projects | Admin |
-| `orchestra_projects_participation_read` | View participation records | Organizer, Conductor, Admin |
-| `orchestra_projects_participation_manage_own` | Accept/decline your participation | Member, Admin |
-| `orchestra_projects_participation_manage_any` | Manage any participation record | Organizer, Admin |
-| `orchestra_projects_assignment_read` | View assignments | Organizer, Conductor, Admin |
-| `orchestra_projects_assignment_create` | Create new assignments | Conductor, Admin |
-| `orchestra_projects_assignment_edit` | Edit assignments | Conductor, Admin |
-| `orchestra_projects_assignment_delete` | Delete assignments | Conductor, Admin |
-| `orchestra_projects_email_send` | Send communications | Organizer, Conductor, Admin |
-| `orchestra_projects_conductor_manage` | Assign/remove conductors from projects | Organizer, Admin |
+Permissions are global, not per project: a conductor has the conductor capabilities for all
+projects. This is intentional (the orchestra has several conductors and organizers).
 
 ---
 
-## Role-to-Capability Mapping
+## Registering Capabilities
 
-### Administrator
-
-Has **all capabilities**. Created via `Capabilities::administratorCapabilities()`.
-
-### Organizer
-
-Project managers who coordinate overall projects and participation.
-
-**Read Access:**
-- All library content (pieces, parts, sheet music)
-- Member profiles
-- All projects and participation records
-
-**Write Access:**
-- Create and edit projects
-- Manage any participation record (unlock decisions, etc.)
-- Assign/remove conductors
-- Send communications
-
-**Blocked:**
-- Cannot create/edit library content (conductor responsibility)
-- Cannot upload sheet music
-- Cannot create assignments
-
-### Conductor
-
-Musical directors who manage library content and assignments.
-
-**Read Access:**
-- All library content (pieces, parts, sheet music)
-- All projects and participation records
-- All assignments
-
-**Write Access:**
-- Create and edit pieces/parts
-- Upload sheet music
-- Create and manage assignments
-- Send communications
-
-**Blocked:**
-- Cannot create/edit projects
-- Cannot modify participation decisions
-- Cannot delete pieces
-
-### Member
-
-Orchestra musicians who participate in projects.
-
-**Read Access:**
-- Library pieces, parts, and sheet music
-- Project information
-- Own participation status
-- Assignments
-
-**Write Access:**
-- Accept/decline own participation
-- Edit own profile
-
-**Blocked:**
-- Cannot create projects
-- Cannot create/edit library content
-- Cannot create assignments
-- Cannot send communications
-
----
-
-## Usage Examples
-
-### Check Capabilities in Code
+Plugins register their capabilities during the `orchestra_core_register_capabilities` action,
+which orchestra-core fires on `init`. Registration must be unconditional (not only in admin, not
+only for certain users), because the registered set is the source of truth for the roles.
 
 ```php
-use Orchestra\Core\Capabilities;
+use Orchestra\Core\Authorization\CapabilityRegistry;
+use Orchestra\Core\Authorization\OwnershipMapper;
+use Orchestra\Core\Authorization\Roles;
 
-// Check if current user has a capability
-if (current_user_can(Capabilities::LIBRARY_PIECE_CREATE)) {
-    // Show "Create Piece" button
-}
-
-// Check if a capability requires ownership verification
-if (Capabilities::requiresOwnershipCheck($capability)) {
-    // Verify user owns the resource before allowing action
-}
-```
-
-### Get Capabilities for a Role
-
-```php
-use Orchestra\Core\CapabilitiesManager;
-
-// Get all capabilities for a specific role
-$organizer_caps = CapabilitiesManager::forRole('organizer');
-
-// Or use role-specific methods
-$conductor_caps = CapabilitiesManager::conductorCapabilities();
-$member_caps = CapabilitiesManager::memberCapabilities();
-$admin_caps = CapabilitiesManager::administratorCapabilities();
-```
-
-### Assign Capabilities to Roles
-
-In your plugin's activation/initialization code:
-
-```php
-use Orchestra\Core\CapabilitiesManager;
-
-// Simple way: assign all capabilities for a role
-CapabilitiesManager::assignToRole('conductor', 'conductor');
-
-// This is equivalent to:
-$conductor_role = get_role('conductor');
-if ($conductor_role) {
-    foreach (CapabilitiesManager::conductorCapabilities() as $cap) {
-        $conductor_role->add_cap($cap);
-    }
-}
-```
-
-### Sync Capabilities (Update Existing Role)
-
-When capabilities change, sync the role to remove old caps and add new ones:
-
-```php
-use Orchestra\Core\CapabilitiesManager;
-
-// Remove old capabilities and assign new ones
-CapabilitiesManager::syncRole('conductor', 'conductor');
-```
-
-### Check User Capability with Ownership Verification
-
-```php
-use Orchestra\Core\CapabilitiesManager;
-
-$user_id = get_current_user_id();
-$piece_id = 123;
-
-// This returns true only if:
-// 1. User has the capability
-// 2. For '_own' capabilities, user owns the resource
-if (CapabilitiesManager::userCan($user_id, Capabilities::LIBRARY_PIECE_EDIT_OWN, $piece_id)) {
-    // Allow edit
-}
-```
-
----
-
-## Core Classes
-
-### Capabilities
-
-Defines all capability constants organized by domain.
-
-**Responsibilities:**
-- Provides constants for all capabilities
-- Groups capabilities by domain (members, library, projects)
-- Helper methods for ownership checking (`requiresOwnershipCheck()`)
-- Conversion methods between `_own` and `_any` capabilities
-
-**Key Methods:**
-- `all()` - Get all capabilities grouped by domain
-- `requiresOwnershipCheck($capability)` - Check if capability requires ownership verification
-- `getAnyCapability($own_capability)` - Convert `_own` to `_any` capability
-- `getOwnCapability($any_capability)` - Convert `_any` to `_own` capability
-
-### CapabilitiesManager
-
-Manages capability assignment to roles and user capability checking.
-
-**Responsibilities:**
-- Get capabilities for specific roles
-- Assign capabilities to WordPress roles
-- Sync role capabilities (remove old, add new)
-- Check user capabilities with ownership verification
-
-**Key Methods:**
-- `forRole($role_name)` - Get capabilities for a specific role
-- `administratorCapabilities()` - Get admin capabilities
-- `organizerCapabilities()` - Get organizer capabilities
-- `conductorCapabilities()` - Get conductor capabilities
-- `memberCapabilities()` - Get member capabilities
-- `assignToRole($wordpress_role, $orchestra_role)` - Assign capabilities to a role
-- `removeFromRole($wordpress_role)` - Remove all orchestra capabilities
-- `syncRole($wordpress_role, $orchestra_role)` - Sync role (remove old, add new)
-- `userCan($user_id, $capability, $post_id)` - Check user capability with ownership rules
-
-### CapabilitiesRegistrar
-
-Centralizes role creation and capability assignment for plugin activation/deactivation.
-
-**Responsibilities:**
-- Create Orchestra roles on plugin activation
-- Assign capabilities to roles
-- Remove capabilities and roles on deactivation
-- Sync capabilities when updating capabilities definitions
-
-**Key Methods:**
-- `register()` - Called on plugin activation; creates roles and assigns capabilities
-- `unregister()` - Called on plugin deactivation; removes capabilities and roles
-- `sync()` - Update/sync capabilities (useful for plugin updates)
-
-**Roles Created:**
-- `conductor` - Musical directors with library and assignment management
-- `organizer` - Project coordinators with project and participation management
-- `subscriber` - Standard WordPress role mapped to Orchestra members
-- `administrator` - Core WordPress role automatically gets all capabilities
-
-**What Happens on Activation:**
-
-```php
-// Automatically called when orchestra-core activates
-CapabilitiesRegistrar::register();
-
-// This:
-// 1. Creates 'conductor' and 'organizer' roles (if not exists)
-// 2. Assigns all Orchestra capabilities to these roles
-// 3. Assigns member capabilities to 'subscriber' role
-// 4. Assigns all capabilities to 'administrator'
-```
-
----
-
-## Setup & Installation
-
-### Automatic Setup (Recommended)
-
-When orchestra-core plugin is activated, `CapabilitiesRegistrar::register()` is automatically called via the plugin's activation hook. This:
-
-1. Creates `conductor` and `organizer` roles if they don't exist
-2. Assigns all Orchestra capabilities to the appropriate roles
-3. Assigns member capabilities to the WordPress `subscriber` role
-4. Ensures administrators have all capabilities
-
-**No additional setup required.** Simply activate orchestra-core and all roles/capabilities are ready.
-
-### Manual Setup
-
-If needed, you can manually register capabilities in your own plugin:
-
-```php
-use Orchestra\Core\CapabilitiesRegistrar;
-
-// In your plugin's activation hook:
-register_activation_hook(__FILE__, function() {
-    // Register Orchestra roles and capabilities
-    CapabilitiesRegistrar::register();
-});
-
-// In your plugin's deactivation hook:
-register_deactivation_hook(__FILE__, function() {
-    // Remove Orchestra roles and capabilities
-    CapabilitiesRegistrar::unregister();
+add_action('orchestra_core_register_capabilities', static function (CapabilityRegistry $capabilities): void {
+    $capabilities
+        ->register('orchestra_library_piece_read', [Roles::MEMBER, Roles::CONDUCTOR, Roles::ORGANIZER])
+        ->register('orchestra_library_piece_edit', [Roles::CONDUCTOR])
+        ->register('orchestra_library_piece_delete'); // administrators only
 });
 ```
 
-### Updating Capabilities
+The registry rejects:
 
-When Orchestra updates with new capability definitions, you may need to sync existing roles:
+- names not matching `orchestra_{domain}_{resource}_{action}` (lowercase, underscores),
+- unknown roles, including `administrator` (it is implicit),
+- a capability registered twice: every capability has exactly one owning plugin,
+- registrations after the action has run.
+
+---
+
+## Ownership: Meta Capabilities
+
+Some actions depend on *which* object is affected, e.g. "edit **your own** profile".
+These are modelled the WordPress way, as meta capabilities that are checked with an object ID and
+mapped onto primitive capabilities.
+
+### Custom post types
+
+Resources stored as custom post types (see [persistence.md](persistence.md)) use WordPress's built-in
+mapping. Register the post type with `map_meta_cap => true` and point its `capabilities` at
+Orchestra capability names:
 
 ```php
-use Orchestra\Core\CapabilitiesRegistrar;
+register_post_type('orchestra_piece', [
+    'map_meta_cap' => true,
+    'capabilities' => [
+        'read'               => 'orchestra_library_piece_read',
+        'edit_posts'         => 'orchestra_library_piece_edit',
+        'edit_others_posts'  => 'orchestra_library_piece_edit',
+        'publish_posts'      => 'orchestra_library_piece_edit',
+        'delete_posts'       => 'orchestra_library_piece_delete',
+        'delete_others_posts' => 'orchestra_library_piece_delete',
+        // ...
+    ],
+]);
 
-// Update all role capabilities to match current definitions
-CapabilitiesRegistrar::sync();
+current_user_can('edit_post', $pieceId);
 ```
 
----
+### Other objects
 
-### Separation of Concerns
+For objects that are not posts (users, custom table rows), register a meta capability with an
+`OwnershipMapper`. The owner needs the `_own` capability, everybody else the `_others` capability:
 
-**Capabilities.php** contains only constants and utility functions for capability inspection. It is dependency-free and can be used in any context.
-
-**CapabilitiesManager.php** handles WordPress-specific operations (reading/writing roles, checking user capabilities) and depends on WordPress functions.
-
-This separation makes testing easier and allows usage in different contexts.
-
-### Ownership Checking
-
-For `_own` capabilities, CapabilitiesManager provides a `userCan()` method that:
-1. Checks if user has the WordPress capability
-2. Verifies resource ownership (if capability ends in `_own`)
-3. Returns `true` only if both conditions are met
-
-Example:
 ```php
-// This checks if user 42 owns post 123
-CapabilitiesManager::userCan(42, Capabilities::LIBRARY_PIECE_EDIT_OWN, 123);
+$capabilities
+    ->register('orchestra_members_profile_read_own', [Roles::MEMBER, Roles::CONDUCTOR, Roles::ORGANIZER])
+    ->register('orchestra_members_profile_read_others', [Roles::ORGANIZER])
+    ->registerMetaCapability(
+        'orchestra_members_profile_read',
+        OwnershipMapper::forUsers('orchestra_members_profile_read_own', 'orchestra_members_profile_read_others')
+    );
+
+current_user_can('orchestra_members_profile_read', $userId);
 ```
 
----
+For other objects, pass a closure that returns the owner's user ID:
 
-When extending Orchestra or creating new plugins:
+```php
+new OwnershipMapper(
+    'orchestra_projects_participation_respond_own',
+    'orchestra_projects_participation_manage',
+    static fn (int $participationId): ?int => $participations->find($participationId)?->memberId,
+);
+```
 
-1. **Define constants** in `Capabilities.php`
-2. **Add to `all()` method** in the appropriate domain array
-3. **Add to role methods** as needed (e.g., `organizerCapabilities()`)
-4. **Document** in this file with description and role assignments
-5. **Register in plugins** via `add_cap()` in activation hooks
+The check is **denied** if no object ID is passed or the owner cannot be determined. A forgotten
+argument never grants access.
 
----
-
-## Deprecation & Changes
-
-When modifying capabilities:
-- Do **not** delete existing capability constants without coordinating with all plugins
-- Provide migration path when capabilities change
-- Update this documentation immediately
-- Coordinate changes across all orchestra plugins
+Any other logic can be registered as a meta capability, too: the mapper is a callable
+`(int $userId, array $args): list<string>` returning the required primitive capabilities
+(`['do_not_allow']` denies).
 
 ---
 
-## Integration with Orchestra Plugins
+## Lifecycle
 
-### orchestra-library
-Registers and uses capabilities:
-- `LIBRARY_PIECE_*`
-- `LIBRARY_PART_*`
-- `LIBRARY_SHEET_MUSIC_*`
+| Event | Effect |
+|-------|--------|
+| First request after activating orchestra-core | Roles are created, capabilities assigned. |
+| A domain plugin is activated, updated or deactivated | On the next request, its capabilities are added or removed. |
+| orchestra-core is deactivated | Nothing changes. Roles and user assignments survive. |
+| orchestra-core is deleted | `uninstall.php` removes the Orchestra roles, every capability Orchestra granted and its options. |
+
+Core stores a fingerprint of the registered capabilities and only rewrites the roles when it
+changes. It also remembers which capabilities it granted, so it removes exactly those when they are
+no longer registered and leaves all other capabilities untouched.
+
+Consequence: if an administrator manually revokes an Orchestra capability with a role editor plugin,
+that change lasts until the registered capabilities change the next time. Change the plugin's
+registration instead.
+
+---
+
+## Capability Catalogue
+
+The capabilities planned for each plugin. Each plugin implements its own section.
+Capabilities marked *meta* are checked with an object ID.
 
 ### orchestra-members
-Registers and uses capabilities:
-- `MEMBERS_PROFILE_*`
+
+| Capability | Member | Conductor | Organizer |
+|-----------|:------:|:---------:|:---------:|
+| `orchestra_members_directory_read` (names of all members) | ✓ | ✓ | ✓ |
+| `orchestra_members_profile_read` *meta* → `_read_own` / `_read_others` | own | own | own + others |
+| `orchestra_members_profile_edit` *meta* → `_edit_own` / `_edit_others` | own | own | own |
+| `orchestra_members_status_edit` (active / inactive) | | | ✓ |
+| `orchestra_members_email_send` (email the global groups) | | ✓ | ✓ |
+
+Accounts are created by administrators with the WordPress capability `create_users`.
+
+Profiles contain sensitive personal data (dietary restrictions, financial support), so only
+organizers and administrators may read other members' profiles.
+
+### orchestra-library
+
+| Capability | Member | Conductor | Organizer |
+|-----------|:------:|:---------:|:---------:|
+| `orchestra_library_piece_read` (pieces and parts) | ✓ | ✓ | ✓ |
+| `orchestra_library_piece_edit` (create, edit, archive pieces and their parts) | | ✓ | |
+| `orchestra_library_piece_delete` | | | |
+| `orchestra_library_sheet_music_download` | ✓ | ✓ | ✓ |
+| `orchestra_library_sheet_music_manage` (upload, replace, delete part sheet music and piece files) | | ✓ | |
+
+Parts are always edited as part of their piece and need no separate capabilities.
+Deleting pieces is reserved for administrators; pieces are archived instead, because projects
+and assignment history refer to them.
 
 ### orchestra-projects
-Registers and uses capabilities:
-- `PROJECTS_PROJECT_*`
-- `PROJECTS_PARTICIPATION_*`
-- `PROJECTS_ASSIGNMENT_*`
-- `PROJECTS_EMAIL_*`
-- `PROJECTS_CONDUCTOR_*`
+
+| Capability | Member | Conductor | Organizer |
+|-----------|:------:|:---------:|:---------:|
+| `orchestra_projects_project_read` | ✓ | ✓ | ✓ |
+| `orchestra_projects_project_manage` (create, edit, change status, assign conductors) | | | ✓ |
+| `orchestra_projects_project_delete` | | | |
+| `orchestra_projects_program_manage` | | ✓ | ✓ |
+| `orchestra_projects_participation_read` *meta* → `_read_own` / `_read_others` | own | others | own + others |
+| `orchestra_projects_participation_respond` *meta* → `_respond_own` / `orchestra_projects_participation_manage` | own | | own + others |
+| `orchestra_projects_participation_manage` (change any decision) | | | ✓ |
+| `orchestra_projects_assignment_read` | ✓ | ✓ | ✓ |
+| `orchestra_projects_assignment_manage` (create, edit, delete) | | ✓ | |
+| `orchestra_projects_assignment_history_read` | | ✓ | |
+| `orchestra_projects_email_send` (email the project and assignment groups) | | ✓ | ✓ |
+
+Administrators have every capability.
+
+Organizers may also play in projects, so they have the member capabilities for their own
+participation. Conductors do not play.
+
+Which projects members can see and when they can respond depends on the project status. These
+rules are business rules of orchestra-projects, checked in addition to the capabilities.
+
+---
+
+## Adding or Changing Capabilities
+
+1. Register the capability in the owning plugin's `orchestra_core_register_capabilities` callback.
+2. Update the catalogue above.
+3. Release the plugin. Roles are updated automatically on the next request.
+
+Renaming a capability is a removal plus an addition. Search all plugins for its uses first.

@@ -25,43 +25,42 @@ The system consists of three primary domains:
 
 The following entities exist within these domains:
 
-Member
-Project
-Participation
-Piece
-Part
-Assignment
-Assignment History
-Sheet Music
+- Member
+- Piece
+- Part
+- Sheet Music
+- Project
+- Program Entry
+- Participation
+- Assignment
+- Assignment History (derived)
+- Communication Group (derived)
 
 ---
 
 # Domain Diagram
 
 Member
-├── Participation
-├── Assignment
-└── Member Profile
-
-Project
-├── Participation
-├── Program
-├── Conductors
-└── Assignments
+├── Member Profile
+├── Participation (one per project)
+└── Assignment
 
 Piece
 ├── Parts
-└── Sheet Music
+│   └── Sheet Music (exactly one file)
+└── Piece Files (score, notes, …)
 
-Part
-├── Assignment
-└── Sheet Music
+Project
+├── Program Entries → Piece (ordered)
+├── Participation → Member
+├── Conductors → Member
+├── Organizers → Member
+└── Assignments
 
 Assignment
-├── Member
 ├── Project
-├── Piece
-└── Part
+├── Part (and through it, the Piece)
+└── Member
 
 ---
 
@@ -69,7 +68,7 @@ Assignment
 
 ## Description
 
-A member represents a musician within the orchestra.
+A member represents a person within the orchestra: a musician, conductor or organizer.
 
 Authentication and account management are provided by WordPress.
 
@@ -92,20 +91,52 @@ Examples:
 
 Owned by orchestra-members.
 
-Examples:
-
-- Financial Support Required
-- Dietary Restrictions
 - Active Status
+- Financial Support Required (sensitive)
+- Dietary Restrictions (sensitive)
+
+## Roles
+
+- Member: plays in projects.
+- Organizer: manages projects and participation. Organizers may also play in projects.
+- Conductor: manages the library and assignments. Conductors do not play in projects.
+- Administrator: everything.
+
+Permissions are global: every conductor and every organizer has their rights for all projects.
+
+## Accounts
+
+Accounts are created by an administrator. WordPress sends the new member a link to set a password.
+There is no self-registration.
 
 ## Lifecycle
 
-A member may be:
+Active
+→ Inactive
+→ Active (reactivation)
 
-- Active
-- Inactive
+### Inactive Members
 
-Inactive members remain in historical records but should not participate in new projects.
+- cannot log in
+- are told after entering a correct password that their account is inactive and that they should
+  contact an administrator (a wrong password shows the normal error, so the account status is not
+  revealed to others)
+- receive no participation records for new projects
+- are not part of any communication group
+- remain in historical records (participation, assignments, assignment history)
+
+When a member is set to inactive, the sensitive profile data (financial support, dietary
+restrictions) is deleted. It must be entered again after a reactivation.
+
+## Privacy
+
+Profile data is personal data under the GDPR.
+
+- Members can read and edit their own profile.
+- Only organizers and administrators can read other members' profiles.
+- Other members only see names.
+- Personal data can be exported and erased with the WordPress privacy tools. Erasing a member with
+  history anonymizes their historical records instead of deleting them.
 
 ---
 
@@ -138,9 +169,11 @@ Examples:
 - One or more Organizers
 - One or more Conductors
 
+These are informational ("who runs this project"). They do not grant permissions.
+
 ### Program
 
-A project references one or more musical pieces.
+An ordered list of pieces (see Program Entry).
 
 ## Lifecycle
 
@@ -150,7 +183,19 @@ Draft
 → Completed
 → Archived
 
-The exact workflow may evolve over time.
+Organizers move a project between statuses.
+
+| Status | Visible to members | Members can respond | Assignments can be changed |
+|--------|:------------------:|:-------------------:|:--------------------------:|
+| Draft | no | no | no |
+| Open for Participation | yes | yes | yes |
+| Preparation | yes | no | yes |
+| Completed | yes | no | no |
+| Archived | yes | no | no |
+
+Organizers and conductors see projects in every status.
+
+Opening a project for participation creates the participation records (see Participation).
 
 ---
 
@@ -158,15 +203,21 @@ The exact workflow may evolve over time.
 
 ## Description
 
-A participation represents a member's response to a project invitation.
+A participation represents a member's response to a project.
 
 Every member has at most one participation record per project.
+
+## Creation
+
+When a project is opened for participation, every active member who may play
+(members and organizers) receives a participation record with status Open.
+Members who are created or reactivated while a project is open receive one as well.
 
 ## Status
 
 ### Open
 
-No response has been submitted.
+No response has been submitted yet. Shown as "pending".
 
 ### Accepted
 
@@ -178,14 +229,13 @@ The member commits to not participating.
 
 ## Business Rules
 
-A member may change their decision only until a decision is submitted.
+A member can respond once, while the project is Open for Participation.
+The decision is final: after submission, the member cannot change it.
 
-After submission:
+Organizers can change any participation status at any time, e.g. after a member calls them.
 
-- Accepted becomes locked
-- Declined becomes locked
-
-Only an organizer may modify a locked decision.
+If an Accepted participation is changed to Declined or Open, the member's assignments in that
+project are removed. The organizer is warned before.
 
 ---
 
@@ -209,12 +259,19 @@ Pieces belong to the music library and may be reused across multiple projects.
 - Composer
 - Description
 - Archived Status
+- Piece Files: any number of files that belong to the piece as a whole, e.g. the full score or
+  performance notes
 
 ## Relationships
 
 A piece contains one or more parts.
 
 A piece may appear in multiple projects.
+
+## Business Rules
+
+Pieces are archived, not deleted, once they are used in a project. Archived pieces cannot be added
+to new programs but remain visible in old projects and the assignment history.
 
 ---
 
@@ -246,6 +303,7 @@ For another piece:
 
 - Name
 - Description
+- Sheet Music
 
 ## Business Rules
 
@@ -253,13 +311,19 @@ Part names are not standardized.
 
 Conductors may create arbitrary names.
 
+Part names are unique within a piece.
+
 ---
 
 # Sheet Music
 
 ## Description
 
-Sheet music represents a downloadable file associated with a specific part.
+Sheet music is the downloadable file of a specific part.
+
+Each part has exactly one sheet music file. Uploading a new file replaces the old one.
+
+Files that belong to the whole piece (score, notes) are Piece Files.
 
 ## Examples
 
@@ -277,9 +341,14 @@ Owned by the Library domain.
 
 ## Business Rules
 
-Sheet music files are not publicly accessible.
+Sheet music and piece files are not publicly accessible.
 
 Downloads require authentication and authorization.
+
+Every member may download all sheet music in the library.
+
+For convenience, members can download the sheet music of their assigned parts per project in one
+step.
 
 ---
 
@@ -287,7 +356,7 @@ Downloads require authentication and authorization.
 
 ## Description
 
-A program entry links a piece to a project.
+A program entry links a piece to a project at a position in the program.
 
 ## Example
 
@@ -295,9 +364,9 @@ Spring Concert 2027
 
 Program:
 
-- Pirates of the Caribbean
-- Lord of the Dance
-- El Camino Real
+1. Pirates of the Caribbean
+2. Lord of the Dance
+3. El Camino Real
 
 ## Business Rules
 
@@ -305,7 +374,11 @@ A piece may appear in multiple projects.
 
 A project may contain multiple pieces.
 
-Program order may become relevant in future versions.
+A piece appears at most once in a project's program.
+
+The order can be changed at any time.
+
+Removing a piece from a program removes its assignments in that project.
 
 ---
 
@@ -313,7 +386,9 @@ Program order may become relevant in future versions.
 
 ## Description
 
-An assignment links a member to a specific part within a specific piece of a specific project.
+An assignment links a member to a part within a project.
+
+The piece is given by the part. An assignment does not reference the piece separately.
 
 Assignments are created by conductors.
 
@@ -322,28 +397,18 @@ Assignments are created by conductors.
 Project:
 Spring Concert 2027
 
-Piece:
-Pirates of the Caribbean
-
 Part:
-Horn 2
+Horn 2 (Pirates of the Caribbean)
 
 Member:
 Julian
 
-## Relationships
+## Business Rules
 
-Assignment
-→ belongs to Project
-
-Assignment
-→ references Piece
-
-Assignment
-→ references Part
-
-Assignment
-→ references Member
+- The part's piece must be in the project's program.
+- The member must have Accepted participation in the project.
+- Several members may be assigned to the same part (e.g. eight players on Violin 1).
+- A member is assigned to at most one part per piece in a project.
 
 ---
 
@@ -351,42 +416,28 @@ Assignment
 
 ## Description
 
-Assignment history records previous assignments for analytical purposes.
+Assignment history is the set of all assignments of past projects.
+
+It is not stored separately but derived from the assignments, ordered by the projects' concert dates.
 
 The primary use case is assisting conductors when distributing parts.
 
-## Example Record
-
-Member:
-Julian
-
-Piece:
-Pirates of the Caribbean
-
-Part:
-Horn 2
-
-Project:
-Spring Concert 2026
-
-Date:
-2026-05-15
-
 ## Supported Evaluations
 
-When creating a new assignment the system should identify:
+When creating a new assignment the system should identify, for a member and a part:
 
 ### Never Played
 
-The member has never played this part in this piece.
+The member has never been assigned to this part.
 
 ### Played Before
 
-The member has played this part previously.
+The member has been assigned to this part in an earlier project.
 
 ### Played Last Time
 
-The most recent assignment for this piece and part belongs to the same member.
+The member was assigned to this part in the most recent earlier project whose program contained
+the piece.
 
 This is generally considered the preferred assignment.
 
@@ -400,38 +451,55 @@ The system supports dynamic recipient groups.
 
 Groups are not stored directly.
 
-Instead, they are generated from current project data.
+Instead, they are generated from current data whenever an email is sent.
+
+Inactive members are never part of a group.
 
 ## Examples
 
-### Global
+### Global (provided by orchestra-members)
 
 - All Members
 - All Conductors
 - All Organizers
 
-### Project-Based
+### Project-Based (provided by orchestra-projects)
 
 - All Participants
 - Accepted Participants
 - Declined Participants
 - Pending Participants
 
-### Assignment-Based
+### Assignment-Based (provided by orchestra-projects)
 
 - All Members assigned to Horn 1
 - All Members assigned to Horn 2
-- All Percussion Players
+- All Members assigned to any part of a piece
+
+## Sending
+
+Sending is a technical service of orchestra-core. The domain plugins define the groups; core
+resolves them, sends one email per recipient and keeps a log.
 
 ---
 
 # Domain Ownership
+
+## orchestra-core
+
+Owns:
+
+- Roles
+- Email sending and the email log
+
+---
 
 ## orchestra-members
 
 Owns:
 
 - Member Profile Data
+- Global Communication Groups
 
 Uses:
 
@@ -444,6 +512,7 @@ Uses:
 Owns:
 
 - Pieces
+- Piece Files
 - Parts
 - Sheet Music
 
@@ -458,7 +527,7 @@ Owns:
 - Programs
 - Assignments
 - Assignment History
-- Communication Groups
+- Project-Based and Assignment-Based Communication Groups
 
 ---
 

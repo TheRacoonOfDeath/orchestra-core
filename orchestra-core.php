@@ -19,4 +19,4 @@ if (! defined('ABSPATH')) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-Orchestra\Core\Plugin::boot();
+Orchestra\Core\Plugin::boot(__FILE__);

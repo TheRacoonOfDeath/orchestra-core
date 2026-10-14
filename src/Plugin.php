@@ -4,23 +4,39 @@ declare(strict_types=1);
 
 namespace Orchestra\Core;
 
-class Plugin
+use Orchestra\Core\Authorization\CapabilityRegistry;
+use Orchestra\Core\Authorization\CapabilitySynchronizer;
+use Orchestra\Core\Authorization\MetaCapabilityFilter;
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+final class Plugin
 {
-    private const OPTION_GROUP = 'orchestra_core';
-    private const OPTION_GITHUB_TOKEN = 'orchestra_core_github_token';
-    private const SETTINGS_PAGE_SLUG = 'orchestra-core';
+    /**
+     * Fired on `init` with the {@see CapabilityRegistry}. Orchestra plugins register their capabilities here.
+     */
+    public const REGISTER_CAPABILITIES_ACTION = 'orchestra_core_register_capabilities';
+
+    private const GITHUB_REPOSITORY = 'https://github.com/TheRacoonOfDeath/orchestra-core/';
+
+    /**
+     * Stored by versions up to 0.1.3, which supported authenticated update checks.
+     */
+    private const LEGACY_GITHUB_TOKEN_OPTION = 'orchestra_core_github_token';
 
     private static ?self $instance = null;
 
-    private function __construct()
+    private readonly CapabilityRegistry $capabilities;
+
+    private function __construct(private readonly string $pluginFile)
     {
-        $this->register();
+        $this->capabilities = new CapabilityRegistry();
     }
 
-    public static function boot(): self
+    public static function boot(string $pluginFile): self
     {
         if (self::$instance === null) {
-            self::$instance = new self();
+            self::$instance = new self($pluginFile);
+            self::$instance->register();
         }
 
         return self::$instance;
@@ -29,142 +45,48 @@ class Plugin
     private function register(): void
     {
         $this->registerUpdateChecker();
-        $this->registerCapabilities();
 
-        if (\is_admin()) {
-            $this->registerAdmin();
-        }
+        \add_action('init', [$this, 'registerCapabilities'], 5);
+        \add_filter('map_meta_cap', new MetaCapabilityFilter($this->capabilities), 10, 4);
+        \add_action('admin_init', [$this, 'deleteLegacyGithubToken']);
     }
 
-    private function registerCapabilities(): void
+    /**
+     * @internal Hooked to `init`.
+     */
+    public function registerCapabilities(): void
     {
-        $pluginFile = dirname(__DIR__) . '/orchestra-core.php';
-        
-        \register_activation_hook($pluginFile, [CapabilitiesRegistrar::class, 'register']);
-        \register_deactivation_hook($pluginFile, [CapabilitiesRegistrar::class, 'unregister']);
+        \do_action(self::REGISTER_CAPABILITIES_ACTION, $this->capabilities);
+        $this->capabilities->seal();
+
+        (new CapabilitySynchronizer($this->capabilities))->syncIfOutdated();
+    }
+
+    /**
+     * @internal Hooked to `admin_init`.
+     */
+    public function deleteLegacyGithubToken(): void
+    {
+        if (\get_option(self::LEGACY_GITHUB_TOKEN_OPTION) !== false) {
+            \delete_option(self::LEGACY_GITHUB_TOKEN_OPTION);
+        }
     }
 
     private function registerUpdateChecker(): void
     {
-        $updateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-            'https://github.com/TheRacoonOfDeath/orchestra-core/',
-            dirname(__DIR__) . '/orchestra-core.php',
-            'orchestra-core'
-        );
+        $updateChecker = PucFactory::buildUpdateChecker(self::GITHUB_REPOSITORY, $this->pluginFile, 'orchestra-core');
+
+        // The factory is typed to return any kind of update checker; branches and release
+        // assets are only supported by the GitHub-based one.
+        if (!\method_exists($updateChecker, 'setBranch') || !\method_exists($updateChecker, 'getVcsApi')) {
+            return;
+        }
 
         $updateChecker->setBranch('main');
 
-        $githubToken = $this->getGithubToken();
-
-        if ($githubToken !== '') {
-            $updateChecker->setAuthentication($githubToken);
+        $vcsApi = $updateChecker->getVcsApi();
+        if (\is_object($vcsApi) && \method_exists($vcsApi, 'enableReleaseAssets')) {
+            $vcsApi->enableReleaseAssets();
         }
-
-        $updateChecker->getVcsApi()->enableReleaseAssets();
-    }
-
-    private function registerAdmin(): void
-    {
-        \add_action('admin_init', [$this, 'registerSettings']);
-        \add_action('admin_menu', [$this, 'registerSettingsPage']);
-    }
-
-    public function registerSettings(): void
-    {
-        \register_setting(
-            self::OPTION_GROUP,
-            self::OPTION_GITHUB_TOKEN,
-            [
-                'type' => 'string',
-                'sanitize_callback' => [$this, 'sanitizeGithubToken'],
-                'default' => '',
-            ]
-        );
-
-        \add_settings_section(
-            'orchestra_core_github',
-            'GitHub Updates',
-            [$this, 'renderGithubSettingsSection'],
-            self::SETTINGS_PAGE_SLUG
-        );
-
-        \add_settings_field(
-            self::OPTION_GITHUB_TOKEN,
-            'GitHub token',
-            [$this, 'renderGithubTokenField'],
-            self::SETTINGS_PAGE_SLUG,
-            'orchestra_core_github'
-        );
-    }
-
-    public function registerSettingsPage(): void
-    {
-        \add_options_page(
-            'Orchestra Core',
-            'Orchestra Core',
-            'manage_options',
-            self::SETTINGS_PAGE_SLUG,
-            [$this, 'renderSettingsPage']
-        );
-    }
-
-    public function sanitizeGithubToken(mixed $value): string
-    {
-        if (! \is_string($value)) {
-            return '';
-        }
-
-        return \trim($value);
-    }
-
-    public function renderSettingsPage(): void
-    {
-        if (! \current_user_can('manage_options')) {
-            \wp_die(\esc_html__('You are not allowed to manage these settings.', 'orchestra-core'));
-        }
-        ?>
-        <div class="wrap">
-            <h1><?php echo \esc_html__('Orchestra Core', 'orchestra-core'); ?></h1>
-            <form action="options.php" method="post">
-                <?php
-                \settings_fields(self::OPTION_GROUP);
-                \do_settings_sections(self::SETTINGS_PAGE_SLUG);
-                \submit_button('Save Settings');
-                ?>
-            </form>
-        </div>
-        <?php
-    }
-
-    public function renderGithubSettingsSection(): void
-    {
-        echo '<p>' . \esc_html__('Configure a GitHub token for authenticated update checks. If ORCHESTRA_GITHUB_TOKEN is defined in wp-config.php, that value takes precedence over this setting.', 'orchestra-core') . '</p>';
-    }
-
-    public function renderGithubTokenField(): void
-    {
-        $token = (string) \get_option(self::OPTION_GITHUB_TOKEN, '');
-        ?>
-        <input
-            type="password"
-            name="<?php echo \esc_attr(self::OPTION_GITHUB_TOKEN); ?>"
-            value="<?php echo \esc_attr($token); ?>"
-            class="regular-text code"
-            autocomplete="off"
-            spellcheck="false"
-        />
-        <p class="description">
-            <?php echo \esc_html__('Use a fine-grained personal access token with read-only access to this repository.', 'orchestra-core'); ?>
-        </p>
-        <?php
-    }
-
-    private function getGithubToken(): string
-    {
-        if (\defined('ORCHESTRA_GITHUB_TOKEN') && \is_string(ORCHESTRA_GITHUB_TOKEN) && ORCHESTRA_GITHUB_TOKEN !== '') {
-            return ORCHESTRA_GITHUB_TOKEN;
-        }
-
-        return (string) \get_option(self::OPTION_GITHUB_TOKEN, '');
     }
 }

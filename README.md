@@ -21,8 +21,9 @@ Core repo providing some fundamental functionality to the orchestra plugins and 
 
 ## Updates
 
-The plugin updates itself from the release assets of this public GitHub repository.
-No token or configuration is required.
+The plugin updates itself from the releases of this public GitHub repository. The plugin reads
+`update.json` from the latest release, so the GitHub API and its rate limit are not involved and
+no token is needed.
 
 ## Development
 

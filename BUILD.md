@@ -6,8 +6,8 @@
 ./build-plugin.sh
 ```
 
-Creates `build/orchestra-core-{VERSION}.zip`. The version is read from the `Version:` header in
-`orchestra-core.php`.
+Creates `build/orchestra-core-{VERSION}.zip` and `build/update.json`, the update metadata for
+installed sites. The version is read from the `Version:` header in `orchestra-core.php`.
 
 ## What the zip contains
 
@@ -21,7 +21,7 @@ Your local `vendor/` directory is never copied.
 
 ## Requirements
 
-- Bash, `zip`
+- Bash, `zip`, PHP
 - Composer
 - A committed, up-to-date `composer.lock`
 
@@ -30,8 +30,9 @@ Your local `vendor/` directory is never copied.
 1. Run `composer check`.
 2. Bump `Version:` in `orchestra-core.php`.
 3. Run `./build-plugin.sh`.
-4. Create a GitHub release for the version and attach the zip as a release asset.
-   Installed sites pick up the update automatically.
+4. Create a GitHub release `v{VERSION}` and attach the zip **and `update.json`** as release
+   assets. Installed sites read `update.json` from the latest release and pick up the update
+   automatically, within 12 hours or with **Dashboard → Updates → Check again**.
 
 ## First installation
 

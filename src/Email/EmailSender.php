@@ -19,7 +19,7 @@ final class EmailSender
     /** Filter for the number of emails per batch. */
     public const BATCH_SIZE_FILTER = 'orchestra_core_email_batch_size';
 
-    public const DEFAULT_BATCH_SIZE = 20;
+    public const DEFAULT_BATCH_SIZE = 50;
     public const MAX_ATTEMPTS = 3;
 
     /** Seconds between two batches. */

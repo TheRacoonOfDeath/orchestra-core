@@ -55,7 +55,7 @@ The email service exists since orchestra-core 0.3. Plugins that support older ve
 - Recipients are resolved when the user clicks **Send** and stored in the queue table
   `orchestra_core_email_queue` (user IDs only).
 - The first batch is sent right away, the rest by the WP-Cron event `orchestra_core_email_send`
-  every minute. A batch has 20 emails (filter `orchestra_core_email_batch_size`).
+  every minute. A batch has 50 emails (filter `orchestra_core_email_batch_size`).
 - Every recipient gets their own email via `wp_mail()`, with **Reply-To** set to the sender and a
   footer naming sender and groups. The **From** address is left to WordPress
   (`wordpress@your-domain`) or an SMTP plugin.

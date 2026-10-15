@@ -13,6 +13,18 @@ use Orchestra\Core\Email\EmailSchema;
 use Orchestra\Core\Email\EmailSender;
 use Orchestra\Core\Email\EmailService;
 use Orchestra\Core\Email\RecipientResolver;
+use Orchestra\Core\Email\Ui\EmailController;
+use Orchestra\Core\Email\Ui\EmailShortcode;
+use Orchestra\Core\Email\Ui\EmailView;
+use Orchestra\Core\Ui\AdminAccess;
+use Orchestra\Core\Ui\Assets;
+use Orchestra\Core\Ui\LoginShortcode;
+use Orchestra\Core\Ui\Menu;
+use Orchestra\Core\Ui\MenuItem;
+use Orchestra\Core\Ui\NavigationShortcodes;
+use Orchestra\Core\Ui\Notices;
+use Orchestra\Core\Ui\Pages;
+use Orchestra\Core\Ui\PageSetup;
 use LogicException;
 use wpdb;
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
@@ -93,8 +105,39 @@ final class Plugin
         \add_action(EmailSender::CRON_HOOK, [$this->emailSender, 'sendBatch']);
         \add_action(EmailService::PURGE_CRON_HOOK, [$this->email, 'purgeLog']);
         \add_action('deleted_user', [$this->email, 'anonymizeUser']);
+
+        $this->registerUi();
+    }
+
+    /**
+     * The Orchestra pages (shortcodes) and the shared UI. Every function is available on normal
+     * pages; wp-admin is optional and kept for administrators only.
+     */
+    private function registerUi(): void
+    {
+        Assets::register($this->pluginFile);
+        Pages::register();
+        AdminAccess::register();
+        LoginShortcode::register();
+        NavigationShortcodes::register();
+
+        $emailView = new EmailView($this->email);
+        (new EmailController($this->email))->register();
+        (new EmailShortcode($emailView))->register();
+        \add_action(Menu::REGISTER_ACTION, function (Menu $menu): void {
+            $menu->add(new MenuItem(
+                EmailShortcode::TAG,
+                \__('Email', 'orchestra-core'),
+                \__('Write to members, sections and project participants.', 'orchestra-core'),
+                fn (int $userId): bool => $this->email->groups()->forUser($userId) !== [],
+                80
+            ));
+        });
+
         if (\is_admin()) {
-            (new ComposePage($this->email))->register();
+            Notices::register();
+            PageSetup::register();
+            (new ComposePage($emailView))->register();
         }
     }
 

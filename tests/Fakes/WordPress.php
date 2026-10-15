@@ -24,6 +24,8 @@ final class WordPress
     /** @var array<string, callable> hook name => the only callback */
     public static array $filters = [];
 
+    public static string|false $referer = false;
+
     public static function reset(): void
     {
         self::$roles = [];
@@ -31,6 +33,8 @@ final class WordPress
         self::$users = [];
         self::$userCapabilities = [];
         self::$filters = [];
+        self::$referer = false;
+        $_REQUEST = [];
     }
 
     public static function addUser(int $id, string $email, string $name = 'User'): \WP_User

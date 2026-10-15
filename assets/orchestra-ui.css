@@ -1,0 +1,772 @@
+/*
+ * Orchestra UI: the shared look of all Orchestra pages and screens.
+ *
+ * Everything is scoped under .orchestra. Fonts and the text color come from the theme; colors are
+ * derived from the accent color, which follows the theme's primary color if it defines one.
+ * Customize it in the theme, e.g.  .orchestra { --orchestra-accent: #8a1c3b; }
+ */
+
+.orchestra {
+    --orchestra-accent: var(--wp--preset--color--primary, #2d5be3);
+    --orchestra-accent-contrast: #fff;
+    --orchestra-text: currentColor;
+    --orchestra-muted: color-mix(in srgb, currentColor 62%, transparent);
+    --orchestra-border: color-mix(in srgb, currentColor 16%, transparent);
+    --orchestra-surface: color-mix(in srgb, currentColor 3.5%, transparent);
+    --orchestra-surface-strong: color-mix(in srgb, currentColor 7%, transparent);
+    --orchestra-success: #1f7a4d;
+    --orchestra-warning: #a15c00;
+    --orchestra-danger: #c0362c;
+    --orchestra-info: var(--orchestra-accent);
+    --orchestra-radius: 10px;
+    --orchestra-radius-small: 6px;
+    --orchestra-gap: 1rem;
+    --orchestra-shadow: 0 1px 2px rgb(0 0 0 / 6%), 0 2px 8px rgb(0 0 0 / 4%);
+
+    box-sizing: border-box;
+    color: var(--orchestra-text);
+    font: inherit;
+    line-height: 1.5;
+    max-width: 100%;
+}
+
+.orchestra *,
+.orchestra *::before,
+.orchestra *::after {
+    box-sizing: inherit;
+}
+
+@media (prefers-color-scheme: dark) {
+    .orchestra {
+        --orchestra-success: #4cc38a;
+        --orchestra-warning: #f0a83c;
+        --orchestra-danger: #ff7b72;
+        --orchestra-shadow: 0 1px 2px rgb(0 0 0 / 40%);
+    }
+}
+
+.orchestra > * + *,
+.orchestra-stack > * + * {
+    margin-top: var(--orchestra-gap);
+}
+
+.orchestra h2,
+.orchestra h3,
+.orchestra h4 {
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+}
+
+.orchestra p {
+    margin: 0 0 0.75rem;
+}
+
+.orchestra a {
+    color: var(--orchestra-accent);
+}
+
+.orchestra-muted,
+.orchestra .description {
+    color: var(--orchestra-muted);
+    font-size: 0.9em;
+}
+
+/* Navigation ---------------------------------------------------------------------------------- */
+
+.orchestra-nav {
+    border-bottom: 1px solid var(--orchestra-border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin-bottom: 1.5rem;
+    padding: 0 0 0.5rem;
+}
+
+.orchestra-nav a {
+    border-bottom: 2px solid transparent;
+    color: inherit;
+    font-weight: 500;
+    padding: 0.25rem 0;
+    text-decoration: none;
+}
+
+.orchestra-nav a:hover,
+.orchestra-nav a:focus-visible {
+    border-bottom-color: var(--orchestra-border);
+}
+
+.orchestra-nav a[aria-current="page"] {
+    border-bottom-color: var(--orchestra-accent);
+    color: var(--orchestra-accent);
+}
+
+.orchestra-nav__end {
+    margin-left: auto;
+}
+
+/* Tabs ---------------------------------------------------------------------------------------- */
+
+.orchestra-tabs {
+    border-bottom: 1px solid var(--orchestra-border);
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1.25rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.orchestra-tabs a {
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: var(--orchestra-radius-small) var(--orchestra-radius-small) 0 0;
+    color: inherit;
+    padding: 0.5rem 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.orchestra-tabs a:hover {
+    background: var(--orchestra-surface);
+}
+
+.orchestra-tabs a[aria-current="page"] {
+    background: var(--orchestra-surface-strong);
+    border-color: var(--orchestra-border);
+    font-weight: 600;
+    margin-bottom: -1px;
+}
+
+/* Cards --------------------------------------------------------------------------------------- */
+
+.orchestra-cards {
+    display: grid;
+    gap: var(--orchestra-gap);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+}
+
+.orchestra-card {
+    background: var(--orchestra-surface);
+    border: 1px solid var(--orchestra-border);
+    border-radius: var(--orchestra-radius);
+    box-shadow: var(--orchestra-shadow);
+    padding: 1.1rem 1.25rem;
+}
+
+.orchestra-card > * + * {
+    margin-top: 0.6rem;
+}
+
+.orchestra-card__title {
+    font-size: 1.15em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.orchestra-card__title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.orchestra-card__title a:hover {
+    color: var(--orchestra-accent);
+}
+
+a.orchestra-card {
+    color: inherit;
+    display: block;
+    text-decoration: none;
+    transition: border-color 0.15s, transform 0.15s;
+}
+
+a.orchestra-card:hover,
+a.orchestra-card:focus-visible {
+    border-color: var(--orchestra-accent);
+    transform: translateY(-1px);
+}
+
+.orchestra-card__meta {
+    color: var(--orchestra-muted);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0.9em;
+    gap: 0.25rem 0.9rem;
+}
+
+.orchestra-card__actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Toolbar: heading and actions on one line ------------------------------------------------------ */
+
+.orchestra-toolbar {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: space-between;
+}
+
+.orchestra-toolbar > :first-child {
+    margin: 0;
+}
+
+.orchestra-actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Buttons ------------------------------------------------------------------------------------- */
+
+/* :where() keeps the specificity low, so the variants below always win. */
+.orchestra-button,
+.orchestra :where(button[type="submit"]:not(.orchestra-button--link), input[type="submit"]) {
+    align-items: center;
+    background: var(--orchestra-surface-strong);
+    border: 1px solid var(--orchestra-border);
+    border-radius: var(--orchestra-radius-small);
+    color: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-size: 0.95em;
+    font-weight: 500;
+    gap: 0.35rem;
+    justify-content: center;
+    line-height: 1.2;
+    min-height: 2.4rem;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+}
+
+.orchestra-button:hover,
+.orchestra :where(button[type="submit"]:not(.orchestra-button--link)):hover {
+    border-color: color-mix(in srgb, currentColor 35%, transparent);
+}
+
+.orchestra-button:focus-visible,
+.orchestra button:focus-visible,
+.orchestra input:focus-visible,
+.orchestra select:focus-visible,
+.orchestra textarea:focus-visible,
+.orchestra a:focus-visible {
+    outline: 2px solid var(--orchestra-accent);
+    outline-offset: 2px;
+}
+
+.orchestra .orchestra-button--primary {
+    background: var(--orchestra-accent);
+    border-color: var(--orchestra-accent);
+    color: var(--orchestra-accent-contrast);
+}
+
+.orchestra .orchestra-button--primary:hover {
+    background: color-mix(in srgb, var(--orchestra-accent) 85%, #000);
+    border-color: color-mix(in srgb, var(--orchestra-accent) 85%, #000);
+}
+
+.orchestra .orchestra-button--danger {
+    border-color: color-mix(in srgb, var(--orchestra-danger) 45%, transparent);
+    color: var(--orchestra-danger);
+}
+
+.orchestra .orchestra-button--small {
+    font-size: 0.85em;
+    min-height: 1.9rem;
+    padding: 0.25rem 0.65rem;
+}
+
+.orchestra .orchestra-button--link {
+    background: none;
+    border: none;
+    color: var(--orchestra-accent);
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.orchestra .orchestra-button--link.orchestra-button--danger {
+    color: var(--orchestra-danger);
+}
+
+.orchestra-inline-form {
+    display: inline;
+    margin: 0;
+}
+
+/* Badges -------------------------------------------------------------------------------------- */
+
+.orchestra-badge {
+    background: var(--orchestra-surface-strong);
+    border-radius: 999px;
+    display: inline-block;
+    font-size: 0.8em;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 0.2rem 0.6rem;
+    white-space: nowrap;
+}
+
+.orchestra-badge--success {
+    background: color-mix(in srgb, var(--orchestra-success) 15%, transparent);
+    color: var(--orchestra-success);
+}
+
+.orchestra-badge--warning {
+    background: color-mix(in srgb, var(--orchestra-warning) 15%, transparent);
+    color: var(--orchestra-warning);
+}
+
+.orchestra-badge--danger {
+    background: color-mix(in srgb, var(--orchestra-danger) 13%, transparent);
+    color: var(--orchestra-danger);
+}
+
+.orchestra-badge--info {
+    background: color-mix(in srgb, var(--orchestra-info) 13%, transparent);
+    color: var(--orchestra-info);
+}
+
+.orchestra :is(h2, h3) .orchestra-badge {
+    font-size: 0.5em;
+    vertical-align: middle;
+}
+
+.orchestra-description {
+    border-top: 1px solid var(--orchestra-border);
+    padding-top: 0.75rem;
+}
+
+.orchestra-description > :last-child {
+    margin-bottom: 0;
+}
+
+/* Notices ------------------------------------------------------------------------------------- */
+
+.orchestra-notice {
+    background: var(--orchestra-surface);
+    border: 1px solid var(--orchestra-border);
+    border-left: 4px solid var(--orchestra-info);
+    border-radius: var(--orchestra-radius-small);
+    padding: 0.75rem 1rem;
+}
+
+.orchestra-notice p:last-child {
+    margin-bottom: 0;
+}
+
+.orchestra-notice--success {
+    border-left-color: var(--orchestra-success);
+}
+
+.orchestra-notice--error {
+    border-left-color: var(--orchestra-danger);
+}
+
+.orchestra-notice--warning {
+    border-left-color: var(--orchestra-warning);
+}
+
+.orchestra-empty {
+    border: 1px dashed var(--orchestra-border);
+    border-radius: var(--orchestra-radius);
+    color: var(--orchestra-muted);
+    padding: 1.5rem;
+    text-align: center;
+}
+
+/* Tables: rows become cards on narrow screens --------------------------------------------------- */
+
+.orchestra-table-wrap {
+    border: 1px solid var(--orchestra-border);
+    border-radius: var(--orchestra-radius);
+    overflow: hidden;
+}
+
+.orchestra-table {
+    border-collapse: collapse;
+    margin: 0;
+    width: 100%;
+}
+
+.orchestra-table th,
+.orchestra-table td {
+    border: none;
+    border-bottom: 1px solid var(--orchestra-border);
+    padding: 0.65rem 0.85rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.orchestra-table thead th {
+    background: var(--orchestra-surface-strong);
+    font-size: 0.85em;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.orchestra-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.orchestra-table tbody tr:hover {
+    background: var(--orchestra-surface);
+}
+
+.orchestra-table ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Stacked tables: on phones, and always for .orchestra-table--stacked (e.g. editors). */
+@media (max-width: 640px) {
+    .orchestra-table thead {
+        display: none;
+    }
+
+    .orchestra-table,
+    .orchestra-table tbody,
+    .orchestra-table tr,
+    .orchestra-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .orchestra-table tr {
+        border-bottom: 1px solid var(--orchestra-border);
+        padding: 0.5rem 0;
+    }
+
+    .orchestra-table tbody tr:last-child {
+        border-bottom: none;
+    }
+
+    .orchestra-table td {
+        border: none;
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: minmax(6rem, 35%) 1fr;
+        padding: 0.3rem 0.85rem;
+    }
+
+    .orchestra-table td > :is(span, a, button, form, .orchestra-actions) {
+        justify-self: start;
+    }
+
+    .orchestra-table td::before {
+        color: var(--orchestra-muted);
+        content: attr(data-label);
+        font-size: 0.85em;
+        font-weight: 600;
+    }
+
+    .orchestra-table td[data-label=""] {
+        grid-template-columns: 1fr;
+    }
+
+    .orchestra-table td[data-label=""]::before {
+        display: none;
+    }
+}
+
+.orchestra-table--stacked thead {
+    display: none;
+}
+
+.orchestra-table--stacked,
+.orchestra-table--stacked tbody,
+.orchestra-table--stacked tr,
+.orchestra-table--stacked td {
+    display: block;
+    width: 100%;
+}
+
+.orchestra-table--stacked tr {
+    border-bottom: 1px solid var(--orchestra-border);
+    padding: 0.6rem 0;
+}
+
+.orchestra-table--stacked tbody tr:last-child {
+    border-bottom: none;
+}
+
+.orchestra-table.orchestra-table--stacked td {
+    align-items: center;
+    border: none;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: minmax(6rem, 25%) 1fr;
+    padding: 0.3rem 0.85rem;
+}
+
+.orchestra-table--stacked td::before {
+    color: var(--orchestra-muted);
+    content: attr(data-label);
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.orchestra-table--stacked td > :is(span, a, button, form, label) {
+    justify-self: start;
+}
+
+/* Several controls in one table cell, e.g. a file link, a checkbox and an upload field. */
+.orchestra-cell {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 0;
+}
+
+.orchestra-cell > :is(input[type="text"], input[type="file"], select, textarea) {
+    align-self: stretch;
+}
+
+.orchestra-table--stacked tbody tr:hover {
+    background: none;
+}
+
+/* Details ------------------------------------------------------------------------------------- */
+
+.orchestra-details {
+    display: grid;
+    gap: 0.4rem 1.25rem;
+    grid-template-columns: max-content 1fr;
+    margin: 0;
+}
+
+.orchestra-details dt {
+    color: var(--orchestra-muted);
+    font-weight: 600;
+}
+
+.orchestra-details dd {
+    margin: 0;
+}
+
+@media (max-width: 480px) {
+    .orchestra-details {
+        grid-template-columns: 1fr;
+    }
+
+    .orchestra-details dd {
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Forms --------------------------------------------------------------------------------------- */
+
+.orchestra-form {
+    display: grid;
+    gap: 1rem;
+    max-width: 44rem;
+}
+
+.orchestra-form--wide {
+    max-width: none;
+}
+
+.orchestra-field {
+    align-content: start;
+    display: grid;
+    gap: 0.3rem;
+}
+
+.orchestra-field > label,
+.orchestra-field > .orchestra-field__label,
+.orchestra-fieldset > legend {
+    font-weight: 600;
+}
+
+.orchestra-field__hint {
+    color: var(--orchestra-muted);
+    font-size: 0.85em;
+}
+
+.orchestra-row {
+    align-items: start;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+}
+
+.orchestra input[type="text"],
+.orchestra input[type="email"],
+.orchestra input[type="password"],
+.orchestra input[type="search"],
+.orchestra input[type="date"],
+.orchestra input[type="number"],
+.orchestra input[type="file"],
+.orchestra select,
+.orchestra textarea {
+    background: var(--wp--preset--color--base, #fff);
+    border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+    border-radius: var(--orchestra-radius-small);
+    color: var(--wp--preset--color--contrast, #1d1d1f);
+    font: inherit;
+    max-width: 100%;
+    min-height: 2.4rem;
+    padding: 0.45rem 0.65rem;
+    width: 100%;
+}
+
+.orchestra input[type="file"] {
+    padding: 0.35rem;
+}
+
+.orchestra select[multiple] {
+    min-height: 7rem;
+}
+
+.orchestra textarea {
+    min-height: 6rem;
+    resize: vertical;
+}
+
+.orchestra-fieldset {
+    border: 1px solid var(--orchestra-border);
+    border-radius: var(--orchestra-radius);
+    margin: 0;
+    padding: 0.75rem 1rem 1rem;
+}
+
+.orchestra-checkbox {
+    align-items: flex-start;
+    display: flex;
+    font-weight: normal;
+    gap: 0.5rem;
+}
+
+.orchestra-checkbox input {
+    margin-top: 0.3rem;
+}
+
+.orchestra-checklist {
+    display: grid;
+    gap: 0.35rem 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+}
+
+.orchestra details.orchestra-group {
+    border: 1px solid var(--orchestra-border);
+    border-radius: var(--orchestra-radius-small);
+    padding: 0.5rem 0.85rem;
+}
+
+.orchestra details.orchestra-group + details.orchestra-group {
+    margin-top: 0.5rem;
+}
+
+.orchestra details.orchestra-group summary {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.orchestra details.orchestra-group[open] summary {
+    margin-bottom: 0.5rem;
+}
+
+/* Lists --------------------------------------------------------------------------------------- */
+
+.orchestra-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.orchestra-list > li {
+    align-items: center;
+    border-bottom: 1px solid var(--orchestra-border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    justify-content: space-between;
+    padding: 0.55rem 0;
+}
+
+.orchestra-list > li:last-child {
+    border-bottom: none;
+}
+
+.orchestra-program {
+    counter-reset: orchestra-program;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.orchestra-program > li {
+    align-items: baseline;
+    border-bottom: 1px solid var(--orchestra-border);
+    counter-increment: orchestra-program;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    padding: 0.6rem 0;
+}
+
+.orchestra-program > li::before {
+    color: var(--orchestra-muted);
+    content: counter(orchestra-program) ".";
+    font-variant-numeric: tabular-nums;
+    min-width: 1.5rem;
+}
+
+.orchestra-program > li:last-child {
+    border-bottom: none;
+}
+
+/* Login --------------------------------------------------------------------------------------- */
+
+.orchestra-login {
+    max-width: 24rem;
+}
+
+.orchestra-login form p {
+    display: grid;
+    gap: 0.3rem;
+    margin: 0 0 0.9rem;
+}
+
+.orchestra-login .login-remember label {
+    align-items: center;
+    display: flex;
+    font-weight: normal;
+    gap: 0.5rem;
+}
+
+.orchestra-login .login-submit input {
+    background: var(--orchestra-accent);
+    border-color: var(--orchestra-accent);
+    color: var(--orchestra-accent-contrast);
+    width: 100%;
+}
+
+/* wp-admin: the same components inside the dashboard -------------------------------------------- */
+
+.orchestra--admin {
+    margin-top: 1rem;
+    max-width: 72rem;
+}
+
+.orchestra--admin .orchestra-card,
+.orchestra--admin .orchestra-table-wrap {
+    background: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+    .orchestra--admin {
+        --orchestra-success: #1f7a4d;
+        --orchestra-warning: #a15c00;
+        --orchestra-danger: #c0362c;
+    }
+}

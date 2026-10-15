@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Orchestra\Core\Email;
 
 use Orchestra\Core\Email\Admin\ComposePage;
+use Orchestra\Core\Email\Ui\EmailShortcode;
+use Orchestra\Core\Ui\Pages;
 
 /**
  * The email service of orchestra-core. It contains no business rules: the domain plugins register
@@ -54,13 +56,17 @@ final class EmailService
     }
 
     /**
-     * The URL of the compose screen with the given groups selected, e.g. for a button on a project.
+     * The URL for writing an email with the given groups selected, e.g. for a button on a project:
+     * the page with `[orchestra_email]`, or the screen in wp-admin when called there or when there
+     * is no such page.
      *
      * @param list<string> $groupIds
      */
     public function composeUrl(array $groupIds = []): string
     {
-        return ComposePage::url($groupIds);
+        $page = \is_admin() ? null : Pages::url(EmailShortcode::TAG);
+
+        return $page === null ? ComposePage::url($groupIds) : EmailShortcode::composeUrl($page, $groupIds);
     }
 
     /**

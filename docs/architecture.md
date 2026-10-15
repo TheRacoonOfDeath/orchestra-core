@@ -62,13 +62,13 @@ Technical infrastructure.
 Responsibilities:
 
 - roles and the capability registry (see [capabilities.md](capabilities.md))
+- the email service (see below)
+- the shared UI for the Orchestra pages (see below)
 - automatic updates from GitHub releases
 
 Planned:
 
-- email service (see below)
 - logging
-- common UI elements
 
 Contains no business logic. Core owns the *roles*, but each domain plugin owns its *capabilities*
 and decides which roles receive them.
@@ -145,4 +145,35 @@ exclude inactive members.
 
 Delivery uses `wp_mail()`, so an SMTP plugin can be added at any time without changes. See
 [email.md](email.md) for the API, sending details and deliverability.
+
+---
+
+## Orchestra Pages
+
+Members, conductors and organizers use the site, never the dashboard: every function is available
+through shortcodes on normal pages ([development guidelines](development-guidelines.md#frontend-first)).
+
+| Shortcode | Plugin | Content |
+|-----------|--------|---------|
+| `[orchestra_portal]` | core | start page: a card per area; the login form for visitors |
+| `[orchestra_menu]` | core | navigation between the areas |
+| `[orchestra_login]` | core | login form with the messages of WordPress (e.g. inactive account) |
+| `[orchestra_email]` | core | write emails to groups, sent emails |
+| `[orchestra_projects]` | orchestra-projects | projects; management for conductors and organizers |
+| `[orchestra_library]` | orchestra-library | library and downloads; piece editor for conductors |
+| `[orchestra_members]` | orchestra-members | member list; profiles and status for organizers |
+| `[orchestra_profile]` | orchestra-members | the user's own profile and password |
+
+Core provides the shared pieces in `Orchestra\Core\Ui`:
+
+- `Assets`: the stylesheet and script, loaded on pages with Orchestra shortcodes and on Orchestra
+  screens in wp-admin. The design inherits the theme's font and colors; the accent color follows
+  the theme's primary color and can be changed with `--orchestra-accent`.
+- `Html`, `Form`, `Redirect`, `Notices`: building blocks for views and handlers.
+- `Pages`: finds the page that contains a shortcode, so pages link to each other without settings.
+- `Menu` / `MenuItem`: the areas registered by the plugins.
+- `AdminAccess`: sends users whose roles are all Orchestra roles (and subscriber) from wp-admin to
+  the start page, hides the admin toolbar for them and sends them there after login. The filter
+  `orchestra_core_restrict_admin` can change this.
+- `PageSetup`: the "Create Orchestra pages" button for administrators.
 

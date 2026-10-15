@@ -84,6 +84,8 @@ class WP_User
     public int $ID = 0;
     public string $user_email = '';
     public string $display_name = '';
+    /** @var list<string> */
+    public array $roles = [];
 }
 
 function apply_filters(string $hookName, mixed $value, mixed ...$args): mixed
@@ -110,4 +112,37 @@ function is_email(string $email): string|false
 function user_can(int $userId, string $capability, mixed ...$args): bool
 {
     return in_array($capability, WordPress::$userCapabilities[$userId] ?? [], true);
+}
+
+function do_action(string $hookName, mixed ...$args): void
+{
+    $callback = WordPress::$filters[$hookName] ?? null;
+    if ($callback !== null) {
+        $callback(...$args);
+    }
+}
+
+function home_url(string $path = ''): string
+{
+    return 'https://orchestra.example' . $path;
+}
+
+function wp_get_referer(): string|false
+{
+    return WordPress::$referer;
+}
+
+function wp_unslash(mixed $value): mixed
+{
+    return is_string($value) ? stripslashes($value) : $value;
+}
+
+/**
+ * Like WordPress: only URLs of the site's host (or relative ones) are allowed.
+ */
+function wp_validate_redirect(string $location, string $fallback = ''): string
+{
+    $host = parse_url($location, PHP_URL_HOST);
+
+    return $host === null || $host === 'orchestra.example' ? $location : $fallback;
 }

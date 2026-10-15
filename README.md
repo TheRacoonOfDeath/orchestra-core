@@ -16,8 +16,23 @@ Core repo providing some fundamental functionality to the orchestra plugins and 
 
 - The roles Orchestra Member, Conductor and Organizer, and the registry through which the other
   Orchestra plugins grant their capabilities
-- The email service: an **Email** menu for conductors and organizers to write plain-text emails
-  to groups defined by the other plugins, sent one per recipient in the background, with a log
+- The Orchestra pages: members, conductors and organizers use the site, never the dashboard
+  - `[orchestra_portal]` start page, `[orchestra_menu]` navigation, `[orchestra_login]` login form
+  - a shared, theme-aware design for all Orchestra pages
+  - members, conductors and organizers are kept out of wp-admin; administrators keep it
+  - **Create Orchestra pages**: one click creates all pages with their shortcodes
+- The email service: `[orchestra_email]` (and **Email** in wp-admin) for conductors and organizers
+  to write plain-text emails to groups defined by the other plugins, sent one per recipient in the
+  background, with a log
+
+## Getting started
+
+1. Install and activate orchestra-core and the other Orchestra plugins.
+2. Click **Create Orchestra pages** in the notice in wp-admin. It creates a start page
+   "Orchestra" with sub-pages for every area, each with the navigation on top.
+3. Add the "Orchestra" page to your site's menu.
+
+The shortcodes can also be placed on any page by hand; see [architecture.md](docs/architecture.md#orchestra-pages).
 
 ## Updates
 

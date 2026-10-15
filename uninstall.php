@@ -28,5 +28,7 @@ if ($orchestraCoreDatabase instanceof wpdb) {
 wp_clear_scheduled_hook(EmailSender::CRON_HOOK);
 wp_clear_scheduled_hook(EmailService::PURGE_CRON_HOOK);
 delete_option('orchestra_core_email_lock');
+delete_option('orchestra_core_pages');
+delete_option('orchestra_core_page_setup_dismissed');
 
 delete_option('orchestra_core_github_token');

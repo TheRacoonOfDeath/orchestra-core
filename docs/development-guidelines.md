@@ -38,6 +38,26 @@ Commit `composer.lock`. Releases are built from it (see [BUILD.md](../BUILD.md))
   the object ID (see [capabilities.md](capabilities.md)).
 - Escape all output, verify nonces on every state-changing request.
 
+## Frontend first
+
+Nobody is ever forced to use the WordPress dashboard. Every function is available on normal pages
+of the site through a shortcode, and those pages look good with any theme.
+
+- Each plugin has one shortcode per area (e.g. `[orchestra_projects]`). It shows what the current
+  user may do: members and organizers see different things on the same page.
+- wp-admin screens are optional and meant for administrators. Members, conductors and organizers
+  are kept out of wp-admin (`Orchestra\Core\Ui\AdminAccess`).
+- wp-admin screens and shortcodes render the **same view classes** and post to the **same
+  handlers**. Never build a function only for wp-admin.
+- Forms post to `admin-post.php` with `Orchestra\Core\Ui\Form` (nonce, `redirect_to`); handlers
+  return with `Redirect::back()` and report with `Notices`.
+- Markup uses the components of `assets/orchestra-ui.css` (cards, tables, badges, forms, tabs,
+  notices). Shortcodes wrap their output in `Html::page()`, wp-admin screens in `Html::adminPage()`.
+  Tables use `Html::table()`, which stacks rows on phones.
+- Every area registers a `MenuItem`, so it appears in `[orchestra_menu]`, on the start page and in
+  "Create Orchestra pages".
+- Check new pages at phone and desktop width.
+
 ## Namespaces
 
 - Orchestra\Core

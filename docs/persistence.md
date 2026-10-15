@@ -30,6 +30,7 @@
 | Assignment history | orchestra-projects | derived from assignments of past projects |
 | Communication groups | orchestra-members, orchestra-projects | not stored, computed on demand |
 | Email log (metadata only) | orchestra-core | table `orchestra_core_email_log` |
+| Emails waiting to be sent | orchestra-core | table `orchestra_core_email_queue` |
 
 ### Why custom post types for pieces and projects
 
@@ -106,8 +107,9 @@ add_filter('orchestra_library_piece_delete_blockers', function (array $blockers,
 - Every plugin that stores personal data registers a personal data exporter and eraser
   (`wp_privacy_personal_data_exporters`, `wp_privacy_personal_data_erasers`).
   Records needed for history (participation, assignments) are anonymized instead of deleted.
-- The email log stores no message bodies or recipient addresses and is purged after its
-  retention period.
+- The email log keeps the message text only until the email has been sent and never stores
+  recipient addresses; the queue holds user IDs until delivery. Log entries are deleted after
+  12 months.
 
 ---
 

@@ -7,6 +7,14 @@ namespace Orchestra\Core;
 use Orchestra\Core\Authorization\CapabilityRegistry;
 use Orchestra\Core\Authorization\CapabilitySynchronizer;
 use Orchestra\Core\Authorization\MetaCapabilityFilter;
+use Orchestra\Core\Email\Admin\ComposePage;
+use Orchestra\Core\Email\EmailLog;
+use Orchestra\Core\Email\EmailSchema;
+use Orchestra\Core\Email\EmailSender;
+use Orchestra\Core\Email\EmailService;
+use Orchestra\Core\Email\RecipientResolver;
+use LogicException;
+use wpdb;
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 final class Plugin
@@ -26,20 +34,45 @@ final class Plugin
     private static ?self $instance = null;
 
     private readonly CapabilityRegistry $capabilities;
+    private readonly EmailSchema $emailSchema;
+    private readonly EmailSender $emailSender;
+    private readonly EmailService $email;
 
-    private function __construct(private readonly string $pluginFile)
+    private function __construct(private readonly string $pluginFile, wpdb $wpdb)
     {
         $this->capabilities = new CapabilityRegistry();
+        $this->emailSchema = new EmailSchema($wpdb);
+        $emailLog = new EmailLog($wpdb, $this->emailSchema);
+        $this->emailSender = new EmailSender($emailLog);
+        $this->email = new EmailService($emailLog, $this->emailSender, new RecipientResolver());
     }
 
     public static function boot(string $pluginFile): self
     {
         if (self::$instance === null) {
-            self::$instance = new self($pluginFile);
+            $wpdb = $GLOBALS['wpdb'] ?? null;
+            if (!$wpdb instanceof wpdb) {
+                throw new LogicException('orchestra-core requires a WordPress database connection.');
+            }
+
+            self::$instance = new self($pluginFile, $wpdb);
             self::$instance->register();
         }
 
         return self::$instance;
+    }
+
+    /**
+     * The running plugin. Other plugins use it to access the {@see EmailService}.
+     */
+    public static function instance(): self
+    {
+        return self::$instance ?? throw new LogicException('orchestra-core is not loaded.');
+    }
+
+    public function email(): EmailService
+    {
+        return $this->email;
     }
 
     private function register(): void
@@ -49,6 +82,25 @@ final class Plugin
         \add_action('init', [$this, 'registerCapabilities'], 5);
         \add_filter('map_meta_cap', new MetaCapabilityFilter($this->capabilities), 10, 4);
         \add_action('admin_init', [$this, 'deleteLegacyGithubToken']);
+
+        \add_action('init', [$this, 'setUpEmail'], 1);
+        \add_action(EmailSender::CRON_HOOK, [$this->emailSender, 'sendBatch']);
+        \add_action(EmailService::PURGE_CRON_HOOK, [$this->email, 'purgeLog']);
+        \add_action('deleted_user', [$this->email, 'anonymizeUser']);
+        if (\is_admin()) {
+            (new ComposePage($this->email))->register();
+        }
+    }
+
+    /**
+     * @internal Hooked to `init`.
+     */
+    public function setUpEmail(): void
+    {
+        $this->emailSchema->migrateIfOutdated();
+        if (\wp_next_scheduled(EmailService::PURGE_CRON_HOOK) === false) {
+            \wp_schedule_event(\time() + HOUR_IN_SECONDS, 'daily', EmailService::PURGE_CRON_HOOK);
+        }
     }
 
     /**

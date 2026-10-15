@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Minimal fakes of the WordPress role and option APIs used by orchestra-core.
+ * Minimal fakes of the WordPress APIs used by the unit-tested classes of orchestra-core.
  */
 
 declare(strict_types=1);
@@ -77,4 +77,37 @@ function delete_option(string $option): bool
     unset(WordPress::$options[$option]);
 
     return true;
+}
+
+class WP_User
+{
+    public int $ID = 0;
+    public string $user_email = '';
+    public string $display_name = '';
+}
+
+function apply_filters(string $hookName, mixed $value, mixed ...$args): mixed
+{
+    $callback = WordPress::$filters[$hookName] ?? null;
+
+    return $callback === null ? $value : $callback($value, ...$args);
+}
+
+function get_userdata(int $userId): WP_User|false
+{
+    return WordPress::$users[$userId] ?? false;
+}
+
+function is_email(string $email): string|false
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL) === false ? false : $email;
+}
+
+/**
+ * Checks the capabilities in WordPress::$userCapabilities; arguments are ignored like for
+ * primitive capabilities.
+ */
+function user_can(int $userId, string $capability, mixed ...$args): bool
+{
+    return in_array($capability, WordPress::$userCapabilities[$userId] ?? [], true);
 }

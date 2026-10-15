@@ -121,30 +121,28 @@ Responsibilities:
 
 Email is a technical service of orchestra-core. It contains no business rules.
 
-The domain plugins register **recipient groups**, following the same pattern as capabilities:
+The domain plugins register **recipient groups**, following the same pattern as capabilities.
+A group has an ID, a label, a category it is listed under (e.g. a project), a function that
+returns the recipients' user IDs and the capability required to email it, checked with optional
+arguments (e.g. the project ID), so that rules per group can be added later.
 
-- a label, e.g. "Accepted participants"
-- optionally a parameter, e.g. the project
-- a function that returns the recipients' user IDs
-- the capability required to email the group
-
-orchestra-members registers the global groups (all members, all conductors, all organizers),
-orchestra-projects the project and assignment-based groups.
+orchestra-members registers the global groups (everyone, all members, all conductors, all
+organizers), orchestra-projects the project and assignment-based groups. Currently conductors and
+organizers may email all groups.
 
 Core provides:
 
-- the screen for writing an email: it lists only the groups the user may email and can be opened
-  with a group preselected, e.g. from a project page
+- the screen for writing an email: it lists only the groups the user may email, can be opened
+  with groups preselected, e.g. from a project page, and shows the recipients before sending
 - resolving groups to recipients, without duplicates
-- sending one email per recipient, so recipients never see each other's addresses
-- sending in the background in batches (WP-Cron or Action Scheduler), to avoid timeouts and
-  hosting limits
-- a log with metadata only (sender, groups, subject, number of recipients, time), deleted after a
-  fixed retention period
+- sending one plain-text email per recipient, so recipients never see each other's addresses
+- sending in the background in batches with WP-Cron, to avoid timeouts and hosting limits
+- a log with metadata only (sender, groups, subject, number of recipients, time), deleted after
+  12 months; the text is deleted as soon as the email has been sent
 
 A filter allows plugins to remove recipients from every group. orchestra-members uses it to
 exclude inactive members.
 
-Delivery uses `wp_mail()`. Sites should configure an SMTP plugin, because mail sent directly from
-the web server is often classified as spam.
+Delivery uses `wp_mail()`, so an SMTP plugin can be added at any time without changes. See
+[email.md](email.md) for the API, sending details and deliverability.
 

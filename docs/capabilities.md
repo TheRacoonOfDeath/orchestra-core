@@ -167,6 +167,7 @@ Capabilities marked *meta* are checked with an object ID.
 | `orchestra_members_profile_read` *meta* → `_read_own` / `_read_others` | own | own | own + others |
 | `orchestra_members_profile_edit` *meta* → `_edit_own` / `_edit_others` | own | own | own |
 | `orchestra_members_status_edit` (active / inactive) | | | ✓ |
+| `orchestra_members_member_create` (add users as members; only administrators choose another role) | | ✓ | ✓ |
 | `orchestra_members_email_send` (email the global groups) | | ✓ | ✓ |
 | `orchestra_members_fields_manage` (choose the profile fields) | | | |
 
@@ -201,8 +202,8 @@ and assignment history refer to them.
 | `orchestra_projects_participation_respond` *meta* → `_respond_own` / `orchestra_projects_participation_manage` | own | | own + others |
 | `orchestra_projects_participation_manage` (change any decision) | | | ✓ |
 | `orchestra_projects_assignment_read` | ✓ | ✓ | ✓ |
-| `orchestra_projects_assignment_manage` (create, edit, delete) | | ✓ | |
-| `orchestra_projects_assignment_history_read` | | ✓ | |
+| `orchestra_projects_assignment_manage` (create, edit, delete) | | ✓ | ✓ |
+| `orchestra_projects_assignment_history_read` | | ✓ | ✓ |
 | `orchestra_projects_email_send` (email the project and assignment groups) | | ✓ | ✓ |
 
 Administrators have every capability.

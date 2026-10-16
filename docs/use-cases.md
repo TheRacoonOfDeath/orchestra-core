@@ -566,7 +566,7 @@ Assign a musician to a specific part.
 
 ## Primary Actor
 
-Conductor
+Conductor or Organizer
 
 ## Preconditions
 
@@ -576,14 +576,14 @@ Conductor
 
 ## Flow
 
-1. Conductor opens the assignments of a piece in the project.
-2. Conductor selects a part.
+1. User opens the assignments of a piece in the project.
+2. User selects a part.
 3. System lists the accepted participants and marks for each of them:
     - Played Last Time
     - Played Before
     - Never Played
     - Already assigned to another part of this piece
-4. Conductor selects one or more members.
+4. User selects one or more members.
 5. System stores the assignments.
 
 ## Alternative Flows

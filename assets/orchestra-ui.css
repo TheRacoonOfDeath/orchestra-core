@@ -184,6 +184,20 @@ a.orchestra-card:focus-visible {
     transform: translateY(-1px);
 }
 
+/*
+ * Many themes underline every link in the content with selectors such as
+ * `.entry-content a:not(.button):not(…)`, which no reasonable plugin selector outweighs. Cards,
+ * buttons, tabs and the navigation are not text links, so their underline is removed for good;
+ * the decoration of a link also covers everything inside it, e.g. the text of a card.
+ */
+.orchestra a.orchestra-card,
+.orchestra a.orchestra-card *,
+.orchestra a.orchestra-button:not(.orchestra-button--link),
+.orchestra .orchestra-nav a,
+.orchestra .orchestra-tabs a {
+    text-decoration: none !important;
+}
+
 .orchestra-card__meta {
     color: var(--orchestra-muted);
     display: flex;

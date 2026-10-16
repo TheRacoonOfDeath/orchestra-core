@@ -58,6 +58,23 @@ of the site through a shortcode, and those pages look good with any theme.
   "Create Orchestra pages".
 - Check new pages at phone and desktop width.
 
+## Translations
+
+All text shown to users is written in English and translated; German is included.
+
+- Wrap every user-visible string in the WordPress functions (`__()`, `esc_html__()`, `_n()`, …) with
+  the plugin's text domain (`orchestra-core`, `orchestra-library`, …). Add a `translators:` comment
+  for every placeholder.
+- Each plugin loads its translations from `languages/` on `init` (priority 0).
+- After changing strings, run `bin/translations.sh` (needs GNU gettext). It updates the `.pot`
+  file, merges it into every `.po` file and compiles the `.mo` files. Translate new or empty entries
+  in `languages/<domain>-de_DE.po` and run it again. Commit all three file types.
+- The language of all Orchestra plugins is chosen in Settings → General ("Orchestra language"):
+  the site language (German variants use German), English or German
+  (`Orchestra\Core\Ui\Language`). It changes only the Orchestra texts; WordPress itself keeps
+  the site language.
+- German texts address users informally ("du").
+
 ## Namespaces
 
 - Orchestra\Core

@@ -18,6 +18,7 @@ use Orchestra\Core\Email\Ui\EmailShortcode;
 use Orchestra\Core\Email\Ui\EmailView;
 use Orchestra\Core\Ui\AdminAccess;
 use Orchestra\Core\Ui\Assets;
+use Orchestra\Core\Ui\Language;
 use Orchestra\Core\Ui\LoginShortcode;
 use Orchestra\Core\Ui\Menu;
 use Orchestra\Core\Ui\MenuItem;
@@ -97,6 +98,8 @@ final class Plugin
     {
         $this->registerUpdateChecker();
 
+        Language::register();
+        \add_action('init', [$this, 'loadTextDomain'], 0);
         \add_action('init', [$this, 'registerCapabilities'], 5);
         \add_filter('map_meta_cap', new MetaCapabilityFilter($this->capabilities), 10, 4);
         \add_action('admin_init', [$this, 'deleteLegacyGithubToken']);
@@ -139,6 +142,14 @@ final class Plugin
             PageSetup::register();
             (new ComposePage($emailView))->register();
         }
+    }
+
+    /**
+     * @internal Hooked to `init`, before anything is translated.
+     */
+    public function loadTextDomain(): void
+    {
+        \load_plugin_textdomain('orchestra-core', false, \dirname(\plugin_basename($this->pluginFile)) . '/languages');
     }
 
     /**

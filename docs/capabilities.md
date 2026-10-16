@@ -168,10 +168,11 @@ Capabilities marked *meta* are checked with an object ID.
 | `orchestra_members_profile_edit` *meta* → `_edit_own` / `_edit_others` | own | own | own |
 | `orchestra_members_status_edit` (active / inactive) | | | ✓ |
 | `orchestra_members_email_send` (email the global groups) | | ✓ | ✓ |
+| `orchestra_members_fields_manage` (choose the profile fields) | | | |
 
 Accounts are created by administrators with the WordPress capability `create_users`.
 
-Profiles contain sensitive personal data (dietary restrictions, financial support), so only
+Profiles contain sensitive personal data (e.g. dietary restrictions, financial support), so only
 organizers and administrators may read other members' profiles.
 
 ### orchestra-library

@@ -17,7 +17,7 @@
 | Data | Owner | Storage |
 |------|-------|---------|
 | Accounts, name, email, password | WordPress | `wp_users` |
-| Member profile (dietary restrictions, financial support, active status) | orchestra-members | user meta |
+| Member profile (profile fields chosen by the administrators, active status) | orchestra-members | user meta, option |
 | Pieces | orchestra-library | custom post type `orchestra_piece` |
 | Parts | orchestra-library | table `orchestra_library_parts` |
 | Sheet music and piece file metadata | orchestra-library | table `orchestra_library_files` |
@@ -103,7 +103,7 @@ add_filter('orchestra_library_piece_delete_blockers', function (array $blockers,
 ## Personal Data
 
 - When a member is set to inactive, orchestra-members deletes the sensitive profile meta
-  (financial support, dietary restrictions).
+  (the values of all profile fields, e.g. financial support and dietary restrictions).
 - Every plugin that stores personal data registers a personal data exporter and eraser
   (`wp_privacy_personal_data_exporters`, `wp_privacy_personal_data_erasers`).
   Records needed for history (participation, assignments) are anonymized instead of deleted.

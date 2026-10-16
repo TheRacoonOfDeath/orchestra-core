@@ -29,8 +29,8 @@
 | Assignments | orchestra-projects | table `orchestra_projects_assignments` |
 | Assignment history | orchestra-projects | derived from assignments of past projects |
 | Communication groups | orchestra-members, orchestra-projects | not stored, computed on demand |
-| Email log (metadata only) | orchestra-core | table `orchestra_core_email_log` |
-| Emails waiting to be sent | orchestra-core | table `orchestra_core_email_queue` |
+| Email log (metadata only) | orchestra-email | table `orchestra_core_email_log` (name kept from orchestra-core) |
+| Emails waiting to be sent | orchestra-email | table `orchestra_core_email_queue` (name kept from orchestra-core) |
 
 ### Why custom post types for pieces and projects
 

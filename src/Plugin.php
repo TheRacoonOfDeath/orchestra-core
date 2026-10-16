@@ -7,27 +7,16 @@ namespace Orchestra\Core;
 use Orchestra\Core\Authorization\CapabilityRegistry;
 use Orchestra\Core\Authorization\CapabilitySynchronizer;
 use Orchestra\Core\Authorization\MetaCapabilityFilter;
-use Orchestra\Core\Email\Admin\ComposePage;
-use Orchestra\Core\Email\EmailLog;
-use Orchestra\Core\Email\EmailSchema;
-use Orchestra\Core\Email\EmailSender;
-use Orchestra\Core\Email\EmailService;
-use Orchestra\Core\Email\RecipientResolver;
-use Orchestra\Core\Email\Ui\EmailController;
-use Orchestra\Core\Email\Ui\EmailShortcode;
-use Orchestra\Core\Email\Ui\EmailView;
 use Orchestra\Core\Ui\AdminAccess;
+use Orchestra\Core\Ui\EmailMoved;
 use Orchestra\Core\Ui\Assets;
 use Orchestra\Core\Ui\Language;
 use Orchestra\Core\Ui\LoginShortcode;
-use Orchestra\Core\Ui\Menu;
-use Orchestra\Core\Ui\MenuItem;
 use Orchestra\Core\Ui\NavigationShortcodes;
 use Orchestra\Core\Ui\Notices;
 use Orchestra\Core\Ui\Pages;
 use Orchestra\Core\Ui\PageSetup;
 use LogicException;
-use wpdb;
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 final class Plugin
@@ -53,28 +42,16 @@ final class Plugin
     private static ?self $instance = null;
 
     private readonly CapabilityRegistry $capabilities;
-    private readonly EmailSchema $emailSchema;
-    private readonly EmailSender $emailSender;
-    private readonly EmailService $email;
 
-    private function __construct(private readonly string $pluginFile, wpdb $wpdb)
+    private function __construct(private readonly string $pluginFile)
     {
         $this->capabilities = new CapabilityRegistry();
-        $this->emailSchema = new EmailSchema($wpdb);
-        $emailLog = new EmailLog($wpdb, $this->emailSchema);
-        $this->emailSender = new EmailSender($emailLog);
-        $this->email = new EmailService($emailLog, $this->emailSender, new RecipientResolver());
     }
 
     public static function boot(string $pluginFile): self
     {
         if (self::$instance === null) {
-            $wpdb = $GLOBALS['wpdb'] ?? null;
-            if (!$wpdb instanceof wpdb) {
-                throw new LogicException('orchestra-core requires a WordPress database connection.');
-            }
-
-            self::$instance = new self($pluginFile, $wpdb);
+            self::$instance = new self($pluginFile);
             self::$instance->register();
         }
 
@@ -82,16 +59,11 @@ final class Plugin
     }
 
     /**
-     * The running plugin. Other plugins use it to access the {@see EmailService}.
+     * The running plugin.
      */
     public static function instance(): self
     {
         return self::$instance ?? throw new LogicException('orchestra-core is not loaded.');
-    }
-
-    public function email(): EmailService
-    {
-        return $this->email;
     }
 
     private function register(): void
@@ -103,11 +75,6 @@ final class Plugin
         \add_action('init', [$this, 'registerCapabilities'], 5);
         \add_filter('map_meta_cap', new MetaCapabilityFilter($this->capabilities), 10, 4);
         \add_action('admin_init', [$this, 'deleteLegacyGithubToken']);
-
-        \add_action('init', [$this, 'setUpEmail'], 1);
-        \add_action(EmailSender::CRON_HOOK, [$this->emailSender, 'sendBatch']);
-        \add_action(EmailService::PURGE_CRON_HOOK, [$this->email, 'purgeLog']);
-        \add_action('deleted_user', [$this->email, 'anonymizeUser']);
 
         $this->registerUi();
     }
@@ -124,23 +91,10 @@ final class Plugin
         LoginShortcode::register();
         NavigationShortcodes::register();
 
-        $emailView = new EmailView($this->email);
-        (new EmailController($this->email))->register();
-        (new EmailShortcode($emailView))->register();
-        \add_action(Menu::REGISTER_ACTION, function (Menu $menu): void {
-            $menu->add(new MenuItem(
-                EmailShortcode::TAG,
-                \__('Email', 'orchestra-core'),
-                \__('Write to members, sections and project participants.', 'orchestra-core'),
-                fn (int $userId): bool => $this->email->groups()->forUser($userId) !== [],
-                80
-            ));
-        });
-
         if (\is_admin()) {
             Notices::register();
             PageSetup::register();
-            (new ComposePage($emailView))->register();
+            EmailMoved::register();
         }
     }
 
@@ -150,17 +104,6 @@ final class Plugin
     public function loadTextDomain(): void
     {
         \load_plugin_textdomain('orchestra-core', false, \dirname(\plugin_basename($this->pluginFile)) . '/languages');
-    }
-
-    /**
-     * @internal Hooked to `init`.
-     */
-    public function setUpEmail(): void
-    {
-        $this->emailSchema->migrateIfOutdated();
-        if (\wp_next_scheduled(EmailService::PURGE_CRON_HOOK) === false) {
-            \wp_schedule_event(\time() + HOUR_IN_SECONDS, 'daily', EmailService::PURGE_CRON_HOOK);
-        }
     }
 
     /**

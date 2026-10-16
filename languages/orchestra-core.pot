@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 08:28+0200\n"
+"POT-Creation-Date: 2026-10-16 17:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: src/Authorization/Roles.php:34
 msgid "Orchestra Member"
@@ -30,186 +29,15 @@ msgstr ""
 msgid "Orchestra Organizer"
 msgstr ""
 
-#: src/Email/Admin/ComposePage.php:54 src/Email/Admin/ComposePage.php:55
-#: src/Plugin.php:133
-msgid "Email"
-msgstr ""
-
-#: src/Email/Admin/ComposePage.php:64 src/Email/Admin/ComposePage.php:65
-#: src/Email/Admin/ComposePage.php:86 src/Email/Admin/ComposePage.php:101
-msgid "Write Email"
-msgstr ""
-
-#: src/Email/Admin/ComposePage.php:72 src/Email/Admin/ComposePage.php:73
-#: src/Email/Admin/ComposePage.php:98
-msgid "Sent Emails"
-msgstr ""
-
-#: src/Email/EmailDraft.php:57
-msgid "Please enter a subject."
-msgstr ""
-
-#. translators: %d: maximum number of characters
-#: src/Email/EmailDraft.php:60
-#, php-format
-msgid "The subject must not be longer than %d characters."
-msgstr ""
-
-#: src/Email/EmailDraft.php:64
-msgid "Please enter a message."
-msgstr ""
-
-#. translators: %d: maximum number of characters
-#: src/Email/EmailDraft.php:67
-#, php-format
-msgid "The message must not be longer than %d characters."
-msgstr ""
-
-#: src/Email/EmailSender.php:86 src/Email/Ui/EmailView.php:97
-msgid "Former member"
-msgstr ""
-
-#: src/Email/EmailService.php:88
-msgid "Please select at least one group."
-msgstr ""
-
-#: src/Email/EmailService.php:95
-msgid "You are not allowed to email one of the selected groups."
-msgstr ""
-
-#: src/Email/EmailService.php:100
-msgid "The selected groups have no recipients."
-msgstr ""
-
-#. translators: 1: sender name, 2: site name, 3: list of recipient groups
-#: src/Email/MessageFormatter.php:19
-#, php-format
-msgid "Sent by %1$s via %2$s to: %3$s"
-msgstr ""
-
-#: src/Email/Ui/EmailShortcode.php:34
-msgid "Please log in to write emails."
-msgstr ""
-
-#: src/Email/Ui/EmailShortcode.php:37
-msgid "You are not allowed to send emails."
-msgstr ""
-
-#: src/Email/Ui/EmailShortcode.php:45
-msgid "Sent emails"
-msgstr ""
-
-#: src/Email/Ui/EmailShortcode.php:45
-msgid "Write email"
-msgstr ""
-
-#. translators: %d: number of recipients
-#: src/Email/Ui/EmailView.php:72
-#, php-format
-msgid "Your email has been sent to %d recipients."
-msgstr ""
-
-#. translators: %d: number of recipients
-#: src/Email/Ui/EmailView.php:74
-#, php-format
+#: src/Ui/EmailMoved.php:39
 msgid ""
-"Your email is being sent to %d recipients. Large groups take a few minutes."
+"Emails are now a plugin of their own: Orchestra Email. Install and activate "
+"it to write emails again; your sent emails and emails that are still being "
+"sent are kept."
 msgstr ""
 
-#: src/Email/Ui/EmailView.php:84
-msgid "Sent"
-msgstr ""
-
-#. translators: 1: number of sent emails, 2: number of recipients
-#: src/Email/Ui/EmailView.php:87
-#, php-format
-msgid "Sending (%1$d of %2$d)"
-msgstr ""
-
-#. translators: %d: number of emails that could not be sent
-#: src/Email/Ui/EmailView.php:93
-#, php-format
-msgid "%d failed"
-msgstr ""
-
-#: src/Email/Ui/EmailView.php:107
-msgid "Date"
-msgstr ""
-
-#: src/Email/Ui/EmailView.php:108
-msgid "Sender"
-msgstr ""
-
-#: src/Email/Ui/EmailView.php:109 src/Email/Ui/EmailView.php:156
-#: src/Email/Ui/EmailView.php:201
-msgid "Subject"
-msgstr ""
-
-#: src/Email/Ui/EmailView.php:110 src/Email/Ui/EmailView.php:193
-msgid "Groups"
-msgstr ""
-
-#: src/Email/Ui/EmailView.php:111 src/Email/Ui/EmailView.php:128
-#: src/Email/Ui/EmailView.php:195
-msgid "Recipients"
-msgstr ""
-
-#: src/Email/Ui/EmailView.php:112
-msgid "Status"
-msgstr ""
-
-#: src/Email/Ui/EmailView.php:115
-msgid "No emails have been sent yet."
-msgstr ""
-
-#. translators: %d: number of days
-#: src/Email/Ui/EmailView.php:118
-#, php-format
-msgid ""
-"Texts are deleted once sent. The log shows who emailed which groups for %d "
-"days."
-msgstr ""
-
-#: src/Email/Ui/EmailView.php:162 src/Email/Ui/EmailView.php:203
-msgid "Message"
-msgstr ""
-
-#: src/Email/Ui/EmailView.php:165
-msgid ""
-"Plain text. Every recipient gets their own email; replies go to your email "
-"address."
-msgstr ""
-
-#: src/Email/Ui/EmailView.php:168
-msgid "Review"
-msgstr ""
-
-#. translators: %d: number of recipients
-#: src/Email/Ui/EmailView.php:197
-#, php-format
-msgid "%d person"
-msgid_plural "%d people"
-msgstr[0] ""
-msgstr[1] ""
-
-#. translators: %d: number of recipients
-#: src/Email/Ui/EmailView.php:217
-#, php-format
-msgid "Send the email to %d person now?"
-msgid_plural "Send the email to %d people now?"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/Email/Ui/EmailView.php:225
-msgid "Send"
-msgstr ""
-
-#: src/Email/Ui/EmailView.php:230
-msgid "Edit"
-msgstr ""
-
-#: src/Plugin.php:134
-msgid "Write to members, sections and project participants."
+#: src/Ui/EmailMoved.php:43
+msgid "Download Orchestra Email"
 msgstr ""
 
 #: src/Ui/Html.php:45

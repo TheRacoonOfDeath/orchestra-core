@@ -8,7 +8,6 @@ Core repo providing some fundamental functionality to the orchestra plugins and 
 - [Use cases](docs/use-cases.md)
 - [Roles and capabilities](docs/capabilities.md)
 - [Persistence](docs/persistence.md)
-- [Email service](docs/email.md)
 - [Development guidelines](docs/development-guidelines.md)
 - [Building a release](BUILD.md)
 
@@ -21,9 +20,9 @@ Core repo providing some fundamental functionality to the orchestra plugins and 
   - a shared, theme-aware design for all Orchestra pages
   - members, conductors and organizers are kept out of wp-admin; administrators keep it
   - **Create Orchestra pages**: one click creates all pages with their shortcodes
-- The email service: `[orchestra_email]` (and **Email** in wp-admin) for conductors and organizers
-  to write plain-text emails to groups defined by the other plugins, sent one per recipient in the
-  background, with a log
+
+Emails to members and project participants are a plugin of their own,
+[orchestra-email](https://github.com/TheRacoonOfDeath/orchestra-email), since 0.7.
 
 ## Getting started
 

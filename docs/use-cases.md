@@ -117,7 +117,7 @@ Member
 
 1. User opens the dashboard.
 2. System displays:
-    - Visible projects (not Draft, not Archived)
+    - Active projects (Open for Participation or Preparation); completed projects in a separate tab
     - Own participation status per project, with a prompt to respond where it is Open
     - Assigned parts per project
     - Download of the assigned sheet music per project (UC-019)

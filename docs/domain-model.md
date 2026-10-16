@@ -181,7 +181,6 @@ Draft
 → Open for Participation
 → Preparation
 → Completed
-→ Archived
 
 Organizers move a project between statuses.
 
@@ -191,7 +190,8 @@ Organizers move a project between statuses.
 | Open for Participation | yes | yes | yes |
 | Preparation | yes | no | yes |
 | Completed | yes | no | no |
-| Archived | yes | no | no |
+
+Completed projects leave the list of active projects and are listed separately.
 
 Organizers and conductors see projects in every status.
 

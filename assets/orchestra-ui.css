@@ -518,6 +518,14 @@ a.orchestra-card:focus-visible {
     justify-self: start;
 }
 
+.orchestra-table.orchestra-table--stacked td[data-label=""] {
+    grid-template-columns: 1fr;
+}
+
+.orchestra-table--stacked td[data-label=""]::before {
+    display: none;
+}
+
 /* Several controls in one table cell, e.g. a file link, a checkbox and an upload field. */
 .orchestra-cell {
     align-items: flex-start;
@@ -749,6 +757,67 @@ a.orchestra-card:focus-visible {
     border-color: var(--orchestra-accent);
     color: var(--orchestra-accent-contrast);
     width: 100%;
+}
+
+/* Sortable rows (data-orchestra-sortable) ---------------------------------------------------- */
+
+.orchestra .orchestra-drag-handle {
+    align-items: center;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: var(--orchestra-radius-small);
+    color: var(--orchestra-muted);
+    cursor: grab;
+    display: inline-flex;
+    font-size: 1.2em;
+    justify-content: center;
+    line-height: 1;
+    min-height: 2.4rem;
+    min-width: 2.4rem;
+    padding: 0;
+    touch-action: none;
+    user-select: none;
+}
+
+.orchestra .orchestra-drag-handle:hover {
+    background: var(--orchestra-surface-strong);
+    color: inherit;
+}
+
+.orchestra .orchestra-dragging {
+    background: var(--orchestra-surface-strong);
+    opacity: 0.75;
+}
+
+.orchestra .orchestra-dragging .orchestra-drag-handle {
+    cursor: grabbing;
+}
+
+/* A line at the top of a row: drag handle, title and actions on the right. */
+.orchestra-row-header {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.orchestra .orchestra-row-header > :is(select, input) {
+    flex: 0 1 auto;
+    width: auto;
+}
+
+.orchestra-row-header__end {
+    margin-left: auto;
+}
+
+/* Keeps Enter in a text field on the form's main button, even if other submit buttons come first. */
+.orchestra-default-submit {
+    height: 1px;
+    left: -9999px;
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
 }
 
 /* wp-admin: the same components inside the dashboard -------------------------------------------- */

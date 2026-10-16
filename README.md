@@ -20,6 +20,8 @@ Core repo providing some fundamental functionality to the orchestra plugins and 
   - a shared, theme-aware design for all Orchestra pages
   - members, conductors and organizers are kept out of wp-admin; administrators keep it
   - **Create Orchestra pages**: one click creates all pages with their shortcodes
+  - a menu entry "Log in / Log out" for the site's menu (**Appearance → Menus**, box "Orchestra"):
+    visitors see "Log in", logged-in users "Log out"
 
 Emails to members and project participants are a plugin of their own,
 [orchestra-email](https://github.com/TheRacoonOfDeath/orchestra-email), since 0.7.

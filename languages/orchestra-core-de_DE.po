@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 17:24+0200\n"
+"POT-Creation-Date: 2026-10-16 18:32+0200\n"
 "PO-Revision-Date: 2026-10-16 00:00+0000\n"
 "Last-Translator: Julian Nickerl\n"
 "Language-Team: German\n"
@@ -32,14 +32,14 @@ msgid ""
 "sent are kept."
 msgstr ""
 "E-Mails sind jetzt ein eigenes Plugin: Orchestra Email. Installiere und "
-"aktiviere es, um wieder E-Mails zu schreiben; deine gesendeten E-Mails und "
-"E-Mails, die noch verschickt werden, bleiben erhalten."
+"aktiviere es, um wieder E-Mails zu schreiben; deine gesendeten E-Mails und E-"
+"Mails, die noch verschickt werden, bleiben erhalten."
 
 #: src/Ui/EmailMoved.php:43
 msgid "Download Orchestra Email"
 msgstr "Orchestra Email herunterladen"
 
-#: src/Ui/Html.php:45
+#: src/Ui/Html.php:45 src/Ui/LoginMenuItem.php:59 src/Ui/LoginMenuItem.php:97
 msgid "Log in"
 msgstr "Anmelden"
 
@@ -63,6 +63,28 @@ msgstr ""
 "Die Sprache der Orchesterseiten und -ansichten. WordPress selbst behält die "
 "Sprache der Website."
 
+#: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:45
+#: src/Ui/NavigationShortcodes.php:41
+msgid "Log out"
+msgstr "Abmelden"
+
+#: src/Ui/LoginMenuItem.php:73 src/Ui/NavigationShortcodes.php:32
+#: src/Ui/PageSetup.php:37 src/Ui/PageSetup.php:85
+msgid "Orchestra"
+msgstr "Orchester"
+
+#: src/Ui/LoginMenuItem.php:88
+msgid "Log in / Log out"
+msgstr "Anmelden / Abmelden"
+
+#: src/Ui/LoginMenuItem.php:101
+msgid "Shows \"Log in\" to visitors and \"Log out\" to logged-in users."
+msgstr "Zeigt Besuchern „Anmelden“ und angemeldeten Benutzern „Abmelden“."
+
+#: src/Ui/LoginMenuItem.php:106
+msgid "Add to Menu"
+msgstr "Zum Menü hinzufügen"
+
 #. translators: %s: user's name
 #: src/Ui/LoginShortcode.php:41
 #, php-format
@@ -72,10 +94,6 @@ msgstr "Du bist als %s angemeldet."
 #: src/Ui/LoginShortcode.php:44
 msgid "Go to the orchestra pages"
 msgstr "Zu den Orchesterseiten"
-
-#: src/Ui/LoginShortcode.php:45 src/Ui/NavigationShortcodes.php:41
-msgid "Log out"
-msgstr "Abmelden"
 
 #: src/Ui/LoginShortcode.php:62
 msgid "Username or email address"
@@ -88,11 +106,6 @@ msgstr "Passwort vergessen?"
 #: src/Ui/LoginShortcode.php:89
 msgid "The login failed."
 msgstr "Die Anmeldung ist fehlgeschlagen."
-
-#: src/Ui/NavigationShortcodes.php:32 src/Ui/PageSetup.php:37
-#: src/Ui/PageSetup.php:85
-msgid "Orchestra"
-msgstr "Orchester"
 
 #: src/Ui/NavigationShortcodes.php:35
 msgid "Overview"

@@ -2,12 +2,16 @@
  * Orchestra UI: the shared look of all Orchestra pages and screens.
  *
  * Everything is scoped under .orchestra. Fonts and the text color come from the theme; colors are
- * derived from the accent color, which follows the theme's primary color if it defines one.
+ * derived from the accent color, which follows the theme's primary color if it defines one: the
+ * block theme preset, or the palettes of Astra, Kadence and Blocksy.
  * Customize it in the theme, e.g.  .orchestra { --orchestra-accent: #8a1c3b; }
  */
 
 .orchestra {
-    --orchestra-accent: var(--wp--preset--color--primary, #2d5be3);
+    --orchestra-accent: var(
+        --wp--preset--color--primary,
+        var(--ast-global-color-0, var(--global-palette1, var(--theme-palette-color-1, #2d5be3)))
+    );
     --orchestra-accent-contrast: #fff;
     --orchestra-text: currentColor;
     --orchestra-muted: color-mix(in srgb, currentColor 62%, transparent);
@@ -65,6 +69,24 @@
     color: var(--orchestra-accent);
 }
 
+/*
+ * Links that are part of the interface rather than of a text (names in tables and lists, card
+ * titles, back links) are underlined on hover only. Themes underline every link in the content,
+ * hence !important (see the cards below).
+ */
+.orchestra :is(td, li, dd, .orchestra-card__title, .orchestra-back) a:not(.orchestra-button) {
+    text-decoration: none !important;
+}
+
+.orchestra :is(td, li, dd, .orchestra-card__title, .orchestra-back) a:not(.orchestra-button):hover {
+    text-decoration: underline !important;
+}
+
+.orchestra .orchestra-back {
+    font-size: 0.95em;
+    margin-bottom: 0.5rem;
+}
+
 .orchestra-muted,
 .orchestra .description {
     color: var(--orchestra-muted);
@@ -102,6 +124,16 @@
 
 .orchestra-nav__end {
     margin-left: auto;
+}
+
+/* On phones, the navigation scrolls sideways like the tabs instead of wrapping. */
+@media (max-width: 640px) {
+    .orchestra-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: thin;
+        white-space: nowrap;
+    }
 }
 
 /* Tabs ---------------------------------------------------------------------------------------- */
@@ -299,10 +331,17 @@ a.orchestra-card:focus-visible {
 .orchestra .orchestra-button--link {
     background: none;
     border: none;
+    box-shadow: none;
     color: var(--orchestra-accent);
     cursor: pointer;
     font: inherit;
+    min-height: 0;
     padding: 0;
+    text-decoration: none;
+}
+
+.orchestra .orchestra-button--link:hover {
+    background: none;
     text-decoration: underline;
 }
 
@@ -438,6 +477,11 @@ a.orchestra-card:focus-visible {
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+/* Equal columns, so that the tables in one section line up, e.g. one table per status. */
+.orchestra-aligned-tables .orchestra-table {
+    table-layout: fixed;
 }
 
 /* Stacked tables: on phones, and always for .orchestra-table--stacked (e.g. editors). */
@@ -661,6 +705,12 @@ a.orchestra-card:focus-visible {
     padding: 0.75rem 1rem 1rem;
 }
 
+/* Themes such as Astra add a large margin below every legend. */
+.orchestra .orchestra-fieldset > legend {
+    margin: 0;
+    padding: 0 0.4rem;
+}
+
 .orchestra-checkbox {
     align-items: flex-start;
     display: flex;
@@ -697,6 +747,22 @@ a.orchestra-card:focus-visible {
     margin-bottom: 0.5rem;
 }
 
+/* A control that opens a small form in place, e.g. assigning members in a table cell. */
+.orchestra details.orchestra-disclosure > summary {
+    color: var(--orchestra-accent);
+    cursor: pointer;
+    font-weight: 500;
+    width: fit-content;
+}
+
+.orchestra details.orchestra-disclosure[open] > summary {
+    margin-bottom: 0.6rem;
+}
+
+.orchestra details.orchestra-disclosure .orchestra-checklist {
+    grid-template-columns: 1fr;
+}
+
 /* Lists --------------------------------------------------------------------------------------- */
 
 .orchestra-list {
@@ -717,6 +783,14 @@ a.orchestra-card:focus-visible {
 
 .orchestra-list > li:last-child {
     border-bottom: none;
+}
+
+/* Themes indent lists in the content, e.g. Astra with .entry-content ul. */
+.orchestra .orchestra-list,
+.orchestra .orchestra-program,
+.orchestra .orchestra-table ul {
+    margin-left: 0;
+    padding-left: 0;
 }
 
 .orchestra-program {

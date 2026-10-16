@@ -11,6 +11,7 @@ use Orchestra\Core\Ui\AdminAccess;
 use Orchestra\Core\Ui\EmailMoved;
 use Orchestra\Core\Ui\Assets;
 use Orchestra\Core\Ui\Language;
+use Orchestra\Core\Ui\LoginMenuItem;
 use Orchestra\Core\Ui\LoginShortcode;
 use Orchestra\Core\Ui\NavigationShortcodes;
 use Orchestra\Core\Ui\Notices;
@@ -90,6 +91,7 @@ final class Plugin
         AdminAccess::register();
         LoginShortcode::register();
         NavigationShortcodes::register();
+        LoginMenuItem::register();
 
         if (\is_admin()) {
             Notices::register();

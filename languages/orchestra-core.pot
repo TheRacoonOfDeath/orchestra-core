@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 17:24+0200\n"
+"POT-Creation-Date: 2026-10-16 18:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,7 +40,7 @@ msgstr ""
 msgid "Download Orchestra Email"
 msgstr ""
 
-#: src/Ui/Html.php:45
+#: src/Ui/Html.php:45 src/Ui/LoginMenuItem.php:59 src/Ui/LoginMenuItem.php:97
 msgid "Log in"
 msgstr ""
 
@@ -62,6 +62,28 @@ msgid ""
 "site language."
 msgstr ""
 
+#: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:45
+#: src/Ui/NavigationShortcodes.php:41
+msgid "Log out"
+msgstr ""
+
+#: src/Ui/LoginMenuItem.php:73 src/Ui/NavigationShortcodes.php:32
+#: src/Ui/PageSetup.php:37 src/Ui/PageSetup.php:85
+msgid "Orchestra"
+msgstr ""
+
+#: src/Ui/LoginMenuItem.php:88
+msgid "Log in / Log out"
+msgstr ""
+
+#: src/Ui/LoginMenuItem.php:101
+msgid "Shows \"Log in\" to visitors and \"Log out\" to logged-in users."
+msgstr ""
+
+#: src/Ui/LoginMenuItem.php:106
+msgid "Add to Menu"
+msgstr ""
+
 #. translators: %s: user's name
 #: src/Ui/LoginShortcode.php:41
 #, php-format
@@ -70,10 +92,6 @@ msgstr ""
 
 #: src/Ui/LoginShortcode.php:44
 msgid "Go to the orchestra pages"
-msgstr ""
-
-#: src/Ui/LoginShortcode.php:45 src/Ui/NavigationShortcodes.php:41
-msgid "Log out"
 msgstr ""
 
 #: src/Ui/LoginShortcode.php:62
@@ -86,11 +104,6 @@ msgstr ""
 
 #: src/Ui/LoginShortcode.php:89
 msgid "The login failed."
-msgstr ""
-
-#: src/Ui/NavigationShortcodes.php:32 src/Ui/PageSetup.php:37
-#: src/Ui/PageSetup.php:85
-msgid "Orchestra"
 msgstr ""
 
 #: src/Ui/NavigationShortcodes.php:35

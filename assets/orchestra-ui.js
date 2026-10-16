@@ -5,8 +5,9 @@
  * - data-orchestra-confirm="Message"            on a form: asks before submitting
  *   data-orchestra-confirm-field="status"        only ask if this field's value ...
  *   data-orchestra-confirm-unless="accepted"     ... is not this value
- * - data-orchestra-move-confirm="Message"       on a form with a <select multiple>: asks if a
- *   selected option has data-current, then sets the hidden field "move" to 1
+ * - data-orchestra-move-confirm="Message"       on a form with a <select multiple> or checkboxes:
+ *   asks if a selected option or checked box has data-current, then sets the hidden field "move"
+ *   to 1
  * - data-orchestra-add-row="template-id"        on a button: appends the <template> content to
  *   the element named in data-orchestra-target; "__INDEX__" is replaced by a new number
  * - data-orchestra-confirm="Message"            on a submit button: asks before submitting with it
@@ -47,9 +48,9 @@
         var moveMessage = form.getAttribute('data-orchestra-move-confirm');
         if (moveMessage) {
             var select = form.querySelector('select[multiple]');
-            var moving = select && Array.prototype.some.call(select.selectedOptions, function (option) {
+            var moving = (select && Array.prototype.some.call(select.selectedOptions, function (option) {
                 return option.hasAttribute('data-current');
-            });
+            })) || form.querySelector('input[type="checkbox"][data-current]:checked') !== null;
             if (moving) {
                 if (!window.confirm(moveMessage)) {
                     event.preventDefault();

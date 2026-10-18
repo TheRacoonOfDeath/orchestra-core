@@ -429,6 +429,7 @@ Member
     - Program
     - Own participation status
     - Own assignments
+    - The names of everyone who accepted
 
 ## Postconditions
 

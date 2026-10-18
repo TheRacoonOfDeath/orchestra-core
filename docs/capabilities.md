@@ -202,6 +202,7 @@ and assignment history refer to them.
 | `orchestra_projects_participation_read` *meta* → `_read_own` / `_read_others` | own | others | own + others |
 | `orchestra_projects_participation_respond` *meta* → `_respond_own` / `orchestra_projects_participation_manage` | own | | own + others |
 | `orchestra_projects_participation_manage` (change any decision) | | | ✓ |
+| `orchestra_projects_participants_read` (names of everyone who accepted) | ✓ | ✓ | ✓ |
 | `orchestra_projects_participation_export` (accepted participants with their profiles as CSV) | | | ✓ |
 | `orchestra_projects_assignment_read` | ✓ | ✓ | ✓ |
 | `orchestra_projects_assignment_manage` (create, edit, delete) | | ✓ | ✓ |

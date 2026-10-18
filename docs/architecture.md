@@ -123,7 +123,8 @@ Email is a technical service without business rules, in its own plugin since orc
 The domain plugins register **recipient groups**, following the same pattern as capabilities:
 orchestra-members the global groups (everyone, all members, all conductors, all organizers),
 orchestra-projects the project and assignment-based groups. orchestra-email resolves them,
-sends one plain-text email per recipient in the background and keeps a log with metadata only.
+sends one email per recipient in the background (formatted text, optionally with attachments) and
+keeps a log with metadata only.
 The plugin is optional: the domain plugins register their groups only when it runs. See the
 [orchestra-email documentation](https://github.com/TheRacoonOfDeath/orchestra-email/blob/main/docs/email.md).
 

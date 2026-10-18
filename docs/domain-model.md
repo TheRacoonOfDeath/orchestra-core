@@ -468,10 +468,11 @@ Inactive members are never part of a group.
 
 ### Project-Based (provided by orchestra-projects)
 
-- All Participants
+- Accepted and Pending Participants
 - Accepted Participants
-- Declined Participants
 - Pending Participants
+
+Members who declined are not emailed about the project.
 
 ### Assignment-Based (provided by orchestra-projects)
 

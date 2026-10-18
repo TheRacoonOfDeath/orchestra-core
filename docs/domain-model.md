@@ -472,13 +472,7 @@ Inactive members are never part of a group.
 - Accepted Participants
 - Pending Participants
 
-Members who declined are not emailed about the project.
-
-### Assignment-Based (provided by orchestra-projects)
-
-- All Members assigned to Horn 1
-- All Members assigned to Horn 2
-- All Members assigned to any part of a piece
+Members who declined are not emailed about the project. There are no groups per piece or part.
 
 ## Sending
 
@@ -538,7 +532,7 @@ Owns:
 - Programs
 - Assignments
 - Assignment History
-- Project-Based and Assignment-Based Communication Groups
+- Project-Based Communication Groups
 
 ---
 

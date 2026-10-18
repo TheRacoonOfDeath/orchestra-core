@@ -221,7 +221,7 @@ rules are business rules of orchestra-projects, checked in addition to the capab
 | Capability | Member | Conductor | Organizer |
 |-----------|:------:|:---------:|:---------:|
 | `orchestra_seating_plan_read` (see the seating once it is arranged) | ✓ | ✓ | ✓ |
-| `orchestra_seating_plan_manage` (arrange the seating of every project) | | ✓ | ✓ |
+| `orchestra_seating_plan_manage` (arrange the seating of every project, download it as PDF) | | ✓ | ✓ |
 
 The seating of completed projects cannot be changed.
 

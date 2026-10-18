@@ -45,8 +45,8 @@ cannot provide efficiently.
 
 ### Assignment history
 
-History is not stored separately. It is the set of assignments of past projects, ordered by the
-project's concert date. This avoids duplicated data, but requires that projects, pieces and parts
+History is not stored separately. It is the set of assignments of a piece in other projects, in
+the order they were made (not by the projects' dates). This avoids duplicated data, but requires that projects, pieces and parts
 referenced by assignments are archived instead of deleted.
 
 ---

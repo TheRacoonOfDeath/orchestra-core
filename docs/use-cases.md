@@ -47,11 +47,11 @@ Administrators may perform all actions available to other actors.
 | UC-014 | Decline Participation | Member |
 | UC-015 | Change Participation Decision | Organizer |
 | UC-016 | View Participation Overview | Organizer |
-| UC-017 | Assign Member To Part | Conductor |
+| UC-017 | Assign Member To Part | Conductor, Organizer |
 | UC-018 | Change Project Status | Organizer |
 | UC-019 | Download Project Sheet Music | Member |
 | UC-020 | Send Email To Group | Organizer, Conductor |
-| UC-021 | Create Member Account | Administrator |
+| UC-021 | Create Member Account | Administrator, Organizer, Conductor |
 | UC-022 | Deactivate Or Reactivate Member | Organizer |
 | UC-023 | Archive Piece | Conductor |
 
@@ -152,8 +152,8 @@ Member
 ## Editable Fields
 
 - Email address
-- Financial support requirement
-- Dietary restrictions
+- The profile fields chosen by the administrators (by default financial support requirement and
+  dietary restrictions)
 
 ## Postconditions
 
@@ -566,7 +566,7 @@ Assign a musician to a specific part.
 
 ## Primary Actor
 
-Conductor or Organizer
+Conductor, Organizer
 
 ## Preconditions
 
@@ -580,7 +580,7 @@ Conductor or Organizer
 2. User selects a part.
 3. System lists the accepted participants and marks for each of them:
     - Played Last Time
-    - Played Before
+    - Played in a Completed Project
     - Never Played
     - Already assigned to another part of this piece
 4. User selects one or more members.
@@ -617,7 +617,7 @@ Organizer
 ## Flow
 
 1. Organizer opens the project.
-2. Organizer selects the next status.
+2. Organizer selects the next or the previous status.
 3. System asks for confirmation.
 4. System stores the new status.
 
@@ -701,7 +701,7 @@ Give a new person access to the system.
 
 ## Primary Actor
 
-Administrator
+Administrator, Organizer, Conductor
 
 ## Preconditions
 
@@ -709,9 +709,10 @@ Administrator
 
 ## Flow
 
-1. Administrator creates a WordPress user with name and email address.
-2. Administrator selects the role (Member, Conductor or Organizer).
-3. System sends the person a link to set a password.
+1. User adds a person with name and email address.
+2. An administrator selects the role (Member, Conductor or Organizer); for organizers and
+   conductors the role is always Member.
+3. System creates the WordPress user and sends the person a link to set a password.
 
 ## Alternative Flows
 
@@ -744,7 +745,7 @@ Organizer
 1. Organizer opens the member.
 2. Organizer sets the member to inactive.
 3. System informs the organizer that the sensitive profile data will be deleted and asks for confirmation.
-4. System sets the member to inactive and deletes financial support and dietary restriction data.
+4. System sets the member to inactive and deletes the values of all profile fields.
 
 ## Alternative Flows
 

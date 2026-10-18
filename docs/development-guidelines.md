@@ -81,6 +81,7 @@ All text shown to users is written in English and translated; German is included
 - Orchestra\Library
 - Orchestra\Projects
 - Orchestra\Members
+- Orchestra\Email
 
 ## Plugins
 
@@ -97,7 +98,7 @@ Every plugin owns its data. Cross-plugin database access is forbidden; use publi
 
   ```json
   "repositories": [{"type": "vcs", "url": "https://github.com/TheRacoonOfDeath/orchestra-core"}],
-  "require-dev": {"orchestra/core": "^0.2"}
+  "require-dev": {"orchestra/core": "^0.7"}
   ```
 - Only use core classes inside hooks (`plugins_loaded` or later), never while the plugin file is
   being loaded, because WordPress does not guarantee the plugin load order.

@@ -92,8 +92,8 @@ Examples:
 Owned by orchestra-members.
 
 - Active Status
-- Financial Support Required (sensitive)
-- Dietary Restrictions (sensitive)
+- Profile fields chosen by the administrators (sensitive); by default Financial Support Required
+  and Dietary Restrictions
 
 ## Roles
 
@@ -106,8 +106,9 @@ Permissions are global: every conductor and every organizer has their rights for
 
 ## Accounts
 
-Accounts are created by an administrator. WordPress sends the new member a link to set a password.
-There is no self-registration.
+Accounts are created by administrators, conductors and organizers. Conductors and organizers add
+people with the role Member; only administrators choose another role. WordPress sends the new
+member a link to set a password. There is no self-registration.
 
 ## Lifecycle
 
@@ -125,8 +126,8 @@ Active
 - are not part of any communication group
 - remain in historical records (participation, assignments, assignment history)
 
-When a member is set to inactive, the sensitive profile data (financial support, dietary
-restrictions) is deleted. It must be entered again after a reactivation.
+When a member is set to inactive, the sensitive profile data (the values of all profile fields)
+is deleted. It must be entered again after a reactivation.
 
 ## Privacy
 
@@ -182,7 +183,8 @@ Draft
 → Preparation
 → Completed
 
-Organizers move a project between statuses.
+Organizers move a project one status forward or back, e.g. back to Open for Participation for
+late responses.
 
 | Status | Visible to members | Members can respond | Assignments can be changed |
 |--------|:------------------:|:-------------------:|:--------------------------:|
@@ -376,7 +378,7 @@ A project may contain multiple pieces.
 
 A piece appears at most once in a project's program.
 
-The order can be changed at any time.
+The program and its order can be changed until the project is completed.
 
 Removing a piece from a program removes its assignments in that project.
 
@@ -390,7 +392,7 @@ An assignment links a member to a part within a project.
 
 The piece is given by the part. An assignment does not reference the piece separately.
 
-Assignments are created by conductors.
+Assignments are created by conductors and organizers.
 
 ## Example
 
@@ -416,9 +418,10 @@ Julian
 
 ## Description
 
-Assignment history is the set of all assignments of past projects.
+Assignment history is the set of all assignments of a piece in other projects.
 
-It is not stored separately but derived from the assignments, ordered by the projects' concert dates.
+It is not stored separately but derived from the assignments. Only the order in which the
+assignments were made counts, not the projects' dates.
 
 The primary use case is assisting conductors when distributing parts.
 
@@ -426,20 +429,20 @@ The primary use case is assisting conductors when distributing parts.
 
 When creating a new assignment the system should identify, for a member and a part:
 
-### Never Played
-
-The member has never been assigned to this part.
-
-### Played Before
-
-The member has been assigned to this part in an earlier project.
-
 ### Played Last Time
 
-The member was assigned to this part in the most recent earlier project whose program contained
-the piece.
+The member's latest assignment of this piece, in any other project, was to this part.
 
 This is generally considered the preferred assignment.
+
+### Played in a Completed Project
+
+The member has been assigned to this part in a completed project. Shown together with Played Last
+Time when both apply.
+
+### Never Played
+
+The member has never been assigned to this part in another project.
 
 ---
 
@@ -478,8 +481,8 @@ Inactive members are never part of a group.
 
 ## Sending
 
-Sending is a technical service of orchestra-core. The domain plugins define the groups; core
-resolves them, sends one email per recipient and keeps a log.
+Sending is a technical service of the optional plugin orchestra-email. The domain plugins define
+the groups; orchestra-email resolves them, sends one email per recipient and keeps a log.
 
 ---
 
@@ -490,6 +493,13 @@ resolves them, sends one email per recipient and keeps a log.
 Owns:
 
 - Roles
+
+---
+
+## orchestra-email
+
+Owns:
+
 - Email sending and the email log
 
 ---

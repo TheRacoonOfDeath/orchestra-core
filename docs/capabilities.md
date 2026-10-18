@@ -171,7 +171,8 @@ Capabilities marked *meta* are checked with an object ID.
 | `orchestra_members_email_send` (email the global groups) | | ✓ | ✓ |
 | `orchestra_members_fields_manage` (choose the profile fields) | | | |
 
-Accounts are created by administrators with the WordPress capability `create_users`.
+Conductors and organizers add people with the role Member (`orchestra_members_member_create`).
+Choosing another role requires the WordPress capability `promote_users` (administrators).
 
 Profiles contain sensitive personal data (e.g. dietary restrictions, financial support), so only
 organizers and administrators may read other members' profiles.

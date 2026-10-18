@@ -216,6 +216,15 @@ participation. Conductors do not play.
 Which projects members can see and when they can respond depends on the project status. These
 rules are business rules of orchestra-projects, checked in addition to the capabilities.
 
+### orchestra-seating
+
+| Capability | Member | Conductor | Organizer |
+|-----------|:------:|:---------:|:---------:|
+| `orchestra_seating_plan_read` (see the seating once it is arranged) | ✓ | ✓ | ✓ |
+| `orchestra_seating_plan_manage` (arrange the seating of every project) | | ✓ | ✓ |
+
+The seating of completed projects cannot be changed.
+
 ---
 
 ## Adding or Changing Capabilities

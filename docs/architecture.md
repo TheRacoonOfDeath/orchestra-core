@@ -35,6 +35,7 @@ The system is divided into independent business domains:
 - Members
 - Library
 - Projects
+- Seating (the seating plans of projects)
 
 Each domain is implemented in its own plugin.
 
@@ -127,6 +128,20 @@ sends one email per recipient in the background (formatted text, optionally with
 keeps a log with metadata only.
 The plugin is optional: the domain plugins register their groups only when it runs. See the
 [orchestra-email documentation](https://github.com/TheRacoonOfDeath/orchestra-email/blob/main/docs/email.md).
+
+---
+
+## orchestra-seating
+
+Responsibilities:
+
+- the seating plan of each project: a grid of seats, who sits where, the piece whose parts are
+  shown as voices, and whether organizers are seated
+
+It has no shortcode of its own: it adds a "Seating" tab to the project page with the tab filters
+of orchestra-projects 0.14 (`orchestra_projects_tabs`, `orchestra_projects_tab_content`), and
+reads participation, program and assignments through `ProjectsService`. See the
+[orchestra-seating documentation](https://github.com/TheRacoonOfDeath/orchestra-seating/blob/main/docs/seating.md).
 
 ---
 

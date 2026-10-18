@@ -32,6 +32,8 @@
 | Email log (metadata only) | orchestra-email | table `orchestra_core_email_log` (name kept from orchestra-core) |
 | Emails waiting to be sent | orchestra-email | table `orchestra_core_email_queue` (name kept from orchestra-core) |
 | Email attachments until sent | orchestra-email | table `orchestra_email_attachments`, files in a private directory |
+| Seating plans (grid, piece, organizer switch) | orchestra-seating | table `orchestra_seating_plans` |
+| Seats | orchestra-seating | table `orchestra_seating_seats` |
 
 ### Why custom post types for pieces and projects
 

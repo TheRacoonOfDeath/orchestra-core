@@ -35,6 +35,7 @@ The following entities exist within these domains:
 - Assignment
 - Assignment History (derived)
 - Communication Group (derived)
+- Seating Plan
 
 ---
 
@@ -55,7 +56,8 @@ Project
 ├── Participation → Member
 ├── Conductors → Member
 ├── Organizers → Member
-└── Assignments
+├── Assignments
+└── Seating Plan → Seats → Member
 
 Assignment
 ├── Project
@@ -481,6 +483,27 @@ the groups; orchestra-email resolves them, sends one email per recipient and kee
 
 ---
 
+# Seating Plan
+
+## Description
+
+A seating plan shows who sits where in a project. It is a grid of seats of equal size; each seat
+holds one person and shows their name and their part (voice) in one piece of the program.
+
+## Business Rules
+
+- Every project has at most one seating plan.
+- Seated are the accepted participants who are active members or organizers. Conductors are never
+  seated. Organizers are seated by default; this can be switched off per project.
+- A new plan has a seat for everyone. Rows and columns can be added; only an empty last row or
+  column can be removed, and the grid always keeps a seat for everyone.
+- One piece of the program is chosen to show the voices (default: the first piece).
+- Conductors and organizers arrange the seating; members see it once it has been arranged.
+- The seating of completed projects cannot be changed.
+- People who no longer take part (declined, inactive, deleted) leave the seating.
+
+---
+
 # Domain Ownership
 
 ## orchestra-core
@@ -533,6 +556,19 @@ Owns:
 - Assignments
 - Assignment History
 - Project-Based Communication Groups
+
+---
+
+## orchestra-seating
+
+Owns:
+
+- Seating Plans
+
+Uses:
+
+- Projects, Participation, Programs and Assignments (orchestra-projects)
+- Members (orchestra-members) and Parts (orchestra-library)
 
 ---
 

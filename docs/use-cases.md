@@ -332,7 +332,7 @@ Organizer
     - Description
     - Start date
     - End date
-    - Concert date
+    - Concert dates (any number; none by default)
 3. System stores the project with status Draft.
 
 ## Postconditions

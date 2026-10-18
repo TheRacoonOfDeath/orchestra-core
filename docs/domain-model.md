@@ -147,7 +147,7 @@ Profile data is personal data under the GDPR.
 
 A project represents a rehearsal and performance period.
 
-A project normally culminates in a concert.
+A project usually culminates in one or more concerts. It can also have none, e.g. a workshop.
 
 Examples:
 
@@ -163,7 +163,7 @@ Examples:
 - Description
 - Start Date
 - End Date
-- Concert Date
+- Concert Dates (any number, also none)
 
 ### Personnel
 

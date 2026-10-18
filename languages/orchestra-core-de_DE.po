@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 18:32+0200\n"
+"POT-Creation-Date: 2026-10-19 00:22+0200\n"
 "PO-Revision-Date: 2026-10-16 00:00+0000\n"
 "Last-Translator: Julian Nickerl\n"
 "Language-Team: German\n"
@@ -25,15 +25,19 @@ msgstr "Orchesterdirigent"
 msgid "Orchestra Organizer"
 msgstr "Orchesterorganisator"
 
+#. translators: %s: date
+#: src/Pdf/Pdf.php:35
+#, php-format
+msgid "Created on %s"
+msgstr "Erstellt am %s"
+
+#: src/Pdf/Pdf.php:128
+msgid "Page {PAGE_NUM} of {PAGE_COUNT}"
+msgstr "Seite {PAGE_NUM} von {PAGE_COUNT}"
+
 #: src/Ui/EmailMoved.php:39
-msgid ""
-"Emails are now a plugin of their own: Orchestra Email. Install and activate "
-"it to write emails again; your sent emails and emails that are still being "
-"sent are kept."
-msgstr ""
-"E-Mails sind jetzt ein eigenes Plugin: Orchestra Email. Installiere und "
-"aktiviere es, um wieder E-Mails zu schreiben; deine gesendeten E-Mails und E-"
-"Mails, die noch verschickt werden, bleiben erhalten."
+msgid "Emails are now a plugin of their own: Orchestra Email. Install and activate it to write emails again; your sent emails and emails that are still being sent are kept."
+msgstr "E-Mails sind jetzt ein eigenes Plugin: Orchestra Email. Installiere und aktiviere es, um wieder E-Mails zu schreiben; deine gesendeten E-Mails und E-Mails, die noch verschickt werden, bleiben erhalten."
 
 #: src/Ui/EmailMoved.php:43
 msgid "Download Orchestra Email"
@@ -56,12 +60,8 @@ msgid "Orchestra language"
 msgstr "Orchestersprache"
 
 #: src/Ui/Language.php:135
-msgid ""
-"The language of the Orchestra pages and screens. WordPress itself keeps the "
-"site language."
-msgstr ""
-"Die Sprache der Orchesterseiten und -ansichten. WordPress selbst behält die "
-"Sprache der Website."
+msgid "The language of the Orchestra pages and screens. WordPress itself keeps the site language."
+msgstr "Die Sprache der Orchesterseiten und -ansichten. WordPress selbst behält die Sprache der Website."
 
 #: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:45
 #: src/Ui/NavigationShortcodes.php:41
@@ -122,12 +122,8 @@ msgid "There is nothing here for you yet."
 msgstr "Hier gibt es für dich noch nichts."
 
 #: src/Ui/PageSetup.php:39
-msgid ""
-"Members, conductors and organizers use the Orchestra pages instead of the "
-"dashboard. Create them?"
-msgstr ""
-"Mitglieder, Dirigenten und Organisatoren nutzen statt des Dashboards die "
-"Orchesterseiten. Sollen sie angelegt werden?"
+msgid "Members, conductors and organizers use the Orchestra pages instead of the dashboard. Create them?"
+msgstr "Mitglieder, Dirigenten und Organisatoren nutzen statt des Dashboards die Orchesterseiten. Sollen sie angelegt werden?"
 
 #: src/Ui/PageSetup.php:42
 msgid "Create Orchestra pages"

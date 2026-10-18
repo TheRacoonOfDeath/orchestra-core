@@ -5,6 +5,7 @@
     "license": "GPL-2.0-or-later",
     "require": {
         "php": "^8.3",
+        "dompdf/dompdf": "^3.1",
         "yahnis-elsts/plugin-update-checker": "^5.7"
     },
     "require-dev": {

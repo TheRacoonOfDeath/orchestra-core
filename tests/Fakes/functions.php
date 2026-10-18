@@ -146,3 +146,18 @@ function wp_validate_redirect(string $location, string $fallback = ''): string
 
     return $host === null || $host === 'orchestra.example' ? $location : $fallback;
 }
+
+function esc_html(string $text): string
+{
+    return \htmlspecialchars($text, ENT_QUOTES);
+}
+
+function wp_date(string $format, ?int $timestamp = null): string
+{
+    return \gmdate($format, $timestamp ?? \time());
+}
+
+function get_temp_dir(): string
+{
+    return \sys_get_temp_dir() . '/';
+}

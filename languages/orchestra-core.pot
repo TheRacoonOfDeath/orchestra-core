@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 18:32+0200\n"
+"POT-Creation-Date: 2026-10-19 00:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,6 +27,16 @@ msgstr ""
 
 #: src/Authorization/Roles.php:36
 msgid "Orchestra Organizer"
+msgstr ""
+
+#. translators: %s: date
+#: src/Pdf/Pdf.php:35
+#, php-format
+msgid "Created on %s"
+msgstr ""
+
+#: src/Pdf/Pdf.php:128
+msgid "Page {PAGE_NUM} of {PAGE_COUNT}"
 msgstr ""
 
 #: src/Ui/EmailMoved.php:39

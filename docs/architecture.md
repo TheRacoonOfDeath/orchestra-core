@@ -64,6 +64,9 @@ Responsibilities:
 
 - roles and the capability registry (see [capabilities.md](capabilities.md))
 - the shared UI for the Orchestra pages (see below)
+- PDF documents (`Orchestra\Core\Pdf\Pdf`, with dompdf): the plugins pass simple HTML with
+  tables, core adds the page layout and sends the download. dompdf is bundled only here, so
+  that the plugins do not load different versions of it.
 - automatic updates from GitHub releases
 
 Planned:

@@ -426,10 +426,10 @@ Member
     - Dates
     - Description
     - Conductors
-    - Program
     - Own participation status
     - Own assignments
-    - The names of everyone who accepted
+3. On the tab "Program", the system lists the pieces in program order.
+4. On the tab "Who accepted", the system lists the names of everyone who accepted.
 
 ## Postconditions
 

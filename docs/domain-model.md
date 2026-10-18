@@ -238,7 +238,8 @@ The decision is final: after submission, the member cannot change it.
 
 Organizers can change any participation status at any time, e.g. after a member calls them.
 
-Everyone who can see the project sees the names of those who accepted. Who declined or has not
+Everyone who can see the project sees the names of those who accepted (members on a tab of
+their own). Who declined or has not
 responded yet is only visible to conductors and organizers.
 
 If an Accepted participation is changed to Declined or Open, the member's assignments in that

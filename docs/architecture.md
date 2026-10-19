@@ -138,8 +138,8 @@ The plugin is optional: the domain plugins register their groups only when it ru
 
 Responsibilities:
 
-- the seating plan of each project: a grid of seats, who sits where, the piece whose parts are
-  shown as voices, and whether organizers are seated
+- the seating plan of each project: a grid of seats, who sits where, and whether organizers are
+  seated; the voices of every piece of the program can be shown on it
 
 It has no shortcode of its own: it adds a "Seating" tab to the project page with the tab filters
 of orchestra-projects 0.14 (`orchestra_projects_tabs`, `orchestra_projects_tab_content`), and

@@ -492,7 +492,8 @@ the groups; orchestra-email resolves them, sends one email per recipient and kee
 ## Description
 
 A seating plan shows who sits where in a project. It is a grid of seats of equal size; each seat
-holds one person and shows their name and their part (voice) in one piece of the program.
+holds one person and shows their name and their part (voice) in a piece of the program. The
+seating itself does not depend on a piece.
 
 ## Business Rules
 
@@ -501,7 +502,10 @@ holds one person and shows their name and their part (voice) in one piece of the
   seated. Organizers are seated by default; this can be switched off per project.
 - A new plan has a seat for everyone. Rows and columns can be added; only an empty last row or
   column can be removed, and the grid always keeps a seat for everyone.
-- One piece of the program is chosen to show the voices (default: the first piece).
+- Everyone who sees the seating can step through the pieces of the program; only the voices
+  change (first shown: the first piece).
+- The seating of another project can be imported: people who take part in both projects keep
+  their seat, the seats of everyone else stay empty, and new people are not seated.
 - Conductors and organizers arrange the seating; members see it once it has been arranged.
 - The seating of completed projects cannot be changed.
 - People who no longer take part (declined, inactive, deleted) leave the seating.

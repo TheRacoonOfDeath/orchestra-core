@@ -579,20 +579,23 @@ Conductor, Organizer
 
 1. User opens the assignments of a piece in the project.
 2. User selects a part.
-3. System lists the accepted participants and marks for each of them:
+3. System lists the accepted participants who have no part in this piece yet and marks for each
+   of them:
     - Played Last Time
     - Played in a Completed Project
     - Never Played
-    - Already assigned to another part of this piece
 4. User selects one or more members.
 5. System stores the assignments.
+
+While an accepted participant has no part in a piece, the piece shows a warning next to its title.
 
 ## Alternative Flows
 
 ### 4a. Member is already assigned to another part of this piece
 
-1. System asks whether to move the member to the selected part.
-2. On confirmation, the previous assignment is replaced.
+The member is not listed. To move them, the user removes their assignment first. A request that
+assigns them anyway (e.g. from an outdated page) is refused unless it asks to move them; then the
+previous assignment is replaced.
 
 ## Postconditions
 

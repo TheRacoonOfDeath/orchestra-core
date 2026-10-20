@@ -245,6 +245,14 @@ responded yet is only visible to conductors and organizers.
 If an Accepted participation is changed to Declined or Open, the member's assignments in that
 project are removed. The organizer is warned before.
 
+### Comment and note
+
+When responding, a member can add a comment for the organizers, e.g. that they can only come to
+some of the concerts. They can change it later, as long as the project is open or in preparation.
+Organizers can add a note to every participation. Both are visible to organizers only (the member
+also sees their own comment, never the note); conductors see neither. Both are removed when the
+member's account is deleted.
+
 ---
 
 # Piece

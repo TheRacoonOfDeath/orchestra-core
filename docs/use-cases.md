@@ -455,10 +455,11 @@ Member
 ## Flow
 
 1. User reviews project information.
-2. User selects Accept.
-3. System informs the user that the decision is final and asks for confirmation.
-4. User confirms.
-5. System stores the decision.
+2. User optionally enters a comment for the organizers (e.g. only some of the concerts).
+3. User selects Accept.
+4. System informs the user that the decision is final and asks for confirmation.
+5. User confirms.
+6. System stores the decision and the comment.
 
 ## Postconditions
 

@@ -169,6 +169,7 @@ Capabilities marked *meta* are checked with an object ID.
 | `orchestra_members_status_edit` (active / inactive) | | | ✓ |
 | `orchestra_members_member_create` (add users as members; only administrators choose another role) | | ✓ | ✓ |
 | `orchestra_members_email_send` (email the global groups) | | ✓ | ✓ |
+| `orchestra_members_email_member` (email a single member from their profile) | | | ✓ |
 | `orchestra_members_fields_manage` (choose the profile fields) | | | |
 
 Conductors and organizers add people with the role Member (`orchestra_members_member_create`).

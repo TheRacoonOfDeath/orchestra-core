@@ -450,6 +450,13 @@ Time when both apply.
 
 The member has never been assigned to this part in another project.
 
+## New Parts
+
+An existing assignment is **new** when the member has never been assigned to its part in another
+project (Never Played). New assignments are labelled "new" on the member's own parts and on the
+assignments of the project, and marked with an asterisk, explained in a legend, in the assignments
+PDF, so that members know which parts they have to learn.
+
 ---
 
 # Communication Groups

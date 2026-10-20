@@ -138,8 +138,13 @@
 
 /* Tabs ---------------------------------------------------------------------------------------- */
 
+/*
+ * The line below the tabs is an inset shadow, which the background of the current tab covers. A
+ * border would need the current tab to hang 1px below the tabs, and that overflow showed a
+ * scrollbar next to them.
+ */
 .orchestra-tabs {
-    border-bottom: 1px solid var(--orchestra-border);
+    box-shadow: inset 0 -1px 0 var(--orchestra-border);
     display: flex;
     gap: 0.25rem;
     margin-bottom: 1.25rem;
@@ -165,7 +170,6 @@
     background: var(--orchestra-surface-strong);
     border-color: var(--orchestra-border);
     font-weight: 600;
-    margin-bottom: -1px;
 }
 
 /* Cards --------------------------------------------------------------------------------------- */

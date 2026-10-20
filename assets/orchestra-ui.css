@@ -122,10 +122,6 @@
     color: var(--orchestra-accent);
 }
 
-.orchestra-nav__end {
-    margin-left: auto;
-}
-
 /* On phones, the navigation scrolls sideways like the tabs instead of wrapping. */
 @media (max-width: 640px) {
     .orchestra-nav {

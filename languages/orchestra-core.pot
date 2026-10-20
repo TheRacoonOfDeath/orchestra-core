@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 00:23+0200\n"
+"POT-Creation-Date: 2026-10-20 13:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,11 +73,10 @@ msgid ""
 msgstr ""
 
 #: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:45
-#: src/Ui/NavigationShortcodes.php:41
 msgid "Log out"
 msgstr ""
 
-#: src/Ui/LoginMenuItem.php:73 src/Ui/NavigationShortcodes.php:32
+#: src/Ui/LoginMenuItem.php:73 src/Ui/NavigationShortcodes.php:33
 #: src/Ui/PageSetup.php:37 src/Ui/PageSetup.php:85
 msgid "Orchestra"
 msgstr ""
@@ -116,17 +115,17 @@ msgstr ""
 msgid "The login failed."
 msgstr ""
 
-#: src/Ui/NavigationShortcodes.php:35
+#: src/Ui/NavigationShortcodes.php:36
 msgid "Overview"
 msgstr ""
 
 #. translators: %s: user's name
-#: src/Ui/NavigationShortcodes.php:58
+#: src/Ui/NavigationShortcodes.php:57
 #, php-format
 msgid "Hello %s!"
 msgstr ""
 
-#: src/Ui/NavigationShortcodes.php:64
+#: src/Ui/NavigationShortcodes.php:63
 msgid "There is nothing here for you yet."
 msgstr ""
 

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Orchestra\Core\Ui;
 
 /**
- * `[orchestra_menu]`: a navigation bar to the Orchestra pages the user can use.
+ * `[orchestra_menu]`: a navigation bar to the Orchestra pages the user can use. It has no "Log out":
+ * that is the "Log in / Log out" entry of the site's menu ({@see LoginMenuItem}) and the login page.
  * `[orchestra_portal]`: the start page with a card per area; the login form for visitors.
  */
 final class NavigationShortcodes
@@ -37,10 +38,8 @@ final class NavigationShortcodes
         foreach (Menu::linksFor($userId) as [$item, $url]) {
             $html .= self::link($url, $item->label, Pages::pageId($item->shortcode) === $current);
         }
-        $html .= '<a class="orchestra-nav__end" href="' . \esc_url(\wp_logout_url($portal ?? \home_url('/'))) . '">'
-            . \esc_html__('Log out', 'orchestra-core') . '</a></nav>';
 
-        return Html::page($html, false);
+        return Html::page($html . '</nav>', false);
     }
 
     /**

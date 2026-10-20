@@ -156,7 +156,7 @@ through shortcodes on normal pages ([development guidelines](development-guideli
 | Shortcode | Plugin | Content |
 |-----------|--------|---------|
 | `[orchestra_portal]` | core | start page: a card per area; the login form for visitors |
-| `[orchestra_menu]` | core | navigation between the areas |
+| `[orchestra_menu]` | core | navigation between the areas (without "Log out", which is in the site's menu and on the login page) |
 | `[orchestra_login]` | core | login form with the messages of WordPress (e.g. inactive account) |
 | `[orchestra_email]` | orchestra-email | write emails to groups, sent emails |
 | `[orchestra_projects]` | orchestra-projects | projects; management for conductors and organizers |

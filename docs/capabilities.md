@@ -163,7 +163,7 @@ Capabilities marked *meta* are checked with an object ID.
 
 | Capability | Member | Conductor | Organizer |
 |-----------|:------:|:---------:|:---------:|
-| `orchestra_members_directory_read` (names of all members) | ✓ | ✓ | ✓ |
+| `orchestra_members_directory_read` (names of all members) | | ✓ | ✓ |
 | `orchestra_members_profile_read` *meta* → `_read_own` / `_read_others` | own | own | own + others |
 | `orchestra_members_profile_edit` *meta* → `_edit_own` / `_edit_others` | own | own | own |
 | `orchestra_members_status_edit` (active / inactive) | | | ✓ |

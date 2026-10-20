@@ -245,6 +245,12 @@ responded yet is only visible to conductors and organizers.
 If an Accepted participation is changed to Declined or Open, the member's assignments in that
 project are removed. The organizer is warned before.
 
+### Fee
+
+A project can have a fee, as free text (e.g. reduced rates, how and until when to pay). Organizers
+record for every accepted participant whether they have paid, and see who asked for financial
+support in their profile. Only organizers see the payments.
+
 ### Comment and note
 
 When responding, a member can add a comment for the organizers, e.g. that they can only come to

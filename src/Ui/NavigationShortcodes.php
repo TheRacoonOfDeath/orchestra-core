@@ -60,7 +60,10 @@ final class NavigationShortcodes
 
         $links = Menu::linksFor($user->ID);
         if ($links === []) {
-            return Html::page($html . Html::empty(\__('There is nothing here for you yet.', 'orchestra-core')));
+            return Html::page($html . Html::empty(\__(
+                'There is nothing here for you yet. If you are missing something, ask an organizer.',
+                'orchestra-core'
+            )));
         }
 
         $html .= '<div class="orchestra-cards">';

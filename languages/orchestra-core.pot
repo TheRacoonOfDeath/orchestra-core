@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-20 13:51+0200\n"
+"POT-Creation-Date: 2026-10-20 14:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,6 +51,7 @@ msgid "Download Orchestra Email"
 msgstr ""
 
 #: src/Ui/Html.php:45 src/Ui/LoginMenuItem.php:59 src/Ui/LoginMenuItem.php:97
+#: src/Ui/LoginShortcode.php:67
 msgid "Log in"
 msgstr ""
 
@@ -72,7 +73,7 @@ msgid ""
 "site language."
 msgstr ""
 
-#: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:45
+#: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:47
 msgid "Log out"
 msgstr ""
 
@@ -94,24 +95,24 @@ msgid "Add to Menu"
 msgstr ""
 
 #. translators: %s: user's name
-#: src/Ui/LoginShortcode.php:41
+#: src/Ui/LoginShortcode.php:43
 #, php-format
 msgid "You are logged in as %s."
 msgstr ""
 
-#: src/Ui/LoginShortcode.php:44
+#: src/Ui/LoginShortcode.php:46
 msgid "Go to the orchestra pages"
 msgstr ""
 
-#: src/Ui/LoginShortcode.php:62
+#: src/Ui/LoginShortcode.php:65
 msgid "Username or email address"
 msgstr ""
 
-#: src/Ui/LoginShortcode.php:70
+#: src/Ui/LoginShortcode.php:75
 msgid "Forgot your password?"
 msgstr ""
 
-#: src/Ui/LoginShortcode.php:89
+#: src/Ui/LoginShortcode.php:94
 msgid "The login failed."
 msgstr ""
 
@@ -125,8 +126,10 @@ msgstr ""
 msgid "Hello %s!"
 msgstr ""
 
-#: src/Ui/NavigationShortcodes.php:63
-msgid "There is nothing here for you yet."
+#: src/Ui/NavigationShortcodes.php:64
+msgid ""
+"There is nothing here for you yet. If you are missing something, ask an "
+"organizer."
 msgstr ""
 
 #: src/Ui/PageSetup.php:39

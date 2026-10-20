@@ -82,7 +82,7 @@ final class AdminAccess
 
     /**
      * Sends restricted users to the Orchestra pages after logging in, unless they asked for a page
-     * outside wp-admin.
+     * outside wp-admin or an action of `admin-post.php`, e.g. a download.
      *
      * @internal Hooked to `login_redirect`.
      */
@@ -91,7 +91,7 @@ final class AdminAccess
         if (!$user instanceof WP_User || !self::isRestricted($user)) {
             return $redirectTo;
         }
-        if ($requested !== '' && !\str_starts_with($requested, \admin_url())) {
+        if ($requested !== '' && LoginPageRedirect::outsideAdmin($requested, \admin_url())) {
             return $redirectTo;
         }
 

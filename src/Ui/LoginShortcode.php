@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Orchestra\Core\Ui;
 
 /**
- * `[orchestra_login]`: the login form on a normal page. After logging in, users go to the start page.
+ * `[orchestra_login]`: the login form on a normal page. After logging in, users go back to the page
+ * in `redirect_to` (e.g. a download that needed a login, see {@see LoginPageRedirect}), or to the
+ * start page.
  * Failed logins come back to the page with WordPress's message, e.g. that the account is inactive.
  */
 final class LoginShortcode
@@ -53,13 +55,16 @@ final class LoginShortcode
                 . '</div>';
         }
 
-        // For now everyone goes to the start page; the requested page in `redirect_to` is ignored.
-        $redirect = AdminAccess::homeUrl();
+        $requested = \is_string($_GET['redirect_to'] ?? null) ? \wp_unslash($_GET['redirect_to']) : '';
+        $requested = $requested === '' ? '' : \wp_validate_redirect($requested, '');
+        $redirect = $requested === '' ? AdminAccess::homeUrl() : $requested;
         $hidden = Form::hidden(self::FIELD, Redirect::currentUrl());
         $form = \wp_login_form([
             'echo' => false,
             'redirect' => $redirect,
             'label_username' => \__('Username or email address', 'orchestra-core'),
+            // WordPress's own translation says "Anmelden", which the projects use for taking part.
+            'label_log_in' => \__('Log in', 'orchestra-core'),
         ]);
         $form = \str_replace('</form>', $hidden . '</form>', (string) $form);
         $form = (string) \preg_replace('/(<input[^>]+id="(?:user_login|user_pass)")/', '$1 required', $form);

@@ -176,4 +176,9 @@ Core provides the shared pieces in `Orchestra\Core\Ui`:
   the start page, hides the admin toolbar for them and sends them there after login. The filter
   `orchestra_core_restrict_admin` can change this.
 - `PageSetup`: the "Create Orchestra pages" button for administrators.
+- `LoginShortcode` and `LoginPageRedirect`: the login page. Links that need a login, e.g. a sheet
+  music download (`admin-post.php`) or a page of the site, lead to the Orchestra login page with
+  `redirect_to`, and the login returns there (only URLs of the site). wp-admin and forced
+  re-logins keep WordPress's login screen. The Orchestra pages have no "Log out" link of their own:
+  it is the "Log in / Log out" entry of the site's menu and on the login page.
 

@@ -254,7 +254,7 @@ support in their profile. Only organizers see the payments.
 ### Comment and note
 
 When responding, a member can add a comment for the organizers, e.g. that they can only come to
-some of the concerts. They can change it later, as long as the project is open or in preparation.
+some of the concerts. They can change it later, as long as the project is open for participation.
 Organizers can add a note to every participation. Both are visible to organizers only (the member
 also sees their own comment, never the note); conductors see neither. Both are removed when the
 member's account is deleted.

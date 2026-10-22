@@ -22,6 +22,8 @@ Core repo providing some fundamental functionality to the orchestra plugins and 
   - **Create Orchestra pages**: one click creates all pages with their shortcodes
   - a menu entry "Log in / Log out" for the site's menu (**Appearance → Menus**, box "Orchestra"):
     visitors see "Log in", logged-in users "Log out"
+- The site stays internal: search engines are kept out (no indexing, sitemaps or feeds), and
+  visitors cannot find out who has an account
 
 Emails to members and project participants are a plugin of their own,
 [orchestra-email](https://github.com/TheRacoonOfDeath/orchestra-email), since 0.7.

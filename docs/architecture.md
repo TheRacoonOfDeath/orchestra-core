@@ -178,7 +178,17 @@ Core provides the shared pieces in `Orchestra\Core\Ui`:
 - `PageSetup`: the "Create Orchestra pages" button for administrators.
 - `LoginShortcode` and `LoginPageRedirect`: the login page. Links that need a login, e.g. a sheet
   music download (`admin-post.php`) or a page of the site, lead to the Orchestra login page with
-  `redirect_to`, and the login returns there (only URLs of the site). wp-admin and forced
-  re-logins keep WordPress's login screen. The Orchestra pages have no "Log out" link of their own:
-  it is the "Log in / Log out" entry of the site's menu and on the login page.
+  `redirect_to`, and the login returns there (only URLs of the site). Without a login page, the
+  start page with its login form is used. wp-admin and forced re-logins keep WordPress's login
+  screen. The Orchestra pages have no "Log out" link of their own: it is the "Log in / Log out"
+  entry of the site's menu and on the login page.
+- `LoginPageRedirect::requireLogin()`: the plugins hook it to `admin_post_nopriv_<action>` for
+  every action that needs a login. WordPress's `auth_redirect` must not be used for this: it
+  always forces a new login and therefore leads to WordPress's login screen. After a form
+  (`POST`), the login returns to the page the form was sent from.
+- `InternalSite`: the Orchestra site is internal. Every page has `noindex` and robots.txt
+  disallows everything (independent of "Discourage search engines"); there are no sitemaps, no
+  feeds and no author archives, visitors cannot list users in the REST API, and oEmbed data does
+  not name the author. The filter `orchestra_core_internal_site` (return `false`) turns this off,
+  e.g. for a public website on the same installation.
 

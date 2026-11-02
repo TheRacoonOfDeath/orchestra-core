@@ -54,8 +54,8 @@ of the site through a shortcode, and those pages look good with any theme.
 - Markup uses the components of `assets/orchestra-ui.css` (cards, tables, badges, forms, tabs,
   notices). Shortcodes wrap their output in `Html::page()`, wp-admin screens in `Html::adminPage()`.
   Tables use `Html::table()`, which stacks rows on phones.
-- Every area registers a `MenuItem`, so it appears in `[orchestra_menu]`, on the start page and in
-  "Create Orchestra pages".
+- Every area registers a `MenuItem`, so it appears in `[orchestra_menu]` and on the start page, and
+  administrators are offered to create its page in wp-admin.
 - Check new pages at phone and desktop width.
 
 ## Translations

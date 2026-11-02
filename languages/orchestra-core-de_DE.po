@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-20 14:35+0200\n"
+"POT-Creation-Date: 2026-11-02 13:01+0100\n"
 "PO-Revision-Date: 2026-10-16 00:00+0000\n"
 "Last-Translator: Julian Nickerl\n"
 "Language-Team: German\n"
@@ -36,14 +36,8 @@ msgid "Page {PAGE_NUM} of {PAGE_COUNT}"
 msgstr "Seite {PAGE_NUM} von {PAGE_COUNT}"
 
 #: src/Ui/EmailMoved.php:39
-msgid ""
-"Emails are now a plugin of their own: Orchestra Email. Install and activate "
-"it to write emails again; your sent emails and emails that are still being "
-"sent are kept."
-msgstr ""
-"E-Mails sind jetzt ein eigenes Plugin: Orchestra Email. Installiere und "
-"aktiviere es, um wieder E-Mails zu schreiben; deine gesendeten E-Mails und E-"
-"Mails, die noch verschickt werden, bleiben erhalten."
+msgid "Emails are now a plugin of their own: Orchestra Email. Install and activate it to write emails again; your sent emails and emails that are still being sent are kept."
+msgstr "E-Mails sind jetzt ein eigenes Plugin: Orchestra Email. Installiere und aktiviere es, um wieder E-Mails zu schreiben; deine gesendeten E-Mails und E-Mails, die noch verschickt werden, bleiben erhalten."
 
 #: src/Ui/EmailMoved.php:43
 msgid "Download Orchestra Email"
@@ -67,19 +61,15 @@ msgid "Orchestra language"
 msgstr "Orchestersprache"
 
 #: src/Ui/Language.php:135
-msgid ""
-"The language of the Orchestra pages and screens. WordPress itself keeps the "
-"site language."
-msgstr ""
-"Die Sprache der Orchesterseiten und -ansichten. WordPress selbst behält die "
-"Sprache der Website."
+msgid "The language of the Orchestra pages and screens. WordPress itself keeps the site language."
+msgstr "Die Sprache der Orchesterseiten und -ansichten. WordPress selbst behält die Sprache der Website."
 
 #: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:47
 msgid "Log out"
 msgstr "Ausloggen"
 
 #: src/Ui/LoginMenuItem.php:73 src/Ui/NavigationShortcodes.php:33
-#: src/Ui/PageSetup.php:37 src/Ui/PageSetup.php:85
+#: src/Ui/PageSetup.php:34 src/Ui/PageSetup.php:74
 msgid "Orchestra"
 msgstr "Orchester"
 
@@ -128,38 +118,33 @@ msgid "Hello %s!"
 msgstr "Hallo %s!"
 
 #: src/Ui/NavigationShortcodes.php:64
-msgid ""
-"There is nothing here for you yet. If you are missing something, ask an "
-"organizer."
+msgid "There is nothing here for you yet. If you are missing something, ask an organizer."
 msgstr "Hier gibt es noch nichts für dich. Wenn dir etwas fehlt, frag einen Organisator."
 
-#: src/Ui/PageSetup.php:39
-msgid ""
-"Members, conductors and organizers use the Orchestra pages instead of the "
-"dashboard. Create them?"
-msgstr ""
-"Mitglieder, Dirigenten und Organisatoren nutzen statt des Dashboards die "
-"Orchesterseiten. Sollen sie angelegt werden?"
-
-#: src/Ui/PageSetup.php:42
-msgid "Create Orchestra pages"
-msgstr "Orchesterseiten anlegen"
-
-#: src/Ui/PageSetup.php:43
-msgid "I will add the shortcodes myself"
-msgstr "Ich füge die Shortcodes selbst ein"
-
-#: src/Ui/PageSetup.php:54
-msgid "You are not allowed to create pages."
-msgstr "Du darfst keine Seiten anlegen."
-
-#: src/Ui/PageSetup.php:59
-msgid "The Orchestra pages have been created."
-msgstr "Die Orchesterseiten wurden angelegt."
-
-#: src/Ui/PageSetup.php:88
+#: src/Ui/PageSetup.php:35
 msgid "Login"
 msgstr "Einloggen"
 
-#~ msgid "There is nothing here for you yet."
-#~ msgstr "Hier gibt es für dich noch nichts."
+#: src/Ui/PageSetup.php:76
+msgid "Members, conductors and organizers use the Orchestra pages instead of the dashboard. These pages do not exist yet. Which of them should be created?"
+msgstr "Mitglieder, Dirigenten und Organisatoren nutzen die Orchesterseiten statt des Dashboards. Diese Seiten gibt es noch nicht. Welche davon sollen angelegt werden?"
+
+#: src/Ui/PageSetup.php:82
+msgid "Create selected pages"
+msgstr "Ausgewählte Seiten anlegen"
+
+#: src/Ui/PageSetup.php:86
+msgid "I will add the shortcodes myself"
+msgstr "Ich füge die Shortcodes selbst ein"
+
+#: src/Ui/PageSetup.php:97
+msgid "You are not allowed to create pages."
+msgstr "Du darfst keine Seiten anlegen."
+
+#: src/Ui/PageSetup.php:103
+msgid "Choose the pages to create."
+msgstr "Wähle die Seiten aus, die angelegt werden sollen."
+
+#: src/Ui/PageSetup.php:110
+msgid "The Orchestra pages have been created."
+msgstr "Die Orchesterseiten wurden angelegt."

@@ -179,7 +179,11 @@ Core provides the shared pieces in `Orchestra\Core\Ui`:
 - `AdminAccess`: sends users whose roles are all Orchestra roles (and subscriber) from wp-admin to
   the start page, hides the admin toolbar for them and sends them there after login. The filter
   `orchestra_core_restrict_admin` can change this.
-- `PageSetup`: the "Create Orchestra pages" button for administrators.
+- `PageSetup`: a wp-admin notice for administrators that lists every missing Orchestra page (start
+  page, login, and the page of every area) with an unticked checkbox and creates the selected ones;
+  area pages become children of the start page. "I will add the shortcodes myself" hides it for the
+  pages missing at that moment (option `orchestra_core_page_setup_dismissed`, a list of shortcodes);
+  a new area brings it back.
 - `LoginShortcode` and `LoginPageRedirect`: the login page. Links that need a login, e.g. a sheet
   music download (`admin-post.php`) or a page of the site, lead to the Orchestra login page with
   `redirect_to`, and the login returns there (only URLs of the site). Without a login page, the

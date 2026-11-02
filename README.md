@@ -19,7 +19,8 @@ Core repo providing some fundamental functionality to the orchestra plugins and 
   - `[orchestra_portal]` start page, `[orchestra_menu]` navigation, `[orchestra_login]` login form
   - a shared, theme-aware design for all Orchestra pages
   - members, conductors and organizers are kept out of wp-admin; administrators keep it
-  - **Create Orchestra pages**: one click creates all pages with their shortcodes
+  - **Create Orchestra pages**: a notice in wp-admin lists every missing Orchestra page (also the
+    page of a new area, e.g. after installing another plugin) and creates the selected ones
   - a menu entry "Log in / Log out" for the site's menu (**Appearance → Menus**, box "Orchestra"):
     visitors see "Log in", logged-in users "Log out"
 - The site stays internal: search engines are kept out (no indexing, sitemaps or feeds), and
@@ -31,8 +32,9 @@ Emails to members and project participants are a plugin of their own,
 ## Getting started
 
 1. Install and activate orchestra-core and the other Orchestra plugins.
-2. Click **Create Orchestra pages** in the notice in wp-admin. It creates a start page
-   "Orchestra" with sub-pages for every area, each with the navigation on top.
+2. In the notice "Orchestra" at the top of wp-admin, tick the pages to create and click
+   **Create selected pages**. The start page "Orchestra" gets a sub-page for every area, each
+   with the navigation on top. When a plugin adds a new area later, the notice offers its page.
 3. Add the "Orchestra" page to your site's menu.
 
 The shortcodes can also be placed on any page by hand; see [architecture.md](docs/architecture.md#orchestra-pages).

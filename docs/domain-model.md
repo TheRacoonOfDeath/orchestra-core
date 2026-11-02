@@ -472,6 +472,9 @@ Time when both apply.
 
 The member has never been assigned to this part in another project.
 
+Where voices are given (the assignments and the voice dropdowns of the seating), the part a member
+played last time is green, a part they played before that (in any other project) yellow.
+
 ## New Parts
 
 An existing assignment is **new** when the member has never been assigned to its part in another

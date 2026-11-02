@@ -603,6 +603,13 @@ While an accepted participant has no part in a piece, the piece shows a warning 
 
 ## Alternative Flows
 
+### 1a. Take over the assignment of another piece
+
+1. User chooses another piece of the program and confirms.
+2. System removes all assignments of the piece and gives every member the part with exactly the
+   name of their part in the chosen piece. Members whose part does not exist in the piece are left
+   without a part.
+
 ### 4a. Member is already assigned to another part of this piece
 
 The member is not listed. To move them, the user removes their assignment first. A request that

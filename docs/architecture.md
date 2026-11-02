@@ -140,10 +140,13 @@ Responsibilities:
 
 - the seating plan of each project: a grid of seats, who sits where, and whether organizers are
   seated; the voices of every piece of the program can be shown on it
+- the master seating: the standing seating of all active members and organizers, which projects
+  can take over
 
-It has no shortcode of its own: it adds a "Seating" tab to the project page with the tab filters
-of orchestra-projects 0.14 (`orchestra_projects_tabs`, `orchestra_projects_tab_content`), and
-reads participation, program and assignments through `ProjectsService`. See the
+It adds a "Seating" tab to the project page with the tab filters of orchestra-projects 0.14
+(`orchestra_projects_tabs`, `orchestra_projects_tab_content`), and reads participation, program
+and assignments through `ProjectsService`. Its shortcode `[orchestra_seating]` shows the master
+seating to conductors and organizers. See the
 [orchestra-seating documentation](https://github.com/TheRacoonOfDeath/orchestra-seating/blob/main/docs/seating.md).
 
 ---
@@ -163,6 +166,7 @@ through shortcodes on normal pages ([development guidelines](development-guideli
 | `[orchestra_library]` | orchestra-library | library and downloads; piece editor for conductors |
 | `[orchestra_members]` | orchestra-members | member list; profiles and status for organizers |
 | `[orchestra_profile]` | orchestra-members | the user's own profile and password |
+| `[orchestra_seating]` | orchestra-seating | the master seating, for conductors and organizers |
 
 Core provides the shared pieces in `Orchestra\Core\Ui`:
 

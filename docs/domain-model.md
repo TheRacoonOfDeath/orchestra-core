@@ -515,12 +515,16 @@ seating itself does not depend on a piece.
 - Every project has at most one seating plan.
 - Seated are the accepted participants who are active members or organizers. Conductors are never
   seated. Organizers are seated by default; this can be switched off per project.
-- A new plan has a seat for everyone. Rows and columns can be added; only an empty last row or
-  column can be removed, and the grid always keeps a seat for everyone.
+- A new plan has a seat for everyone. Rows and columns can be inserted and deleted anywhere;
+  people on a deleted row or column are no longer seated. The grid never grows by itself.
+- A person can be put between two people of a row; the others move towards the nearest empty seat
+  of the row, and a full row gets a new column.
 - Everyone who sees the seating can step through the pieces of the program; only the voices
   change (first shown: the first piece).
-- The seating of another project can be imported: people who take part in both projects keep
-  their seat, the seats of everyone else stay empty, and new people are not seated.
+- There is one master seating of all active members and organizers, arranged by conductors and
+  organizers. A project can take it over: participants keep their row, every row is closed up to
+  the left, empty rows and columns are removed, and people not in the master seating are not
+  seated.
 - Conductors and organizers arrange the seating; members see it once it has been arranged.
 - The seating of completed projects cannot be changed.
 - People who no longer take part (declined, inactive, deleted) leave the seating.

@@ -529,6 +529,8 @@ seating itself does not depend on a piece.
   of the row, and a full row gets a new column.
 - Everyone who sees the seating can step through the pieces of the program; only the voices
   change (first shown: the first piece).
+- Conductors and organizers can change a person's voice in the seating; this changes the person's
+  assignment in the project, with the rules of assignments.
 - There is one master seating of all active members and organizers, arranged by conductors and
   organizers. A project can take it over: participants keep their row, every row is closed up to
   the left, empty rows and columns are removed, and people not in the master seating are not

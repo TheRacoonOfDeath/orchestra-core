@@ -184,6 +184,7 @@ An ordered list of pieces (see Program Entry).
 Draft
 → Open for Participation
 → Preparation
+→ Parts Assigned
 → Completed
 
 Organizers move a project one status forward or back, e.g. back to Open for Participation for
@@ -194,9 +195,14 @@ late responses.
 | Draft | no | no | no |
 | Open for Participation | yes | yes | yes |
 | Preparation | yes | no | yes |
+| Parts Assigned | yes | no | yes |
 | Completed | yes | no | no |
 
 Completed projects leave the list of active projects and are listed separately.
+
+Members see the assignments (their own parts and sheet music, who plays which part) and the
+seating only from Parts Assigned on. Before, they are told that the parts have not been assigned
+yet, or that the seating has not been finished yet. Conductors and organizers always see them.
 
 Organizers and conductors see projects in every status.
 

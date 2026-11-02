@@ -298,6 +298,8 @@ to new programs but remain visible in old projects and the assignment history.
 
 A part represents a playable role within a piece.
 
+A part is also called a voice.
+
 Parts are defined individually for each piece.
 
 There is no global catalog of parts.
@@ -306,27 +308,32 @@ There is no global catalog of parts.
 
 For one piece:
 
-- Horn 1
-- Horn 2
-- Percussion
+- Gitarre 1
+- Gitarre 2
+- Bass
 
 For another piece:
 
-- Solo Flute
-- Accompaniment
-- Synthesizer
+- Solo Oktavgitarre
+- Quartgitarre 1 (tief)
 
 ## Attributes
 
-- Name
-- Description
+- Instrument, from the list of instruments
+- Solo (yes or no)
+- Number (none, or 1 to 20)
+- Free text (optional)
 - Sheet Music
+
+The name of a part is built from these: "Solo Gitarre 1 (tief)", leaving out what is empty.
 
 ## Business Rules
 
-Part names are not standardized.
+Every part has an instrument or a free text.
 
-Conductors may create arbitrary names.
+The instruments come from one list, maintained by the conductors and shown alphabetically.
+Conductors may add instruments, rename them (which renames their parts) and delete those no part
+uses.
 
 Part names are unique within a piece.
 

@@ -204,17 +204,27 @@ Conductor
 ## Flow
 
 1. Conductor opens a piece.
-2. Conductor creates one or more parts.
-3. System validates that part names are unique within the piece.
+2. Conductor creates one or more parts, each from an instrument, optionally "Solo", a number and
+   a free text.
+3. System validates that every part has an instrument or a free text and that part names are
+   unique within the piece.
 4. System stores the parts.
 
 ## Example
 
-Pirates of the Caribbean
+El Camino Real
 
-- Horn 1
-- Horn 2
-- Percussion
+- Solo Gitarre
+- Gitarre 1
+- Gitarre 2
+- Bass
+
+## Alternative Flows
+
+### 2a. The instrument is missing
+
+1. Conductor adds the instrument to the list of instruments.
+2. Conductor continues with step 2.
 
 ## Postconditions
 

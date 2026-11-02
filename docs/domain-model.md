@@ -17,11 +17,12 @@ Its purpose is to define business concepts and ownership boundaries.
 
 # Domain Overview
 
-The system consists of three primary domains:
+The system consists of four primary domains:
 
 - Members
 - Library
 - Projects
+- Seating
 
 The following entities exist within these domains:
 

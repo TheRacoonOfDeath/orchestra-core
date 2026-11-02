@@ -85,6 +85,7 @@ All text shown to users is written in English and translated; German is included
 - Orchestra\Projects
 - Orchestra\Members
 - Orchestra\Email
+- Orchestra\Seating
 
 ## Plugins
 

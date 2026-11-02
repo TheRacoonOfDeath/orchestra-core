@@ -146,8 +146,9 @@
     // Registered after the confirmations, so a cancelled submit is not remembered.
     document.addEventListener('submit', function (event) {
         var form = event.target;
+        // getAttribute(), as form.action is the hidden field "action" of an Orchestra form.
         if (event.defaultPrevented || !(form instanceof HTMLFormElement)
-            || form.action.indexOf('admin-post.php') === -1) {
+            || (form.getAttribute('action') || '').indexOf('admin-post.php') === -1) {
             return;
         }
         try {

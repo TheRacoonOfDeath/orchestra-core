@@ -173,7 +173,10 @@ Core provides the shared pieces in `Orchestra\Core\Ui`:
 - `Assets`: the stylesheet and script, loaded on pages with Orchestra shortcodes and on Orchestra
   screens in wp-admin. The design inherits the theme's font and colors; the accent color follows
   the theme's primary color and can be changed with `--orchestra-accent`.
-- `Html`, `Form`, `Redirect`, `Notices`: building blocks for views and handlers.
+- `Html`, `Form`, `Redirect`, `Notices`: building blocks for views and handlers. After a form
+  returns to the same page, the script restores the scroll position (kept in `sessionStorage` for
+  a minute) and floats that page's notices at the bottom of the screen; success notices disappear
+  after a few seconds. wp-admin screens open at the top, where WordPress shows the notices.
 - `Pages`: finds the page that contains a shortcode, so pages link to each other without settings.
 - `Menu` / `MenuItem`: the areas registered by the plugins.
 - `AdminAccess`: sends users whose roles are all Orchestra roles (and subscriber) from wp-admin to

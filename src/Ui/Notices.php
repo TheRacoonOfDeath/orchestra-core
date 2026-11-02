@@ -59,18 +59,25 @@ final class Notices
     {
         $html = '';
         foreach (self::take() as [$type, $message]) {
-            $html .= self::html($type, $message);
+            $html .= self::html($type, $message, true);
         }
 
         return $html;
     }
 
-    public static function html(string $type, string $message): string
+    /**
+     * @param bool $returned The notice reports a form that returned to the page; orchestra-ui.js
+     *        then floats it at the bottom of the screen if the page keeps its scroll position
+     */
+    public static function html(string $type, string $message, bool $returned = false): string
     {
         $role = $type === 'error' ? 'alert' : 'status';
+        $returnedAttribute = $returned
+            ? ' data-orchestra-returned data-orchestra-close="' . \esc_attr__('Close', 'orchestra-core') . '"'
+            : '';
 
-        return '<div class="orchestra-notice orchestra-notice--' . \esc_attr($type) . '" role="' . $role . '"><p>'
-            . \esc_html($message) . '</p></div>';
+        return '<div class="orchestra-notice orchestra-notice--' . \esc_attr($type) . '" role="' . $role . '"'
+            . $returnedAttribute . '><p>' . \esc_html($message) . '</p></div>';
     }
 
     /**

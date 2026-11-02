@@ -427,6 +427,52 @@ a.orchestra-card:focus-visible {
     border-left-color: var(--orchestra-warning);
 }
 
+/* Notices of a form that returned to the same scroll position float at the bottom of the screen. */
+.orchestra-notices--floating {
+    bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    left: 50%;
+    max-width: min(32rem, calc(100vw - 2rem));
+    position: fixed;
+    transform: translateX(-50%);
+    width: 100%;
+    z-index: 100000;
+}
+
+.orchestra-notices--floating .orchestra-notice {
+    align-items: flex-start;
+    /* Opaque, as the page shows through the surface color. */
+    background: linear-gradient(var(--orchestra-surface-strong), var(--orchestra-surface-strong)), Canvas;
+    box-shadow: 0 4px 16px rgb(0 0 0 / 18%);
+    color: CanvasText;
+    display: flex;
+    gap: 0.75rem;
+    margin: 0;
+}
+
+.orchestra-notices--floating .orchestra-notice p {
+    flex: 1;
+    margin: 0;
+}
+
+.orchestra-notice__close {
+    background: none;
+    border: 0;
+    color: var(--orchestra-muted);
+    cursor: pointer;
+    font: inherit;
+    font-size: 1.25rem;
+    line-height: 1;
+    padding: 0 0.25rem;
+}
+
+.orchestra-notice__close:hover,
+.orchestra-notice__close:focus-visible {
+    color: inherit;
+}
+
 .orchestra-empty {
     border: 1px dashed var(--orchestra-border);
     border-radius: var(--orchestra-radius);

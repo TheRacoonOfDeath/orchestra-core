@@ -50,7 +50,10 @@ of the site through a shortcode, and those pages look good with any theme.
 - wp-admin screens and shortcodes render the **same view classes** and post to the **same
   handlers**. Never build a function only for wp-admin.
 - Forms post to `admin-post.php` with `Orchestra\Core\Ui\Form` (nonce, `redirect_to`); handlers
-  return with `Redirect::back()` and report with `Notices`.
+  return with `Redirect::back()` and report with `Notices`. `orchestra-ui.js` brings the page
+  back to the scroll position it had and floats the notices at the bottom of the screen, so a
+  change does not send the user to the top. Scripts that submit a form themselves use
+  `form.requestSubmit()` (not `form.submit()`, which skips this).
 - Markup uses the components of `assets/orchestra-ui.css` (cards, tables, badges, forms, tabs,
   notices). Shortcodes wrap their output in `Html::page()`, wp-admin screens in `Html::adminPage()`.
   Tables use `Html::table()`, which stacks rows on phones.

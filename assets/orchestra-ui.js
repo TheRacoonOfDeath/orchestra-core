@@ -17,9 +17,88 @@
  *   reordered by dragging their [data-orchestra-drag-handle] (mouse and touch; the page scrolls
  *   near the window edges) or with the arrow keys while the handle has focus. The order is
  *   submitted through fields inside the rows.
+ * - Forms posting to admin-post.php return to the same scroll position (not in wp-admin): the position is kept in
+ *   sessionStorage on submit and restored if the next page is the same page (same path, all of its
+ *   query arguments) within a minute. Notices of that return ([data-orchestra-returned]) then float
+ *   at the bottom of the screen; success notices disappear after a few seconds, others stay until
+ *   closed. Scripts that submit a form themselves use form.requestSubmit(), so this still works.
  */
 (function () {
     'use strict';
+
+    var SCROLL_KEY = 'orchestra-scroll';
+    var SCROLL_MAX_AGE = 60000;
+    var SUCCESS_SECONDS = 5;
+
+    function readScroll() {
+        try {
+            var stored = window.sessionStorage.getItem(SCROLL_KEY);
+            window.sessionStorage.removeItem(SCROLL_KEY);
+            return stored ? JSON.parse(stored) : null;
+        } catch (error) {
+            return null;
+        }
+    }
+
+    // The same page: same path, and every query argument of the old page is still there.
+    function isSamePage(stored) {
+        if (!stored || typeof stored.y !== 'number' || Date.now() - stored.at > SCROLL_MAX_AGE
+            || stored.path !== window.location.pathname) {
+            return false;
+        }
+        var current = new URLSearchParams(window.location.search);
+        var previous = new URLSearchParams(stored.query);
+        var same = true;
+        previous.forEach(function (value, name) {
+            if (current.getAll(name).indexOf(value) === -1) {
+                same = false;
+            }
+        });
+
+        return same;
+    }
+
+    function floatNotices() {
+        var notices = document.querySelectorAll('.orchestra-notice[data-orchestra-returned]');
+        if (notices.length === 0) {
+            return;
+        }
+        var container = document.createElement('div');
+        container.className = 'orchestra-notices--floating';
+        (notices[0].closest('.orchestra') || document.body).appendChild(container);
+        Array.prototype.forEach.call(notices, function (notice) {
+            var close = document.createElement('button');
+            close.type = 'button';
+            close.className = 'orchestra-notice__close';
+            close.setAttribute('aria-label', notice.getAttribute('data-orchestra-close') || 'Close');
+            close.textContent = '\u00d7';
+            close.addEventListener('click', function () {
+                notice.remove();
+            });
+            notice.appendChild(close);
+            container.appendChild(notice);
+            if (notice.classList.contains('orchestra-notice--success')) {
+                window.setTimeout(function () {
+                    notice.remove();
+                }, SUCCESS_SECONDS * 1000);
+            }
+        });
+    }
+
+    // wp-admin shows its notices at the top of the screen, so its pages open at the top.
+    var returned = readScroll();
+    if (!document.body.classList.contains('wp-admin') && isSamePage(returned)) {
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+        floatNotices();
+        var restore = function () {
+            window.scrollTo(0, returned.y);
+        };
+        restore();
+        // Images and fonts that load later can still change the height of the page.
+        window.addEventListener('load', restore);
+    }
 
     document.addEventListener('submit', function (event) {
         var form = event.target;
@@ -61,6 +140,25 @@
                     move.value = '1';
                 }
             }
+        }
+    });
+
+    // Registered after the confirmations, so a cancelled submit is not remembered.
+    document.addEventListener('submit', function (event) {
+        var form = event.target;
+        if (event.defaultPrevented || !(form instanceof HTMLFormElement)
+            || form.action.indexOf('admin-post.php') === -1) {
+            return;
+        }
+        try {
+            window.sessionStorage.setItem(SCROLL_KEY, JSON.stringify({
+                path: window.location.pathname,
+                query: window.location.search,
+                y: window.scrollY,
+                at: Date.now()
+            }));
+        } catch (error) {
+            // Without storage the page opens at the top, as without JavaScript.
         }
     });
 

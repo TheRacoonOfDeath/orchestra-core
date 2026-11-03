@@ -18,7 +18,7 @@ final class LoginPageRedirectTest extends TestCase
 
         $this->assertSame(
             self::PAGE . '?redirect_to=' . \rawurlencode($download),
-            LoginPageRedirect::orchestraLoginUrl(self::PAGE, $download, false, self::ADMIN)
+            LoginPageRedirect::orchestraLoginUrl(self::PAGE, $download, false)
         );
     }
 
@@ -29,18 +29,35 @@ final class LoginPageRedirectTest extends TestCase
             LoginPageRedirect::orchestraLoginUrl(
                 'https://example.com/?page_id=5',
                 'https://example.com/projects/',
-                false,
-                self::ADMIN
+                false
             )
         );
-        $this->assertSame(self::PAGE, LoginPageRedirect::orchestraLoginUrl(self::PAGE, '', false, self::ADMIN));
     }
 
-    public function testWpAdminAndForcedLoginsKeepWordPressLogin(): void
+    public function testForcedLoginsAndLoginsWithoutDestinationKeepWordPressLogin(): void
     {
-        $this->assertNull(
-            LoginPageRedirect::orchestraLoginUrl(self::PAGE, self::ADMIN . 'edit.php', false, self::ADMIN)
-        );
-        $this->assertNull(LoginPageRedirect::orchestraLoginUrl(self::PAGE, 'https://example.com/', true, self::ADMIN));
+        $this->assertNull(LoginPageRedirect::orchestraLoginUrl(self::PAGE, 'https://example.com/projects/', true));
+        $this->assertNull(LoginPageRedirect::orchestraLoginUrl(self::PAGE, '', false));
+    }
+
+    public function testOnlyOrchestraActionsOfAdminPostAreOrchestraLinks(): void
+    {
+        $this->assertTrue(LoginPageRedirect::isOrchestraAction(
+            self::ADMIN . 'admin-post.php?file=3&action=orchestra_library_download',
+            self::ADMIN
+        ));
+        $this->assertFalse(LoginPageRedirect::isOrchestraAction(
+            self::ADMIN . 'admin-post.php?action=shop_export',
+            self::ADMIN
+        ));
+        $this->assertFalse(LoginPageRedirect::isOrchestraAction(self::ADMIN . 'admin-post.php', self::ADMIN));
+        $this->assertFalse(LoginPageRedirect::isOrchestraAction(
+            self::ADMIN . 'edit.php?action=orchestra_library_download',
+            self::ADMIN
+        ));
+        $this->assertFalse(LoginPageRedirect::isOrchestraAction(
+            'https://example.com/shop/?action=orchestra_library_download',
+            self::ADMIN
+        ));
     }
 }

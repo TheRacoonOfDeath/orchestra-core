@@ -4,64 +4,130 @@ declare(strict_types=1);
 
 namespace Orchestra\Core\Ui;
 
+use Orchestra\Core\Authorization\Roles;
+use WP_Post;
+use WP_User;
+
 /**
- * The Orchestra pages are internal: search engines are kept out, and visitors cannot find out who
- * has an account. Independent of the "Discourage search engines" setting:
+ * The Orchestra pages are internal, also when they are an area inside a public website: only they
+ * are hidden, the rest of the site is left alone.
  *
- * - every page has `noindex`, and robots.txt disallows everything
- * - no sitemaps and no feeds
- * - no author archives, no user list in the REST API for visitors, no author in oEmbed data
+ * - Pages (and posts) with an Orchestra shortcode have `noindex`, are left out of the sitemaps and
+ *   cannot be embedded (oEmbed).
+ * - The author archives of users with an Orchestra role who have published nothing are not found,
+ *   so visitors cannot find out who has an account. WordPress already hides such users in the REST
+ *   API and the users sitemap.
  *
- * The filter `orchestra_core_internal_site` (bool) turns this off, e.g. for a public website on the
- * same WordPress installation.
+ * A site that is only the orchestra hides everything with WordPress's "Discourage search engines"
+ * (Settings → Reading).
  */
 final class InternalSite
 {
-    public const FILTER = 'orchestra_core_internal_site';
-
-    private const USER_ROUTES = ['/wp/v2/users', '/wp/v2/users/(?P<id>[\d]+)'];
+    private const SHORTCODE_PREFIX = '[orchestra_';
 
     public static function register(): void
     {
-        \add_action('init', [self::class, 'registerHooks']);
-    }
-
-    /**
-     * @internal Hooked to `init`, so that themes and plugins can use the filter.
-     */
-    public static function registerHooks(): void
-    {
-        if (\apply_filters(self::FILTER, true) !== true) {
-            return;
-        }
-
-        \add_filter('wp_robots', 'wp_robots_no_robots');
-        \add_filter('robots_txt', [self::class, 'robotsTxt']);
-        \add_filter('wp_sitemaps_enabled', '__return_false');
-        \remove_action('wp_head', 'feed_links', 2);
-        \remove_action('wp_head', 'feed_links_extra', 3);
+        \add_filter('wp_robots', [self::class, 'robots']);
+        \add_filter('wp_sitemaps_posts_query_args', [self::class, 'sitemapQueryArgs']);
+        \add_filter('oembed_request_post_id', [self::class, 'oembedPostId']);
+        \add_filter('oembed_discovery_links', [self::class, 'oembedDiscoveryLinks']);
         \add_action('template_redirect', [self::class, 'notFound'], 1);
-        \add_filter('rest_endpoints', [self::class, 'restEndpoints']);
-        \add_filter('oembed_response_data', [self::class, 'withoutAuthor']);
     }
 
     /**
-     * @internal Hooked to `robots_txt`.
+     * Whether content contains an Orchestra shortcode.
      */
-    public static function robotsTxt(): string
+    public static function isOrchestraContent(string $content): bool
     {
-        return "User-agent: *\nDisallow: /\n";
+        return \str_contains($content, self::SHORTCODE_PREFIX);
     }
 
     /**
-     * Feeds and author archives are not found.
+     * Whether the author archive of a user is hidden: users with an Orchestra role who have
+     * published nothing. Authors of the website keep their archive.
      *
-     * @internal Hooked to `template_redirect`, before the redirect of `?author=`.
+     * @param list<string> $roles
+     */
+    public static function hidesAuthor(array $roles, int $publishedPosts): bool
+    {
+        return \array_intersect($roles, Roles::GRANTABLE) !== [] && $publishedPosts === 0;
+    }
+
+    /**
+     * @internal Hooked to `wp_robots`.
+     *
+     * @param array<string, bool|string> $robots
+     * @return array<string, bool|string>
+     */
+    public static function robots(array $robots): array
+    {
+        return self::isOrchestraSingular() ? \wp_robots_no_robots($robots) : $robots;
+    }
+
+    /**
+     * @internal Hooked to `wp_sitemaps_posts_query_args`.
+     *
+     * @param array<string, mixed> $args
+     * @return array<string, mixed>
+     */
+    public static function sitemapQueryArgs(array $args): array
+    {
+        return self::withoutPosts($args, Pages::orchestraPostIds());
+    }
+
+    /**
+     * Adds posts to the `post__not_in` of query arguments.
+     *
+     * @param array<string, mixed> $args
+     * @param list<int> $postIds
+     * @return array<string, mixed>
+     */
+    public static function withoutPosts(array $args, array $postIds): array
+    {
+        if ($postIds === []) {
+            return $args;
+        }
+        $excluded = \is_array($args['post__not_in'] ?? null)
+            ? \array_map('intval', \array_filter($args['post__not_in'], 'is_numeric'))
+            : [];
+        $args['post__not_in'] = \array_values(\array_unique([...$excluded, ...$postIds]));
+
+        return $args;
+    }
+
+    /**
+     * Orchestra pages cannot be embedded: the oEmbed endpoint does not find them.
+     *
+     * @internal Hooked to `oembed_request_post_id`.
+     */
+    public static function oembedPostId(int $postId): int
+    {
+        $post = \get_post($postId);
+
+        return $post instanceof WP_Post && self::isOrchestraContent($post->post_content) ? 0 : $postId;
+    }
+
+    /**
+     * @internal Hooked to `oembed_discovery_links`.
+     */
+    public static function oembedDiscoveryLinks(string $links): string
+    {
+        return self::isOrchestraSingular() ? '' : $links;
+    }
+
+    /**
+     * The embed view of Orchestra pages and the hidden author archives are not found.
+     *
+     * @internal Hooked to `template_redirect`, before the redirect of `?author=` to the archive.
      */
     public static function notFound(): void
     {
         global $wp_query;
-        if (!(\is_feed() || \is_author()) || !$wp_query instanceof \WP_Query) {
+        if (!$wp_query instanceof \WP_Query) {
+            return;
+        }
+        $hidden = (\is_embed() && self::isOrchestraSingular()) || (\is_author() && self::isHiddenAuthor());
+        if (!$hidden) {
             return;
         }
 
@@ -70,36 +136,24 @@ final class InternalSite
         \nocache_headers();
     }
 
-    /**
-     * @internal Hooked to `rest_endpoints`.
-     *
-     * @param array<string, mixed> $endpoints
-     * @return array<string, mixed>
-     */
-    public static function restEndpoints(array $endpoints): array
+    private static function isOrchestraSingular(): bool
     {
-        return \is_user_logged_in() ? $endpoints : self::withoutUserRoutes($endpoints);
+        $post = \is_singular() ? \get_queried_object() : null;
+
+        return $post instanceof WP_Post && self::isOrchestraContent($post->post_content);
     }
 
-    /**
-     * @param array<string, mixed> $endpoints
-     * @return array<string, mixed>
-     */
-    public static function withoutUserRoutes(array $endpoints): array
+    private static function isHiddenAuthor(): bool
     {
-        return \array_diff_key($endpoints, \array_flip(self::USER_ROUTES));
-    }
+        $user = \get_queried_object();
+        if (!$user instanceof WP_User) {
+            return false;
+        }
+        $publicTypes = \array_values(\get_post_types(['public' => true]));
 
-    /**
-     * @internal Hooked to `oembed_response_data`.
-     *
-     * @param array<string, mixed> $data
-     * @return array<string, mixed>
-     */
-    public static function withoutAuthor(array $data): array
-    {
-        unset($data['author_name'], $data['author_url']);
-
-        return $data;
+        return self::hidesAuthor(
+            \array_values($user->roles),
+            (int) \count_user_posts($user->ID, $publicTypes, true)
+        );
     }
 }

@@ -23,8 +23,10 @@ Core repo providing some fundamental functionality to the orchestra plugins and 
     page of a new area, e.g. after installing another plugin) and creates the selected ones
   - a menu entry "Log in / Log out" for the site's menu (**Appearance → Menus**, box "Orchestra"):
     visitors see "Log in", logged-in users "Log out"
-- The site stays internal: search engines are kept out (no indexing, sitemaps or feeds), and
-  visitors cannot find out who has an account
+- The Orchestra pages stay internal, also as an area inside a public website: search engines do
+  not index them, sitemaps and embeds leave them out, and visitors cannot find out who has an
+  account. The rest of the website is not affected; a site that is only the orchestra ticks
+  **Settings → Reading → Discourage search engines**
 
 Emails to members and project participants are a plugin of their own,
 [orchestra-email](https://github.com/TheRacoonOfDeath/orchestra-email), since 0.7.

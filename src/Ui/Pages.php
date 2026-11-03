@@ -64,6 +64,27 @@ final class Pages
         \delete_option(self::CACHE_OPTION);
     }
 
+    /**
+     * The published pages and posts that contain any Orchestra shortcode.
+     *
+     * @return list<int>
+     */
+    public static function orchestraPostIds(): array
+    {
+        global $wpdb;
+        if (!$wpdb instanceof \wpdb) {
+            return [];
+        }
+
+        $ids = $wpdb->get_col($wpdb->prepare(
+            "SELECT ID FROM %i WHERE post_status = 'publish' AND post_content LIKE %s",
+            $wpdb->posts,
+            '%' . $wpdb->esc_like('[orchestra_') . '%'
+        ));
+
+        return \array_values(\array_map('intval', \array_filter($ids, 'is_numeric')));
+    }
+
     private static function find(string $shortcode): int
     {
         global $wpdb;

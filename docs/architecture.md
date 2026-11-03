@@ -187,19 +187,27 @@ Core provides the shared pieces in `Orchestra\Core\Ui`:
   area pages become children of the start page. "I will add the shortcodes myself" hides it for the
   pages missing at that moment (option `orchestra_core_page_setup_dismissed`, a list of shortcodes);
   a new area brings it back.
-- `LoginShortcode` and `LoginPageRedirect`: the login page. Links that need a login, e.g. a sheet
-  music download (`admin-post.php`) or a page of the site, lead to the Orchestra login page with
-  `redirect_to`, and the login returns there (only URLs of the site). Without a login page, the
-  start page with its login form is used. wp-admin and forced re-logins keep WordPress's login
-  screen. The Orchestra pages have no "Log out" link of their own: it is the "Log in / Log out"
-  entry of the site's menu and on the login page.
+- `LoginShortcode` and `LoginPageRedirect`: the login page. Orchestra links that need a login,
+  i.e. an Orchestra page (a page with an Orchestra shortcode) or an Orchestra action of
+  `admin-post.php` (`orchestra_*`, e.g. a sheet music download), lead to the Orchestra login page
+  with `redirect_to`, and the login returns there (only URLs of the site). Without a login page, the
+  start page with its login form is used. All other login links of the site (e.g. of a shop or the
+  theme), wp-admin and forced re-logins keep WordPress's login screen, so the Orchestra pages can
+  be an area inside a website with logins of its own. The Orchestra pages have no "Log out" link of
+  their own: it is the "Log in / Log out" entry of the site's menu and on the login page.
 - `LoginPageRedirect::requireLogin()`: the plugins hook it to `admin_post_nopriv_<action>` for
-  every action that needs a login. WordPress's `auth_redirect` must not be used for this: it
-  always forces a new login and therefore leads to WordPress's login screen. After a form
-  (`POST`), the login returns to the page the form was sent from.
-- `InternalSite`: the Orchestra site is internal. Every page has `noindex` and robots.txt
-  disallows everything (independent of "Discourage search engines"); there are no sitemaps, no
-  feeds and no author archives, visitors cannot list users in the REST API, and oEmbed data does
-  not name the author. The filter `orchestra_core_internal_site` (return `false`) turns this off,
-  e.g. for a public website on the same installation.
-
+  every action that needs a login; it always uses the Orchestra login page. WordPress's
+  `auth_redirect` must not be used for this: it always forces a new login and therefore leads to
+  WordPress's login screen. After a form (`POST`), the login returns to the page the form was sent
+  from.
+- `InternalSite`: the Orchestra pages are internal, also when they are an area inside a public
+  website; the rest of the site is left alone. Pages (and posts) with an Orchestra shortcode have
+  `noindex`, are left out of the sitemaps and cannot be embedded (oEmbed). The author archives of
+  users with an Orchestra role who have published nothing are not found, so visitors cannot find
+  out who has an account (WordPress itself already hides users without published posts in the REST
+  API and the users sitemap). Sheet music and attachments are private anyway (see
+  [persistence.md](persistence.md)). They are not blocked in `robots.txt`: search engines have to
+  read the pages to see `noindex`, and the file would list them. A site that is only the orchestra
+  ticks "Discourage search engines" (Settings → Reading), which makes every page `noindex`, blocks
+  `robots.txt` and turns off the sitemaps. Up to orchestra-core 0.11 the whole site was internal;
+  the filter `orchestra_core_internal_site` no longer exists.

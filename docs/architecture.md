@@ -180,7 +180,10 @@ Core provides the shared pieces in `Orchestra\Core\Ui`:
 - `Assets`: the stylesheet and script, loaded on pages with Orchestra shortcodes and on Orchestra
   screens in wp-admin. The design inherits the theme's font and colors; the accent color follows
   the theme's primary color and can be changed with `--orchestra-accent`.
-- `Html`, `Form`, `Redirect`, `Notices`: building blocks for views and handlers. After a form
+- `Html`, `Form`, `Redirect`, `Notices`: building blocks for views and handlers. The behaviour of
+  `assets/orchestra-ui.js` is chosen with `data-orchestra-*` attributes, listed at the top of the
+  script (e.g. `data-orchestra-switch` and `data-orchestra-show-for` show the parts of a row that
+  belong to the selected option, since 0.14). Everything also works without JavaScript. After a form
   returns to the same page, the script restores the scroll position (kept in `sessionStorage` for
   a minute) and floats that page's notices at the bottom of the screen; success notices disappear
   after a few seconds. wp-admin screens open at the top, where WordPress shows the notices.

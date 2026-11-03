@@ -13,6 +13,9 @@
  * - data-orchestra-confirm="Message"            on a submit button: asks before submitting with it
  * - data-orchestra-remove-row                   on a button: removes the row (<tr> or
  *   [data-orchestra-row]) it is in
+ * - data-orchestra-switch                       on a <select>: in the same row (<tr> or
+ *   [data-orchestra-row]), elements with data-orchestra-show-for="value1 value2" are only shown
+ *   while one of these values is selected; also in rows added with data-orchestra-add-row
  * - data-orchestra-sortable                     on a container (e.g. <tbody>): its children can be
  *   reordered by dragging their [data-orchestra-drag-handle] (mouse and touch; the page scrolls
  *   near the window edges) or with the arrow keys while the handle has focus. The order is
@@ -163,6 +166,30 @@
         }
     });
 
+    // Switches ---------------------------------------------------------------------------------
+
+    function applySwitch(select) {
+        var row = select.closest('[data-orchestra-row], tr');
+        if (!row) {
+            return;
+        }
+        row.querySelectorAll('[data-orchestra-show-for]').forEach(function (element) {
+            var values = element.getAttribute('data-orchestra-show-for').split(/\s+/);
+            element.hidden = values.indexOf(select.value) === -1;
+        });
+    }
+
+    function applySwitches(root) {
+        root.querySelectorAll('select[data-orchestra-switch]').forEach(applySwitch);
+    }
+
+    document.addEventListener('change', function (event) {
+        if (event.target instanceof HTMLSelectElement && event.target.hasAttribute('data-orchestra-switch')) {
+            applySwitch(event.target);
+        }
+    });
+    applySwitches(document);
+
     document.addEventListener('click', function (event) {
         var remove = event.target instanceof Element ? event.target.closest('[data-orchestra-remove-row]') : null;
         if (remove) {
@@ -191,7 +218,11 @@
         var wrapper = document.createElement('template');
         wrapper.innerHTML = template.innerHTML.replace(/__INDEX__/g, index);
         while (wrapper.content.firstElementChild) {
-            target.appendChild(wrapper.content.firstElementChild);
+            var added = target.appendChild(wrapper.content.firstElementChild);
+            applySwitches(added);
+            if (added.matches('select[data-orchestra-switch]')) {
+                applySwitch(added);
+            }
         }
         var input = target.lastElementChild && target.lastElementChild.querySelector('input, select, textarea');
         if (input) {

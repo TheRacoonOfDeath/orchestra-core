@@ -49,6 +49,11 @@
     }
 }
 
+/* Hidden by data-orchestra-switch, also where a component sets its own display (e.g. table cells). */
+[data-orchestra-show-for][hidden] {
+    display: none !important;
+}
+
 .orchestra > * + *,
 .orchestra-stack > * + * {
     margin-top: var(--orchestra-gap);

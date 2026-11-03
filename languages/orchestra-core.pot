@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 15:14+0100\n"
+"POT-Creation-Date: 2026-11-03 18:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,6 +27,82 @@ msgstr ""
 
 #: src/Authorization/Roles.php:36
 msgid "Orchestra Organizer"
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:152
+#: src/Files/PrivateDirectoryCheck.php:206
+msgid "Orchestra files are private"
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:170
+msgid "Security"
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:174
+msgid "Private Orchestra files can be downloaded by anyone"
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:178
+msgid ""
+"Anyone who knows the address of a file in these folders can download it "
+"without logging in."
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:181
+msgid "The web server ignores their .htaccess file, e.g. because it is nginx."
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:190
+msgid "Whether the Orchestra files are private could not be checked"
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:194
+msgid ""
+"The site could not request a test file from these folders, e.g. because it "
+"cannot reach itself."
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:197
+msgid "Check them yourself, or move them outside the web root."
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:210
+msgid ""
+"Sheet music and email attachments cannot be downloaded through their folders."
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:213
+msgid "They are only delivered to users who may see them."
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:257 src/Ui/LoginMenuItem.php:73
+#: src/Ui/NavigationShortcodes.php:33 src/Ui/PageSetup.php:34
+#: src/Ui/PageSetup.php:74
+msgid "Orchestra"
+msgstr ""
+
+#. translators: %s: list of folders, e.g. "Sheet music, Email attachments"
+#: src/Files/PrivateDirectoryCheck.php:260
+#, php-format
+msgid "Private files can be downloaded without logging in (%s)."
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:263
+msgid "Site Health explains how to protect them."
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:372
+msgid ""
+"Recommended: add these lines to wp-config.php, with folders outside the web "
+"root that PHP can write to."
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:375
+msgid "Move the files already stored into them:"
+msgstr ""
+
+#: src/Files/PrivateDirectoryCheck.php:379
+msgid "Or, on nginx, deny the folders in the server configuration:"
 msgstr ""
 
 #. translators: %s: date
@@ -75,11 +151,6 @@ msgstr ""
 
 #: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:47
 msgid "Log out"
-msgstr ""
-
-#: src/Ui/LoginMenuItem.php:73 src/Ui/NavigationShortcodes.php:33
-#: src/Ui/PageSetup.php:34 src/Ui/PageSetup.php:74
-msgid "Orchestra"
 msgstr ""
 
 #: src/Ui/LoginMenuItem.php:88

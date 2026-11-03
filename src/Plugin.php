@@ -10,6 +10,7 @@ use Orchestra\Core\Authorization\MetaCapabilityFilter;
 use Orchestra\Core\Ui\AdminAccess;
 use Orchestra\Core\Ui\EmailMoved;
 use Orchestra\Core\Ui\Assets;
+use Orchestra\Core\Files\PrivateDirectoryCheck;
 use Orchestra\Core\Ui\InternalSite;
 use Orchestra\Core\Ui\Language;
 use Orchestra\Core\Ui\LoginMenuItem;
@@ -96,6 +97,7 @@ final class Plugin
         NavigationShortcodes::register();
         LoginMenuItem::register();
         InternalSite::register();
+        PrivateDirectoryCheck::register();
 
         if (\is_admin()) {
             Notices::register();

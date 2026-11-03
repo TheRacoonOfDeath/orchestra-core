@@ -22,5 +22,8 @@ CapabilitySynchronizer::removeAll();
 delete_option('orchestra_core_pages');
 delete_option('orchestra_core_page_setup_dismissed');
 delete_option('orchestra_core_language');
+delete_option('orchestra_core_private_directories');
+wp_clear_scheduled_hook('orchestra_core_check_private_directories');
+wp_clear_scheduled_hook('orchestra_core_check_private_directories', [true]);
 
 delete_option('orchestra_core_github_token');

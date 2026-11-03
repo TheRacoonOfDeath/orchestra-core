@@ -123,7 +123,7 @@ Active
 
 - cannot log in
 - are told after entering a correct password that their account is inactive and that they should
-  contact an administrator (a wrong password shows the normal error, so the account status is not
+  contact the organizers (a wrong password shows the normal error, so the account status is not
   revealed to others)
 - receive no participation records for new projects
 - are not part of any communication group

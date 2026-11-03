@@ -27,6 +27,9 @@ Core repo providing some fundamental functionality to the orchestra plugins and 
   not index them, sitemaps and embeds leave them out, and visitors cannot find out who has an
   account. The rest of the website is not affected; a site that is only the orchestra ticks
   **Settings → Reading → Discourage search engines**
+- A check that the private files of the plugins (sheet music, email attachments) cannot be
+  downloaded without logging in, e.g. on nginx, which ignores `.htaccess`: **Tools → Site Health**
+  shows the result and how to fix it, and administrators see a notice while files are public
 
 Emails to members and project participants are a plugin of their own,
 [orchestra-email](https://github.com/TheRacoonOfDeath/orchestra-email), since 0.7.

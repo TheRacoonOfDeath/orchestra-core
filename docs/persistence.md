@@ -65,6 +65,13 @@ WordPress media library (attachment URLs are public).
   - Fallback: a directory inside `wp-content/uploads` with a random, unguessable name, plus
     `.htaccess` (`Require all denied`) and an empty `index.php`. nginx ignores `.htaccess`, so on
     nginx hosts the directory must be denied in the server configuration or the constant used.
+- Since orchestra-core 0.13, core checks that these directories (and those of orchestra-email)
+  cannot be downloaded: `Orchestra\Core\Files\PrivateDirectoryCheck` writes a test file into
+  every directory under the web root and requests it over HTTP, daily with WP-Cron, at once when a
+  directory changes, and whenever Site Health is opened. A public directory is a critical issue in
+  **Tools → Site Health**, with the `wp-config.php` lines and nginx rules to fix it, and a notice at
+  the top of wp-admin for administrators. Plugins add their directories during
+  `orchestra_core_register_private_directories`.
 - A file belongs either to a part (at most one file per part; a new upload replaces it) or to the
   piece itself (any number of piece files).
 - Files are stored under generated names (e.g. a UUID). The original file name is kept in the

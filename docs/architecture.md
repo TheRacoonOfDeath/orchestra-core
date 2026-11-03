@@ -64,6 +64,8 @@ Responsibilities:
 
 - roles and the capability registry (see [capabilities.md](capabilities.md))
 - the shared UI for the Orchestra pages (see below)
+- the check that the private file directories of the plugins cannot be downloaded
+  (`Orchestra\Core\Files\PrivateDirectoryCheck`, see [persistence.md](persistence.md#sheet-music-files))
 - PDF documents (`Orchestra\Core\Pdf\Pdf`, with dompdf): the plugins pass simple HTML with
   tables, core adds the page layout and sends the download. dompdf is bundled only here, so
   that the plugins do not load different versions of it.
@@ -167,6 +169,11 @@ through shortcodes on normal pages ([development guidelines](development-guideli
 | `[orchestra_members]` | orchestra-members | member list; profiles and status for organizers |
 | `[orchestra_profile]` | orchestra-members | the user's own profile and password |
 | `[orchestra_seating]` | orchestra-seating | the master seating, for conductors and organizers |
+
+The Orchestra pages are different for every logged-in user. They do not mark themselves as
+uncacheable: page caches must skip logged-in users, which the common caching plugins do by default.
+Check this for host-level caches (e.g. "cache logged-in users" options), or exclude the Orchestra
+pages there. Visitors only see the login form, which may be cached.
 
 Core provides the shared pieces in `Orchestra\Core\Ui`:
 

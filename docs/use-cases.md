@@ -88,7 +88,7 @@ Member
 ### 4a. Member is inactive
 
 1. System denies access.
-2. System informs the user that their account is inactive and that they should contact an administrator.
+2. System informs the user that their account is inactive and that they should contact the organizers.
 
 This message is only shown after valid credentials, so the account status is not revealed to others.
 
@@ -583,7 +583,7 @@ Conductor, Organizer
 
 ## Preconditions
 
-- Project is Open for Participation or in Preparation.
+- Project is Open for Participation, in Preparation or Parts Assigned.
 - Piece exists in project program.
 - Member has Accepted participation.
 

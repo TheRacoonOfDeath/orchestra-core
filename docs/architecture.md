@@ -179,7 +179,16 @@ Core provides the shared pieces in `Orchestra\Core\Ui`:
 
 - `Assets`: the stylesheet and script, loaded on pages with Orchestra shortcodes and on Orchestra
   screens in wp-admin. The design inherits the theme's font and colors; the accent color follows
-  the theme's primary color and can be changed with `--orchestra-accent`.
+  the theme's primary color and can be changed with `--orchestra-accent`. On phones the Orchestra
+  blocks bring their own space above and below (many themes have none there), and tab bars and the
+  navigation wrap onto more lines instead of hiding tabs. Components of `orchestra-ui.css` for the
+  plugins, since 0.15: `.orchestra-card--linked` (the title's `.orchestra-card__link` opens the
+  page from anywhere on the card, the card's own buttons stay clickable), `.orchestra-ellipsis`
+  (text cut with "…", give it a `title`), `.orchestra-footnote` (a note set apart at the end of a
+  section) and compact tables (`Html::table(..., compact: true)`: on phones a row is a short block
+  of lines instead of a label per cell; `.orchestra-compact-title`, `.orchestra-compact-meta`,
+  `.orchestra-compact-line`, and `.orchestra-phone-only` / `.orchestra-desktop-only` for content
+  shown at one width only).
 - `Html`, `Form`, `Redirect`, `Notices`: building blocks for views and handlers. The behaviour of
   `assets/orchestra-ui.js` is chosen with `data-orchestra-*` attributes, listed at the top of the
   script (e.g. `data-orchestra-switch` and `data-orchestra-show-for` show the parts of a row that
@@ -204,7 +213,17 @@ Core provides the shared pieces in `Orchestra\Core\Ui`:
   start page with its login form is used. All other login links of the site (e.g. of a shop or the
   theme), wp-admin and forced re-logins keep WordPress's login screen, so the Orchestra pages can
   be an area inside a website with logins of its own. The Orchestra pages have no "Log out" link of
-  their own: it is the "Log in / Log out" entry of the site's menu and on the login page.
+  their own: it is the "Log in / Log out" entry of the site's menu and on the login page. For
+  visitors, the start page shows "<site name> – internal area" and a line about what is inside
+  above the login form.
+- `PasswordReset` (since 0.15): "Forgot your password?" happens on the Orchestra login page too.
+  `lostpassword_url` leads to `?orchestra_login=lostpassword`, where WordPress's email is requested
+  (`retrieve_password()`; the page never says whether the account exists). The link in that email
+  and in the welcome email of new accounts opens `wp-login.php?action=rp`, which moves the key into
+  a cookie (like WordPress, so the key does not stay in the URL) and continues on
+  `?orchestra_login=resetpass`; the new password needs at least 8 characters. Results are shown with
+  a fixed `orchestra_password` state in the URL, since visitors have no notices. Without an
+  Orchestra login or start page, WordPress's screens are used.
 - `LoginPageRedirect::requireLogin()`: the plugins hook it to `admin_post_nopriv_<action>` for
   every action that needs a login; it always uses the Orchestra login page. WordPress's
   `auth_redirect` must not be used for this: it always forces a new login and therefore leads to

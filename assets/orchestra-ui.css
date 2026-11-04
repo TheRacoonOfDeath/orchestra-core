@@ -49,6 +49,33 @@
     }
 }
 
+/*
+ * Many themes give the content no room above and below on phones, so the Orchestra pages bring
+ * their own. Adjacent Orchestra blocks (navigation and page) share it, because the margins collapse.
+ */
+@media (max-width: 640px) {
+    .orchestra {
+        margin-block: 1.5rem;
+    }
+}
+
+/* A note at the end of a section, set apart from the last field above it. */
+.orchestra .orchestra-footnote {
+    border-top: 1px solid var(--orchestra-border);
+    margin-top: 1.25rem;
+    padding-top: 0.75rem;
+}
+
+/* Text cut with "…" at the end of its box, e.g. a long email address; give it a title. */
+.orchestra-ellipsis {
+    display: block;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* Hidden by data-orchestra-switch, also where a component sets its own display (e.g. table cells). */
 [data-orchestra-show-for][hidden] {
     display: none !important;
@@ -127,30 +154,18 @@
     color: var(--orchestra-accent);
 }
 
-/* On phones, the navigation scrolls sideways like the tabs instead of wrapping. */
-@media (max-width: 640px) {
-    .orchestra-nav {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        scrollbar-width: thin;
-        white-space: nowrap;
-    }
-}
-
 /* Tabs ---------------------------------------------------------------------------------------- */
 
 /*
- * The line below the tabs is an inset shadow, which the background of the current tab covers. A
- * border would need the current tab to hang 1px below the tabs, and that overflow showed a
- * scrollbar next to them.
+ * The line below the tabs is an inset shadow, which the background of the current tab covers.
+ * Tabs that do not fit wrap onto more lines, like the navigation, so that none is hidden.
  */
 .orchestra-tabs {
     box-shadow: inset 0 -1px 0 var(--orchestra-border);
     display: flex;
+    flex-wrap: wrap;
     gap: 0.25rem;
     margin-bottom: 1.25rem;
-    overflow-x: auto;
-    scrollbar-width: thin;
 }
 
 .orchestra-tabs a {
@@ -171,6 +186,18 @@
     background: var(--orchestra-surface-strong);
     border-color: var(--orchestra-border);
     font-weight: 600;
+}
+
+/* On phones the tabs may take several lines: the current tab is a closed box wherever it is. */
+@media (max-width: 640px) {
+    .orchestra-tabs {
+        padding-bottom: 0.5rem;
+    }
+
+    .orchestra-tabs a[aria-current="page"] {
+        border-bottom: 1px solid var(--orchestra-border);
+        border-radius: var(--orchestra-radius-small);
+    }
 }
 
 /* Cards --------------------------------------------------------------------------------------- */
@@ -206,6 +233,62 @@
 
 .orchestra-card__title a:hover {
     color: var(--orchestra-accent);
+}
+
+/*
+ * A card that opens a page as a whole but also contains its own buttons and links: the link of its
+ * title (`orchestra-card__link`) covers the card, and the other controls stay above it.
+ */
+.orchestra-card--linked {
+    position: relative;
+    transition: border-color 0.15s, transform 0.15s;
+}
+
+.orchestra-card--linked .orchestra-card__link {
+    color: var(--orchestra-accent);
+}
+
+.orchestra-card--linked .orchestra-card__link::after {
+    border-radius: inherit;
+    content: "";
+    inset: 0;
+    position: absolute;
+}
+
+.orchestra-card--linked .orchestra-card__link::before {
+    content: "→";
+    float: right;
+    margin-left: 0.5rem;
+    transition: transform 0.15s;
+}
+
+.orchestra-card--linked :is(a, button, input, select, textarea, label, summary):not(.orchestra-card__link) {
+    position: relative;
+    z-index: 1;
+}
+
+.orchestra-card--linked:hover,
+.orchestra-card--linked:focus-within {
+    border-color: var(--orchestra-accent);
+    transform: translateY(-1px);
+}
+
+.orchestra-card--linked:hover .orchestra-card__link::before {
+    transform: translateX(3px);
+}
+
+.orchestra-card__title a.orchestra-card__link:focus-visible {
+    outline: none;
+}
+
+/* The heading above the login form of the start page. */
+.orchestra .orchestra-portal-intro h2 {
+    font-size: 1.3em;
+    margin: 0 0 0.25rem;
+}
+
+.orchestra-portal-intro {
+    margin-bottom: 1.25rem;
 }
 
 a.orchestra-card {
@@ -582,6 +665,79 @@ a.orchestra-card:focus-visible {
     }
 
     .orchestra-table td[data-label=""]::before {
+        display: none;
+    }
+}
+
+/*
+ * Compact tables (.orchestra-table--compact): on phones, a row is a short block of lines instead of
+ * a label per cell. The cells flow next to each other and wrap; a cell whose content is
+ * `.orchestra-compact-title` is bold, `.orchestra-compact-meta` small and muted,
+ * `.orchestra-compact-line` takes a line of its own. On desktop they are normal tables.
+ */
+@media (max-width: 640px) {
+    .orchestra-table--compact tr {
+        align-items: baseline;
+        column-gap: 0.4rem;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0.6rem 0.85rem;
+        row-gap: 0.25rem;
+    }
+
+    .orchestra-table.orchestra-table--compact td {
+        display: block;
+        max-width: 100%;
+        min-width: 0;
+        padding: 0;
+        width: auto;
+    }
+
+    .orchestra-table.orchestra-table--compact td::before {
+        content: none;
+    }
+
+    /* The title takes the rest of its line (next to a checkbox), so the details start below it. */
+    .orchestra-table--compact td:has(> .orchestra-compact-title) {
+        flex: 1 1 70%;
+        font-weight: 600;
+    }
+
+    .orchestra-table--compact td:has(> .orchestra-compact-meta) {
+        color: var(--orchestra-muted);
+        font-size: 0.85em;
+    }
+
+    .orchestra-table--compact td:has(> .orchestra-compact-line),
+    .orchestra-table--compact td:has(> .orchestra-phone-only) {
+        flex-basis: 100%;
+    }
+
+    .orchestra-table--compact td:has(> .orchestra-compact-meta) + td:has(> .orchestra-compact-meta)::before {
+        content: "· ";
+    }
+
+    .orchestra-table--compact .orchestra-compact-meta > * {
+        display: inline;
+    }
+
+    .orchestra-table--compact .orchestra-compact-meta > * + *::before {
+        content: " · ";
+    }
+
+    .orchestra-table--compact .orchestra-compact-meta > br {
+        display: none;
+    }
+
+    .orchestra .orchestra-desktop-only,
+    .orchestra-table td:has(> .orchestra-desktop-only:only-child) {
+        display: none;
+    }
+}
+
+/* Content only for phones, e.g. the compact form of a row; on desktop the full one is shown. */
+@media (min-width: 641px) {
+    .orchestra .orchestra-phone-only {
         display: none;
     }
 }

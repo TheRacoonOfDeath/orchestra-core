@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-03 18:20+0100\n"
+"POT-Creation-Date: 2026-11-03 22:14+0100\n"
 "PO-Revision-Date: 2026-10-16 00:00+0000\n"
 "Last-Translator: Julian Nickerl\n"
 "Language-Team: German\n"
@@ -42,11 +42,14 @@ msgstr "Private Orchesterdateien können von jedem heruntergeladen werden"
 msgid ""
 "Anyone who knows the address of a file in these folders can download it "
 "without logging in."
-msgstr "Wer die Adresse einer Datei in diesen Ordnern kennt, kann sie ohne Login herunterladen."
+msgstr ""
+"Wer die Adresse einer Datei in diesen Ordnern kennt, kann sie ohne Login "
+"herunterladen."
 
 #: src/Files/PrivateDirectoryCheck.php:181
 msgid "The web server ignores their .htaccess file, e.g. because it is nginx."
-msgstr "Der Webserver beachtet ihre .htaccess-Datei nicht, z. B. weil er nginx ist."
+msgstr ""
+"Der Webserver beachtet ihre .htaccess-Datei nicht, z. B. weil er nginx ist."
 
 #: src/Files/PrivateDirectoryCheck.php:190
 msgid "Whether the Orchestra files are private could not be checked"
@@ -56,7 +59,9 @@ msgstr "Ob die Orchesterdateien privat sind, konnte nicht geprüft werden"
 msgid ""
 "The site could not request a test file from these folders, e.g. because it "
 "cannot reach itself."
-msgstr "Die Website konnte keine Testdatei aus diesen Ordnern abrufen, z. B. weil sie sich selbst nicht erreicht."
+msgstr ""
+"Die Website konnte keine Testdatei aus diesen Ordnern abrufen, z. B. weil "
+"sie sich selbst nicht erreicht."
 
 #: src/Files/PrivateDirectoryCheck.php:197
 msgid "Check them yourself, or move them outside the web root."
@@ -65,7 +70,9 @@ msgstr "Prüfe sie selbst oder verschiebe sie außerhalb des Web-Verzeichnisses.
 #: src/Files/PrivateDirectoryCheck.php:210
 msgid ""
 "Sheet music and email attachments cannot be downloaded through their folders."
-msgstr "Noten und E-Mail-Anhänge können nicht über ihre Ordner heruntergeladen werden."
+msgstr ""
+"Noten und E-Mail-Anhänge können nicht über ihre Ordner heruntergeladen "
+"werden."
 
 #: src/Files/PrivateDirectoryCheck.php:213
 msgid "They are only delivered to users who may see them."
@@ -91,7 +98,9 @@ msgstr "Der Website-Zustand erklärt, wie du sie schützt."
 msgid ""
 "Recommended: add these lines to wp-config.php, with folders outside the web "
 "root that PHP can write to."
-msgstr "Empfohlen: Füge diese Zeilen in die wp-config.php ein, mit Ordnern außerhalb des Web-Verzeichnisses, in die PHP schreiben kann."
+msgstr ""
+"Empfohlen: Füge diese Zeilen in die wp-config.php ein, mit Ordnern außerhalb "
+"des Web-Verzeichnisses, in die PHP schreiben kann."
 
 #: src/Files/PrivateDirectoryCheck.php:375
 msgid "Move the files already stored into them:"
@@ -126,11 +135,11 @@ msgid "Download Orchestra Email"
 msgstr "Orchestra Email herunterladen"
 
 #: src/Ui/Html.php:45 src/Ui/LoginMenuItem.php:59 src/Ui/LoginMenuItem.php:97
-#: src/Ui/LoginShortcode.php:67
+#: src/Ui/LoginShortcode.php:76
 msgid "Log in"
 msgstr "Einloggen"
 
-#: src/Ui/Html.php:119
+#: src/Ui/Html.php:127
 msgid "Sections"
 msgstr "Bereiche"
 
@@ -150,7 +159,7 @@ msgstr ""
 "Die Sprache der Orchesterseiten und -ansichten. WordPress selbst behält die "
 "Sprache der Website."
 
-#: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:47
+#: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:56
 msgid "Log out"
 msgstr "Ausloggen"
 
@@ -167,24 +176,24 @@ msgid "Add to Menu"
 msgstr "Zum Menü hinzufügen"
 
 #. translators: %s: user's name
-#: src/Ui/LoginShortcode.php:43
+#: src/Ui/LoginShortcode.php:52
 #, php-format
 msgid "You are logged in as %s."
 msgstr "Du bist als %s eingeloggt."
 
-#: src/Ui/LoginShortcode.php:46
+#: src/Ui/LoginShortcode.php:55
 msgid "Go to the orchestra pages"
 msgstr "Zu den Orchesterseiten"
 
-#: src/Ui/LoginShortcode.php:65
+#: src/Ui/LoginShortcode.php:74 src/Ui/PasswordReset.php:167
 msgid "Username or email address"
 msgstr "Benutzername oder E-Mail-Adresse"
 
-#: src/Ui/LoginShortcode.php:75
+#: src/Ui/LoginShortcode.php:84 src/Ui/PasswordReset.php:159
 msgid "Forgot your password?"
 msgstr "Passwort vergessen?"
 
-#: src/Ui/LoginShortcode.php:94
+#: src/Ui/LoginShortcode.php:103
 msgid "The login failed."
 msgstr "Das Einloggen ist fehlgeschlagen."
 
@@ -192,13 +201,23 @@ msgstr "Das Einloggen ist fehlgeschlagen."
 msgid "Overview"
 msgstr "Übersicht"
 
-#. translators: %s: user's name
+#. translators: %s: name of the site
+#: src/Ui/NavigationShortcodes.php:54
+#, php-format
+msgid "%s – internal area"
+msgstr "%s – Interner Bereich"
+
 #: src/Ui/NavigationShortcodes.php:57
+msgid "Log in to see your projects, your parts and the sheet music."
+msgstr "Melde dich an, um deine Projekte, deine Stimmen und die Noten zu sehen."
+
+#. translators: %s: user's name
+#: src/Ui/NavigationShortcodes.php:67
 #, php-format
 msgid "Hello %s!"
 msgstr "Hallo %s!"
 
-#: src/Ui/NavigationShortcodes.php:64
+#: src/Ui/NavigationShortcodes.php:74
 msgid ""
 "There is nothing here for you yet. If you are missing something, ask an "
 "organizer."
@@ -242,3 +261,71 @@ msgstr "Wähle die Seiten aus, die angelegt werden sollen."
 #: src/Ui/PageSetup.php:110
 msgid "The Orchestra pages have been created."
 msgstr "Die Orchesterseiten wurden angelegt."
+
+#: src/Ui/PasswordReset.php:122
+msgid ""
+"If there is an account with this name or email address, it has received an "
+"email with a link."
+msgstr "Falls es ein Konto mit diesem Namen oder dieser E-Mail-Adresse gibt, hat es eine E-Mail mit einem Link bekommen."
+
+#: src/Ui/PasswordReset.php:125
+msgid "Your new password has been set. You can log in with it now."
+msgstr "Dein neues Passwort ist gesetzt. Du kannst dich jetzt damit anmelden."
+
+#: src/Ui/PasswordReset.php:127
+msgid "This link is invalid or has expired. Please ask for a new one."
+msgstr "Dieser Link ist ungültig oder abgelaufen. Bitte fordere einen neuen an."
+
+#. translators: %d: minimum number of characters
+#: src/Ui/PasswordReset.php:132
+#, php-format
+msgid "The new password must have at least %d characters."
+msgstr "Das neue Passwort muss mindestens %d Zeichen haben."
+
+#: src/Ui/PasswordReset.php:135
+msgid "The new passwords do not match."
+msgstr "Die neuen Passwörter stimmen nicht überein."
+
+#: src/Ui/PasswordReset.php:161
+msgid ""
+"Enter your username or email address. You will receive an email with a link "
+"to set a new password."
+msgstr "Gib deinen Benutzernamen oder deine E-Mail-Adresse ein. Du bekommst eine E-Mail mit einem Link, um ein neues Passwort zu setzen."
+
+#: src/Ui/PasswordReset.php:171
+msgid "Get a new password"
+msgstr "Neues Passwort anfordern"
+
+#: src/Ui/PasswordReset.php:172
+msgid "Back to login"
+msgstr "Zurück zur Anmeldung"
+
+#: src/Ui/PasswordReset.php:186
+msgid "Get a new link"
+msgstr "Neuen Link anfordern"
+
+#. translators: %d: minimum number of characters
+#: src/Ui/PasswordReset.php:191
+#, php-format
+msgid "At least %d characters."
+msgstr "Mindestens %d Zeichen."
+
+#: src/Ui/PasswordReset.php:195
+msgid "Set a new password"
+msgstr "Neues Passwort setzen"
+
+#: src/Ui/PasswordReset.php:199
+msgid "New password"
+msgstr "Neues Passwort"
+
+#: src/Ui/PasswordReset.php:206
+msgid "Repeat new password"
+msgstr "Neues Passwort wiederholen"
+
+#: src/Ui/PasswordReset.php:210
+msgid "Set password"
+msgstr "Passwort setzen"
+
+#: src/Ui/PasswordReset.php:294
+msgid "The form has expired. Please try again."
+msgstr "Das Formular ist abgelaufen. Bitte versuche es noch einmal."

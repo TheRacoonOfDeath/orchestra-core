@@ -16,7 +16,8 @@ Core repo providing some fundamental functionality to the orchestra plugins and 
 - The roles Orchestra Member, Conductor and Organizer, and the registry through which the other
   Orchestra plugins grant their capabilities
 - The Orchestra pages: members, conductors and organizers use the site, never the dashboard
-  - `[orchestra_portal]` start page, `[orchestra_menu]` navigation, `[orchestra_login]` login form
+  - `[orchestra_portal]` start page, `[orchestra_menu]` navigation, `[orchestra_login]` login form,
+    also for "Forgot your password?" and setting a new password, in the site's design
   - a shared, theme-aware design for all Orchestra pages
   - members, conductors and organizers are kept out of wp-admin; administrators keep it
   - **Create Orchestra pages**: a notice in wp-admin lists every missing Orchestra page (also the

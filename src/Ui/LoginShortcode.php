@@ -35,6 +35,15 @@ final class LoginShortcode
      */
     public static function content(): string
     {
+        $state = PasswordReset::stateMessage();
+        $stateNotice = $state === null ? '' : Notices::html($state[0], $state[1]);
+        $view = PasswordReset::requestedView();
+        if ($view !== '') {
+            return '<div class="orchestra-card orchestra-login">' . $stateNotice
+                . ($view === PasswordReset::VIEW_LOST ? PasswordReset::requestForm() : PasswordReset::resetForm())
+                . '</div>';
+        }
+
         if (\is_user_logged_in()) {
             $user = \wp_get_current_user();
 
@@ -48,7 +57,7 @@ final class LoginShortcode
                 . '</div></div>';
         }
 
-        $html = '<div class="orchestra-card orchestra-login">';
+        $html = '<div class="orchestra-card orchestra-login">' . $stateNotice;
         $error = self::takeError();
         if ($error !== '') {
             $html .= '<div class="orchestra-notice orchestra-notice--error" role="alert">' . \wp_kses_post($error)

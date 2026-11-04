@@ -19,6 +19,7 @@ use Orchestra\Core\Ui\LoginShortcode;
 use Orchestra\Core\Ui\NavigationShortcodes;
 use Orchestra\Core\Ui\Notices;
 use Orchestra\Core\Ui\Pages;
+use Orchestra\Core\Ui\PasswordReset;
 use Orchestra\Core\Ui\PageSetup;
 use LogicException;
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
@@ -94,6 +95,7 @@ final class Plugin
         AdminAccess::register();
         LoginShortcode::register();
         LoginPageRedirect::register();
+        PasswordReset::register();
         NavigationShortcodes::register();
         LoginMenuItem::register();
         InternalSite::register();

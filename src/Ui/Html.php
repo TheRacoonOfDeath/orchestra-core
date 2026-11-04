@@ -73,14 +73,22 @@ final class Html
      * @param list<string> $headings Plain text
      * @param list<list<string>> $rows Cells as HTML, already escaped
      * @param bool $stacked Rows as stacked blocks at every width, e.g. for rows with forms
+     * @param bool $compact Since 0.15: on phones, rows are short blocks instead of a label per cell
+     *     (see `.orchestra-table--compact` in orchestra-ui.css); older versions ignore it
      */
-    public static function table(array $headings, array $rows, string $emptyMessage = '', bool $stacked = false): string
-    {
+    public static function table(
+        array $headings,
+        array $rows,
+        string $emptyMessage = '',
+        bool $stacked = false,
+        bool $compact = false,
+    ): string {
         if ($rows === [] && $emptyMessage !== '') {
             return self::empty($emptyMessage);
         }
 
-        $class = $stacked ? 'orchestra-table orchestra-table--stacked' : 'orchestra-table';
+        $class = 'orchestra-table' . ($stacked ? ' orchestra-table--stacked' : '')
+            . ($compact ? ' orchestra-table--compact' : '');
         $html = '<div class="orchestra-table-wrap"><table class="' . $class . '"><thead><tr>';
         foreach ($headings as $heading) {
             $html .= '<th scope="col">' . \esc_html($heading) . '</th>';

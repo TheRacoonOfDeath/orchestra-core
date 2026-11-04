@@ -48,7 +48,17 @@ final class NavigationShortcodes
     public static function renderPortal(): string
     {
         if (!\is_user_logged_in()) {
-            return Html::page(LoginShortcode::content(), false);
+            $intro = PasswordReset::requestedView() !== '' ? '' : '<div class="orchestra-portal-intro"><h2>'
+                . \esc_html(\sprintf(
+                    /* translators: %s: name of the site */
+                    \__('%s – internal area', 'orchestra-core'),
+                    \get_bloginfo('name')
+                )) . '</h2><p>' . \esc_html__(
+                    'Log in to see your projects, your parts and the sheet music.',
+                    'orchestra-core'
+                ) . '</p></div>';
+
+            return Html::page($intro . LoginShortcode::content(), false);
         }
 
         $user = \wp_get_current_user();

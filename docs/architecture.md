@@ -192,7 +192,8 @@ Core provides the shared pieces in `Orchestra\Core\Ui`:
 - `Html`, `Form`, `Redirect`, `Notices`: building blocks for views and handlers. The behaviour of
   `assets/orchestra-ui.js` is chosen with `data-orchestra-*` attributes, listed at the top of the
   script (e.g. `data-orchestra-switch` and `data-orchestra-show-for` show the parts of a row that
-  belong to the selected option, since 0.14). Everything also works without JavaScript. After a form
+  belong to the selected option, since 0.14; `data-orchestra-copy` on a hidden button copies a
+  field to the clipboard, since 0.16). Everything also works without JavaScript. After a form
   returns to the same page, the script restores the scroll position (kept in `sessionStorage` for
   a minute) and floats that page's notices at the bottom of the screen; success notices disappear
   after a few seconds. wp-admin screens open at the top, where WordPress shows the notices.

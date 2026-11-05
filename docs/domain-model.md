@@ -516,6 +516,8 @@ Members who declined are not emailed about the project. There are no groups per 
 
 Sending is a technical service of the optional plugin orchestra-email. The domain plugins define
 the groups; orchestra-email resolves them, sends one email per recipient and keeps a log.
+Whoever may email a group may also see the email addresses of its recipients, to write to them with
+their own email app (in BCC); such emails are not logged.
 
 ---
 

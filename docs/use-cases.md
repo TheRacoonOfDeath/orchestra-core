@@ -709,6 +709,15 @@ Organizer, Conductor
 5. User sends the email.
 6. System sends one email per recipient in the background and logs the sending.
 
+## Alternative Flows
+
+### 4a. User writes with their own email app
+
+1. User asks for the addresses of the selected groups.
+2. System shows the addresses of the active members of the groups, to copy into BCC or to open in
+   the user's email app; it warns when the link is too long for some email apps.
+3. User writes and sends the email outside the system. It is not logged.
+
 ## Postconditions
 
 - Every active member of the selected groups receives the email.

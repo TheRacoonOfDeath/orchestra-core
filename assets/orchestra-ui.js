@@ -20,6 +20,9 @@
  *   reordered by dragging their [data-orchestra-drag-handle] (mouse and touch; the page scrolls
  *   near the window edges) or with the arrow keys while the handle has focus. The order is
  *   submitted through fields inside the rows.
+ * - data-orchestra-copy="element-id"           on a button (rendered hidden, shown by this script):
+ *   copies the value (or the text) of that element to the clipboard; the button's label becomes
+ *   data-orchestra-copied="Copied" for a few seconds
  * - Forms posting to admin-post.php return to the same scroll position (not in wp-admin): the position is kept in
  *   sessionStorage on submit and restored if the next page is the same page (same path, all of its
  *   query arguments) within a minute. Notices of that return ([data-orchestra-returned]) then float
@@ -228,6 +231,52 @@
         if (input) {
             input.focus();
         }
+    });
+
+    // Copying --------------------------------------------------------------------------------
+
+    var COPIED_SECONDS = 3;
+
+    function copyText(source) {
+        var text = 'value' in source ? source.value : source.textContent;
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+        }
+        // Without HTTPS there is no clipboard API; selecting and copying still works.
+        if ('select' in source) {
+            source.select();
+        }
+        return document.execCommand('copy') ? Promise.resolve() : Promise.reject(new Error('copy'));
+    }
+
+    document.querySelectorAll('[data-orchestra-copy][hidden]').forEach(function (button) {
+        button.hidden = false;
+    });
+
+    document.addEventListener('click', function (event) {
+        var button = event.target instanceof Element ? event.target.closest('[data-orchestra-copy]') : null;
+        var source = button ? document.getElementById(button.getAttribute('data-orchestra-copy')) : null;
+        if (!source) {
+            return;
+        }
+        event.preventDefault();
+        copyText(source).then(function () {
+            var label = button.getAttribute('data-orchestra-copied');
+            if (!label || button.hasAttribute('data-orchestra-label')) {
+                return;
+            }
+            button.setAttribute('data-orchestra-label', button.textContent);
+            button.textContent = label;
+            window.setTimeout(function () {
+                button.textContent = button.getAttribute('data-orchestra-label');
+                button.removeAttribute('data-orchestra-label');
+            }, COPIED_SECONDS * 1000);
+        }, function () {
+            if ('select' in source) {
+                source.focus();
+                source.select();
+            }
+        });
     });
 
     // Sorting ----------------------------------------------------------------------------------

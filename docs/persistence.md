@@ -28,9 +28,12 @@
 | Participation | orchestra-projects | table `orchestra_projects_participation` |
 | Assignments | orchestra-projects | table `orchestra_projects_assignments` |
 | Assignment history | orchestra-projects | derived from assignments of past projects |
+| Assignments members were last informed about (Parts assigned) | orchestra-projects | table `orchestra_projects_informed` |
+| Whether a member receives automatic emails | orchestra-members | user meta `orchestra_members_no_automatic_emails` |
+| Texts of the automatic emails | orchestra-email | option `orchestra_email_automatic_templates` |
 | Communication groups | orchestra-members, orchestra-projects | not stored, computed on demand |
 | Email log (metadata only) | orchestra-email | table `orchestra_core_email_log` (name kept from orchestra-core) |
-| Emails waiting to be sent | orchestra-email | table `orchestra_core_email_queue` (name kept from orchestra-core) |
+| Emails waiting to be sent | orchestra-email | table `orchestra_core_email_queue` (name kept from orchestra-core; automatic emails with a subject and body per recipient) |
 | Email attachments until sent | orchestra-email | table `orchestra_email_attachments`, files in a private directory |
 | Seating plans (grid, organizer switch; project ID 0 is the master seating) | orchestra-seating | table `orchestra_seating_plans` |
 | Seats | orchestra-seating | table `orchestra_seating_seats` |

@@ -132,6 +132,12 @@ Active
 When a member is set to inactive, the sensitive profile data (the values of all profile fields)
 is deleted. It must be entered again after a reactivation.
 
+### Automatic emails
+
+Members can turn off the emails the system sends by itself (e.g. about changed parts) in their
+profile. They then receive none, from any plugin; emails written by conductors and organizers
+still reach them.
+
 ## Privacy
 
 Profile data is personal data under the GDPR.
@@ -439,6 +445,14 @@ Julian
 - The member must have Accepted participation in the project.
 - Several members may be assigned to the same part (e.g. eight players on Violin 1).
 - A member is assigned to at most one part per piece in a project.
+
+## Informing about changed parts
+
+Members see their parts from Parts Assigned on. The parts that change after that (new, other or
+removed parts) are remembered per member. Conductors and organizers either inform the affected
+members (each gets one email with only their own changes) or dismiss the changes; either way the
+parts stay as they are and the changes are forgotten. Leaving Parts Assigned forgets them as well.
+Members who turned automatic emails off get no email.
 
 ---
 

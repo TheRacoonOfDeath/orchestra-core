@@ -54,6 +54,7 @@ Administrators may perform all actions available to other actors.
 | UC-021 | Create Member Account | Administrator, Organizer, Conductor |
 | UC-022 | Deactivate Or Reactivate Member | Organizer |
 | UC-023 | Archive Piece | Conductor |
+| UC-024 | Inform Members About Changed Parts | Conductor, Organizer |
 
 ---
 
@@ -819,3 +820,47 @@ Conductor
 - The piece cannot be added to new programs.
 - Existing programs, assignments and the assignment history keep referring to it.
 - The piece can be unarchived.
+
+---
+
+# UC-024 Inform Members About Changed Parts
+
+## Goal
+
+Tell members whose parts changed after the parts were assigned.
+
+## Primary Actor
+
+Conductor, Organizer
+
+## Preconditions
+
+- Project is in Parts Assigned.
+- Parts changed since the members were last informed (UC-017, also in the seating).
+
+## Flow
+
+1. User opens the assignments of the project and sees how many members' parts changed.
+2. User selects "Inform members about changes".
+3. System lists every affected member with their changes and whether they get an email.
+4. User confirms.
+5. System sends every affected member an email with only their own changes and forgets the changes.
+
+## Alternative Flows
+
+### 2a. User does not want to inform the members
+
+1. User selects "Don't inform members".
+2. System explains that the parts stay and the changes are forgotten, and asks for confirmation.
+3. System forgets the changes without sending an email.
+
+### 4a. The parts changed while the user looked at the list
+
+1. System sends nothing and asks the user to check the changes again.
+
+## Postconditions
+
+- Affected members who receive automatic emails know their new parts.
+- No changes are listed any more.
+
+The text of the email is set by the organizers.

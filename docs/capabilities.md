@@ -209,6 +209,7 @@ and assignment history refer to them.
 | `orchestra_projects_assignment_manage` (create, edit, delete) | | ✓ | ✓ |
 | `orchestra_projects_assignment_history_read` | | ✓ | ✓ |
 | `orchestra_projects_email_send` (email the project and assignment groups) | | ✓ | ✓ |
+| `orchestra_projects_notification_edit` (change the text of the email about changed parts) | | | ✓ |
 
 Administrators have every capability.
 

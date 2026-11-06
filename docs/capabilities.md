@@ -29,6 +29,7 @@ current_user_can('orchestra_members_profile_read', $userId); // meta capability 
 | Member | `orchestra_member` | `Roles::MEMBER` |
 | Conductor | `orchestra_conductor` | `Roles::CONDUCTOR` |
 | Organizer | `orchestra_organizer` | `Roles::ORGANIZER` |
+| Librarian | `orchestra_librarian` | `Roles::LIBRARIAN` |
 | Administrator | `administrator` (WordPress) | `Roles::ADMINISTRATOR` |
 
 - The slugs are prefixed to avoid collisions with roles of other plugins.
@@ -36,6 +37,8 @@ current_user_can('orchestra_members_profile_read', $userId); // meta capability 
 - Members have their own role. The WordPress `subscriber` role gets no Orchestra capabilities,
   so self-registered or unrelated accounts never see orchestra data.
 - The administrator automatically receives **every** registered capability.
+- A user has at most one Orchestra role. The librarian is a member who also maintains the library,
+  so every plugin grants the librarian its member capabilities and treats librarians as players.
 
 Permissions are global, not per project: a conductor has the conductor capabilities for all
 projects. This is intentional (the orchestra has several conductors and organizers).
@@ -161,16 +164,16 @@ Capabilities marked *meta* are checked with an object ID.
 
 ### orchestra-members
 
-| Capability | Member | Conductor | Organizer |
-|-----------|:------:|:---------:|:---------:|
-| `orchestra_members_directory_read` (names of all members) | | ✓ | ✓ |
-| `orchestra_members_profile_read` *meta* → `_read_own` / `_read_others` | own | own | own + others |
-| `orchestra_members_profile_edit` *meta* → `_edit_own` / `_edit_others` | own | own | own |
-| `orchestra_members_status_edit` (active / inactive) | | | ✓ |
-| `orchestra_members_member_create` (add users as members; only administrators choose another role) | | ✓ | ✓ |
-| `orchestra_members_email_send` (email the global groups) | | ✓ | ✓ |
-| `orchestra_members_email_member` (email a single member from their profile) | | | ✓ |
-| `orchestra_members_fields_manage` (choose the profile fields) | | | |
+| Capability | Member | Conductor | Organizer | Librarian |
+|-----------|:------:|:---------:|:---------:|:---------:|
+| `orchestra_members_directory_read` (names of all members) | | ✓ | ✓ | |
+| `orchestra_members_profile_read` *meta* → `_read_own` / `_read_others` | own | own | own + others | own |
+| `orchestra_members_profile_edit` *meta* → `_edit_own` / `_edit_others` | own | own | own | own |
+| `orchestra_members_status_edit` (active / inactive) | | | ✓ | |
+| `orchestra_members_member_create` (add users as members; only administrators choose another role) | | ✓ | ✓ | |
+| `orchestra_members_email_send` (email the global groups) | | ✓ | ✓ | |
+| `orchestra_members_email_member` (email a single member from their profile) | | | ✓ | |
+| `orchestra_members_fields_manage` (choose the profile fields) | | | | |
 
 Conductors and organizers add people with the role Member (`orchestra_members_member_create`).
 Choosing another role requires the WordPress capability `promote_users` (administrators).
@@ -180,13 +183,13 @@ organizers and administrators may read other members' profiles.
 
 ### orchestra-library
 
-| Capability | Member | Conductor | Organizer |
-|-----------|:------:|:---------:|:---------:|
-| `orchestra_library_piece_read` (pieces and parts) | ✓ | ✓ | ✓ |
-| `orchestra_library_piece_edit` (create, edit, archive pieces and their parts; maintain the instruments) | | ✓ | |
-| `orchestra_library_piece_delete` | | | |
-| `orchestra_library_sheet_music_download` | ✓ | ✓ | ✓ |
-| `orchestra_library_sheet_music_manage` (upload, replace, delete part sheet music and piece files) | | ✓ | |
+| Capability | Member | Conductor | Organizer | Librarian |
+|-----------|:------:|:---------:|:---------:|:---------:|
+| `orchestra_library_piece_read` (pieces and parts) | ✓ | ✓ | ✓ | ✓ |
+| `orchestra_library_piece_edit` (create, edit, archive pieces and their parts; maintain the instruments) | | ✓ | | ✓ |
+| `orchestra_library_piece_delete` | | | | |
+| `orchestra_library_sheet_music_download` | ✓ | ✓ | ✓ | ✓ |
+| `orchestra_library_sheet_music_manage` (upload, replace, delete part sheet music and piece files) | | ✓ | | ✓ |
 
 Parts are always edited as part of their piece and need no separate capabilities.
 Deleting pieces is reserved for administrators; pieces are archived instead, because projects
@@ -194,37 +197,37 @@ and assignment history refer to them.
 
 ### orchestra-projects
 
-| Capability | Member | Conductor | Organizer |
-|-----------|:------:|:---------:|:---------:|
-| `orchestra_projects_project_read` | ✓ | ✓ | ✓ |
-| `orchestra_projects_project_manage` (create, edit, change status, assign conductors) | | | ✓ |
-| `orchestra_projects_project_delete` | | | |
-| `orchestra_projects_program_manage` | | ✓ | ✓ |
-| `orchestra_projects_participation_read` *meta* → `_read_own` / `_read_others` | own | others | own + others |
-| `orchestra_projects_participation_respond` *meta* → `_respond_own` / `orchestra_projects_participation_manage` | own | | own + others |
-| `orchestra_projects_participation_manage` (change any decision) | | | ✓ |
-| `orchestra_projects_participants_read` (names of everyone who accepted) | ✓ | ✓ | ✓ |
-| `orchestra_projects_participation_export` (accepted participants with their profiles as CSV) | | | ✓ |
-| `orchestra_projects_assignment_read` | ✓ | ✓ | ✓ |
-| `orchestra_projects_assignment_manage` (create, edit, delete) | | ✓ | ✓ |
-| `orchestra_projects_assignment_history_read` | | ✓ | ✓ |
-| `orchestra_projects_email_send` (email the project and assignment groups) | | ✓ | ✓ |
-| `orchestra_projects_notification_edit` (change the text of the email about changed parts) | | | ✓ |
+| Capability | Member | Conductor | Organizer | Librarian |
+|-----------|:------:|:---------:|:---------:|:---------:|
+| `orchestra_projects_project_read` | ✓ | ✓ | ✓ | ✓ |
+| `orchestra_projects_project_manage` (create, edit, change status, assign conductors) | | | ✓ | |
+| `orchestra_projects_project_delete` | | | | |
+| `orchestra_projects_program_manage` | | ✓ | ✓ | |
+| `orchestra_projects_participation_read` *meta* → `_read_own` / `_read_others` | own | others | own + others | own |
+| `orchestra_projects_participation_respond` *meta* → `_respond_own` / `orchestra_projects_participation_manage` | own | | own + others | own |
+| `orchestra_projects_participation_manage` (change any decision) | | | ✓ | |
+| `orchestra_projects_participants_read` (names of everyone who accepted) | ✓ | ✓ | ✓ | ✓ |
+| `orchestra_projects_participation_export` (accepted participants with their profiles as CSV) | | | ✓ | |
+| `orchestra_projects_assignment_read` | ✓ | ✓ | ✓ | ✓ |
+| `orchestra_projects_assignment_manage` (create, edit, delete) | | ✓ | ✓ | |
+| `orchestra_projects_assignment_history_read` | | ✓ | ✓ | |
+| `orchestra_projects_email_send` (email the project and assignment groups) | | ✓ | ✓ | |
+| `orchestra_projects_notification_edit` (change the text of the email about changed parts) | | | ✓ | |
 
 Administrators have every capability.
 
-Organizers may also play in projects, so they have the member capabilities for their own
-participation. Conductors do not play.
+Organizers and librarians may also play in projects, so they have the member capabilities for
+their own participation. Conductors do not play.
 
 Which projects members can see and when they can respond depends on the project status. These
 rules are business rules of orchestra-projects, checked in addition to the capabilities.
 
 ### orchestra-seating
 
-| Capability | Member | Conductor | Organizer |
-|-----------|:------:|:---------:|:---------:|
-| `orchestra_seating_plan_read` (see the seating once it is arranged) | ✓ | ✓ | ✓ |
-| `orchestra_seating_plan_manage` (arrange the seating of every project and the master seating, download it as PDF) | | ✓ | ✓ |
+| Capability | Member | Conductor | Organizer | Librarian |
+|-----------|:------:|:---------:|:---------:|:---------:|
+| `orchestra_seating_plan_read` (see the seating once it is arranged) | ✓ | ✓ | ✓ | ✓ |
+| `orchestra_seating_plan_manage` (arrange the seating of every project and the master seating, download it as PDF) | | ✓ | ✓ | |
 
 The seating of completed projects cannot be changed.
 

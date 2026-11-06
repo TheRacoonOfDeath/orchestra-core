@@ -16,6 +16,11 @@ final class Roles
     public const ORGANIZER = 'orchestra_organizer';
 
     /**
+     * A member who also maintains the library.
+     */
+    public const LIBRARIAN = 'orchestra_librarian';
+
+    /**
      * The WordPress administrator role. It implicitly receives every registered capability.
      */
     public const ADMINISTRATOR = 'administrator';
@@ -23,7 +28,7 @@ final class Roles
     /**
      * Roles created by Orchestra, to which plugins may grant capabilities.
      */
-    public const GRANTABLE = [self::MEMBER, self::CONDUCTOR, self::ORGANIZER];
+    public const GRANTABLE = [self::MEMBER, self::CONDUCTOR, self::ORGANIZER, self::LIBRARIAN];
 
     /**
      * @return array<string, string> role name => translated display name
@@ -34,6 +39,7 @@ final class Roles
             self::MEMBER => \__('Orchestra Member', 'orchestra-core'),
             self::CONDUCTOR => \__('Orchestra Conductor', 'orchestra-core'),
             self::ORGANIZER => \__('Orchestra Organizer', 'orchestra-core'),
+            self::LIBRARIAN => \__('Orchestra Librarian', 'orchestra-core'),
         ];
     }
 }

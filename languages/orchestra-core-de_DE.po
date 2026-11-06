@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-03 22:14+0100\n"
+"POT-Creation-Date: 2026-11-06 07:46+0100\n"
 "PO-Revision-Date: 2026-10-16 00:00+0000\n"
 "Last-Translator: Julian Nickerl\n"
 "Language-Team: German\n"
@@ -13,17 +13,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/Authorization/Roles.php:34
+#: src/Authorization/Roles.php:39
 msgid "Orchestra Member"
 msgstr "Orchestermitglied"
 
-#: src/Authorization/Roles.php:35
+#: src/Authorization/Roles.php:40
 msgid "Orchestra Conductor"
 msgstr "Orchesterdirigent"
 
-#: src/Authorization/Roles.php:36
+#: src/Authorization/Roles.php:41
 msgid "Orchestra Organizer"
 msgstr "Orchesterorganisator"
+
+#: src/Authorization/Roles.php:42
+msgid "Orchestra Librarian"
+msgstr "Orchesternotenwart"
 
 #: src/Files/PrivateDirectoryCheck.php:152
 #: src/Files/PrivateDirectoryCheck.php:206
@@ -209,7 +213,8 @@ msgstr "%s – Interner Bereich"
 
 #: src/Ui/NavigationShortcodes.php:57
 msgid "Log in to see your projects, your parts and the sheet music."
-msgstr "Melde dich an, um deine Projekte, deine Stimmen und die Noten zu sehen."
+msgstr ""
+"Melde dich an, um deine Projekte, deine Stimmen und die Noten zu sehen."
 
 #. translators: %s: user's name
 #: src/Ui/NavigationShortcodes.php:67
@@ -266,7 +271,9 @@ msgstr "Die Orchesterseiten wurden angelegt."
 msgid ""
 "If there is an account with this name or email address, it has received an "
 "email with a link."
-msgstr "Falls es ein Konto mit diesem Namen oder dieser E-Mail-Adresse gibt, hat es eine E-Mail mit einem Link bekommen."
+msgstr ""
+"Falls es ein Konto mit diesem Namen oder dieser E-Mail-Adresse gibt, hat es "
+"eine E-Mail mit einem Link bekommen."
 
 #: src/Ui/PasswordReset.php:125
 msgid "Your new password has been set. You can log in with it now."
@@ -274,7 +281,8 @@ msgstr "Dein neues Passwort ist gesetzt. Du kannst dich jetzt damit anmelden."
 
 #: src/Ui/PasswordReset.php:127
 msgid "This link is invalid or has expired. Please ask for a new one."
-msgstr "Dieser Link ist ungültig oder abgelaufen. Bitte fordere einen neuen an."
+msgstr ""
+"Dieser Link ist ungültig oder abgelaufen. Bitte fordere einen neuen an."
 
 #. translators: %d: minimum number of characters
 #: src/Ui/PasswordReset.php:132
@@ -290,7 +298,9 @@ msgstr "Die neuen Passwörter stimmen nicht überein."
 msgid ""
 "Enter your username or email address. You will receive an email with a link "
 "to set a new password."
-msgstr "Gib deinen Benutzernamen oder deine E-Mail-Adresse ein. Du bekommst eine E-Mail mit einem Link, um ein neues Passwort zu setzen."
+msgstr ""
+"Gib deinen Benutzernamen oder deine E-Mail-Adresse ein. Du bekommst eine E-"
+"Mail mit einem Link, um ein neues Passwort zu setzen."
 
 #: src/Ui/PasswordReset.php:171
 msgid "Get a new password"

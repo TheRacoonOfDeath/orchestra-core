@@ -23,6 +23,7 @@ final class CapabilityRegistryTest extends TestCase
             Roles::MEMBER => ['orchestra_library_piece_read'],
             Roles::CONDUCTOR => ['orchestra_library_piece_create', 'orchestra_library_piece_read'],
             Roles::ORGANIZER => [],
+            Roles::LIBRARIAN => [],
             Roles::ADMINISTRATOR => ['orchestra_library_piece_create', 'orchestra_library_piece_read'],
         ], $registry->capabilitiesByRole());
     }

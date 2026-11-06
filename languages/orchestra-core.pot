@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-03 22:14+0100\n"
+"POT-Creation-Date: 2026-11-06 07:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,16 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/Authorization/Roles.php:34
+#: src/Authorization/Roles.php:39
 msgid "Orchestra Member"
 msgstr ""
 
-#: src/Authorization/Roles.php:35
+#: src/Authorization/Roles.php:40
 msgid "Orchestra Conductor"
 msgstr ""
 
-#: src/Authorization/Roles.php:36
+#: src/Authorization/Roles.php:41
 msgid "Orchestra Organizer"
+msgstr ""
+
+#: src/Authorization/Roles.php:42
+msgid "Orchestra Librarian"
 msgstr ""
 
 #: src/Files/PrivateDirectoryCheck.php:152

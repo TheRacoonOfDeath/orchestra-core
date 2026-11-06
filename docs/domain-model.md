@@ -103,6 +103,8 @@ Owned by orchestra-members.
 - Member: plays in projects.
 - Organizer: manages projects and participation. Organizers may also play in projects.
 - Conductor: manages the library and assignments. Conductors do not play in projects.
+- Librarian: plays in projects like a member and also manages the library (but does not delete
+  pieces).
 - Administrator: everything.
 
 Permissions are global: every conductor and every organizer has their rights for all projects.

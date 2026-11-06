@@ -14,14 +14,16 @@ Business rules referenced here are defined in [domain-model.md](domain-model.md)
 
 # Actors
 
-The system defines four actor types:
+The system defines five actor types:
 
 - Member
 - Conductor
 - Organizer
+- Librarian
 - Administrator
 
-Organizers can also act as Members (they may play in projects). Conductors cannot.
+Organizers and Librarians can also act as Members (they may play in projects). Conductors cannot.
+Librarians maintain the library like Conductors.
 
 Administrators may perform all actions available to other actors.
 
@@ -34,9 +36,9 @@ Administrators may perform all actions available to other actors.
 | UC-001 | Login | Member |
 | UC-002 | View Dashboard | Member |
 | UC-003 | Update Personal Profile | Member |
-| UC-004 | Create Piece | Conductor |
-| UC-005 | Create Part | Conductor |
-| UC-006 | Upload Sheet Music | Conductor |
+| UC-004 | Create Piece | Conductor, Librarian |
+| UC-005 | Create Part | Conductor, Librarian |
+| UC-006 | Upload Sheet Music | Conductor, Librarian |
 | UC-007 | Search Sheet Music | Member |
 | UC-008 | Download Sheet Music | Member |
 | UC-009 | Create Project | Organizer |
@@ -53,7 +55,7 @@ Administrators may perform all actions available to other actors.
 | UC-020 | Send Email To Group | Organizer, Conductor |
 | UC-021 | Create Member Account | Administrator, Organizer, Conductor |
 | UC-022 | Deactivate Or Reactivate Member | Organizer |
-| UC-023 | Archive Piece | Conductor |
+| UC-023 | Archive Piece | Conductor, Librarian |
 | UC-024 | Inform Members About Changed Parts | Conductor, Organizer |
 
 ---
@@ -171,11 +173,11 @@ Create a new musical piece in the library.
 
 ## Primary Actor
 
-Conductor
+Conductor, Librarian
 
 ## Preconditions
 
-- User has conductor permissions.
+- User has conductor or librarian permissions.
 
 ## Flow
 
@@ -197,7 +199,7 @@ Define parts for a musical piece.
 
 ## Primary Actor
 
-Conductor
+Conductor, Librarian
 
 ## Preconditions
 
@@ -242,7 +244,7 @@ Provide sheet music for a specific part, or a file for the whole piece.
 
 ## Primary Actor
 
-Conductor
+Conductor, Librarian
 
 ## Preconditions
 
@@ -803,7 +805,7 @@ Remove a piece from active use without losing history.
 
 ## Primary Actor
 
-Conductor
+Conductor, Librarian
 
 ## Preconditions
 

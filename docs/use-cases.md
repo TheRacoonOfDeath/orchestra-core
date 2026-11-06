@@ -651,8 +651,17 @@ Organizer
 
 ### 4a. Project is opened for participation
 
-1. System creates a participation record with status Open for every active member and organizer
-   who has none for this project yet.
+1. System creates a participation record with status Open for every active member, organizer and
+   librarian who has none for this project yet.
+
+### 4b. Organizer chose to inform the members (Open for Participation or Parts Assigned)
+
+With orchestra-email. The choice is preselected the first time the project reaches the status.
+
+1. System sends the automatic email of the status to each member who receives automatic emails:
+   - Open for Participation: the players who have not responded yet.
+   - Parts Assigned: the participants who accepted.
+2. System tells the organizer how many members were informed.
 
 ## Postconditions
 

@@ -654,7 +654,7 @@ Organizer
 1. System creates a participation record with status Open for every active member, organizer and
    librarian who has none for this project yet.
 
-### 4b. Organizer chose to inform the members (Open for Participation or Parts Assigned)
+### 4b. Organizer chose to inform the members (Draft to Open for Participation, Preparation to Parts Assigned)
 
 With orchestra-email. The choice is preselected the first time the project reaches the status.
 

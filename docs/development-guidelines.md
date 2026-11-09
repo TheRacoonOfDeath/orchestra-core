@@ -38,6 +38,29 @@ Commit `composer.lock`. Releases are built from it (see [BUILD.md](../BUILD.md))
   the object ID (see [capabilities.md](capabilities.md)).
 - Escape all output, verify nonces on every state-changing request.
 
+## Security scans
+
+Every repo runs the security scan of
+[orchestra-workflows](https://github.com/TheRacoonOfDeath/orchestra-workflows) on every push to
+`main`, every Monday and on demand (`.github/workflows/security.yml`):
+
+- **Scanners:**
+  - PHP: Psalm's taint analysis follows request data into HTML, SQL, headers and files. Semgrep
+    checks known dangerous patterns.
+  - JavaScript: CodeQL (core and seating).
+  - Dependencies: `composer audit` checks the ones that ship in the zip.
+- **Results:** every finding appears in the repo's Security tab. New high and critical findings
+  also open an issue labelled `security-scan`.
+- **False positives:**
+  - Close the issue with the reason; a closed issue keeps that finding from being reported again.
+  - If the code is safe but the scanner cannot see it, mark the line with the reason on the line
+    above (`// nosemgrep: <rule id>`).
+  - For Psalm, add a missing WordPress escaping function to the taint stub in orchestra-workflows
+    instead of marking every call.
+- **Dependabot:** alerts and security updates are on; `.github/dependabot.yml` keeps the actions
+  current.
+- **Zip:** `.github/` is not part of the plugin zip, so changes there need no release.
+
 ## Frontend first
 
 Nobody is ever forced to use the WordPress dashboard. Every function is available on normal pages

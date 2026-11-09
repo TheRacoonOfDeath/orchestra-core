@@ -2,7 +2,7 @@
     "name": "orchestra/core",
     "description": "Core plugin providing shared infrastructure for the Orchestra plugin suite.",
     "type": "wordpress-plugin",
-    "license": "GPL-2.0-or-later",
+    "license": "MIT",
     "require": {
         "php": "^8.3",
         "dompdf/dompdf": "^3.1",

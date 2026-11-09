@@ -4,10 +4,10 @@
  * Plugin Name: Orchestra Core
  * Plugin URI:  https://github.com/TheRacoonOfDeath/orchestra-core
  * Description: Core infrastructure plugin providing shared services for the Orchestra plugin suite.
- * Version:          0.17.0
+ * Version:          0.17.1
  * Author:      Julian Nickerl (contact@julian-nickerl.de)
  * Author URI:  mailto:contact@julian-nickerl.de
- * License:     GPL-2.0-or-later
+ * License:     MIT
  * Text Domain: orchestra-core
  * Domain Path: /languages
  * Requires at least: 6.5

@@ -129,7 +129,8 @@ Active
   revealed to others)
 - receive no participation records for new projects
 - are not part of any communication group
-- remain in historical records (participation, assignments, assignment history)
+- remain in historical records (participation, assignments, assignment history); only conductors
+  and organizers see that they are inactive, members see their name
 
 When a member is set to inactive, the sensitive profile data (the values of all profile fields)
 is deleted. It must be entered again after a reactivation.
@@ -147,8 +148,9 @@ Profile data is personal data under the GDPR.
 - Members can read and edit their own profile.
 - Only organizers and administrators can read other members' profiles.
 - Other members only see names.
-- Personal data can be exported and erased with the WordPress privacy tools. Erasing a member with
-  history anonymizes their historical records instead of deleting them.
+- Personal data can be exported and erased with the WordPress privacy tools. Erasing deletes
+  everything that is not history (profile, comments and notes, seats, references in the email
+  log); deleting the account then anonymizes the history. See [gdpr.md](gdpr.md).
 
 ---
 
@@ -533,7 +535,8 @@ Members who declined are not emailed about the project. There are no groups per 
 Sending is a technical service of the optional plugin orchestra-email. The domain plugins define
 the groups; orchestra-email resolves them, sends one email per recipient and keeps a log.
 Whoever may email a group may also see the email addresses of its recipients, to write to them with
-their own email app (in BCC); such emails are not logged.
+their own email app (in BCC); such emails are not logged. Senders see their own emails in the log,
+administrators those of everyone.
 
 ---
 

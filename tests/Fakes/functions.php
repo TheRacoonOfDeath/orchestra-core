@@ -161,3 +161,46 @@ function get_temp_dir(): string
 {
     return \sys_get_temp_dir() . '/';
 }
+
+function esc_html__(string $text, string $domain = 'default'): string
+{
+    return esc_html($text);
+}
+
+/**
+ * Transients live in WordPress::$options under "_transient_<name>", like in WordPress; they do not
+ * expire.
+ */
+function get_transient(string $transient): mixed
+{
+    return get_option('_transient_' . $transient);
+}
+
+function set_transient(string $transient, mixed $value, int $expiration = 0): bool
+{
+    return update_option('_transient_' . $transient, $value);
+}
+
+class WP_Error
+{
+    /** @var array<string, list<string>> */
+    private array $errors = [];
+
+    public function add(string $code, string $message): void
+    {
+        $this->errors[$code][] = $message;
+    }
+
+    public function has_errors(): bool
+    {
+        return $this->errors !== [];
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function get_error_codes(): array
+    {
+        return array_keys($this->errors);
+    }
+}

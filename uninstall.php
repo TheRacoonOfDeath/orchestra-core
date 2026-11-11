@@ -27,3 +27,11 @@ wp_clear_scheduled_hook('orchestra_core_check_private_directories');
 wp_clear_scheduled_hook('orchestra_core_check_private_directories', [true]);
 
 delete_option('orchestra_core_github_token');
+delete_option('external_updates-orchestra-core');
+
+// Short-lived transients that may hold names (notices, login errors) or user IDs (reset emails).
+global $wpdb;
+$wpdb->query(
+    "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_orchestra\\_core\\_%'"
+    . " OR option_name LIKE '\\_transient\\_timeout\\_orchestra\\_core\\_%'"
+);

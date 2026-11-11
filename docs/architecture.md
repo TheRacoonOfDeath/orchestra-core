@@ -28,6 +28,14 @@ Custom development is limited to orchestra-specific functionality.
 
 ---
 
+### Data Protection First
+
+The plugins are mainly used by German orchestras. GDPR compliance is a fundamental requirement:
+every feature stores only what it needs, shows personal data only to those who need it and
+supports export, erasure and the privacy policy. See [gdpr.md](gdpr.md).
+
+---
+
 ### Domain Separation
 
 The system is divided into independent business domains:
@@ -66,14 +74,13 @@ Responsibilities:
 - the shared UI for the Orchestra pages (see below)
 - the check that the private file directories of the plugins cannot be downloaded
   (`Orchestra\Core\Files\PrivateDirectoryCheck`, see [persistence.md](persistence.md#sheet-music-files))
+- the privacy policy text of the shared parts (login, cookie, update check;
+  `Orchestra\Core\Privacy\PolicyText`) and the link to the site's privacy policy
+  (`Html::privacyPolicyLink()`, since 0.18), see [gdpr.md](gdpr.md)
 - PDF documents (`Orchestra\Core\Pdf\Pdf`, with dompdf): the plugins pass simple HTML with
   tables, core adds the page layout and sends the download. dompdf is bundled only here, so
   that the plugins do not load different versions of it.
 - automatic updates from GitHub releases
-
-Planned:
-
-- logging
 
 Contains no business logic. Core owns the *roles*, but each domain plugin owns its *capabilities*
 and decides which roles receive them.
@@ -130,7 +137,8 @@ The domain plugins register **recipient groups**, following the same pattern as 
 orchestra-members the global groups (everyone, all members, all conductors, all organizers),
 orchestra-projects the project groups. orchestra-email resolves them,
 sends one email per recipient in the background (formatted text, optionally with attachments) and
-keeps a log with metadata only.
+keeps a log without recipient addresses or texts, which senders see for their own emails
+(administrators for all).
 The plugin is optional: the domain plugins register their groups only when it runs. See the
 [orchestra-email documentation](https://github.com/TheRacoonOfDeath/orchestra-email/blob/main/docs/email.md).
 
@@ -216,7 +224,10 @@ Core provides the shared pieces in `Orchestra\Core\Ui`:
   be an area inside a website with logins of its own. The Orchestra pages have no "Log out" link of
   their own: it is the "Log in / Log out" entry of the site's menu and on the login page. For
   visitors, the start page shows "<site name> – internal area" and a line about what is inside
-  above the login form.
+  above the login form. Failed logins show one message for an unknown name or email address and a
+  wrong password (since 0.18), so the page does not tell who has an account; other messages, e.g.
+  that an account is inactive, which orchestra-members only reports after the correct password,
+  are shown as they are. The page links to the site's privacy policy.
 - `PasswordReset` (since 0.15): "Forgot your password?" happens on the Orchestra login page too.
   `lostpassword_url` leads to `?orchestra_login=lostpassword`, where WordPress's email is requested
   (`retrieve_password()`; the page never says whether the account exists). The link in that email

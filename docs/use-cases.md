@@ -734,6 +734,7 @@ Organizer, Conductor
 
 - Every active member of the selected groups receives the email.
 - Recipients do not see each other's addresses.
+- The sender sees the email in "Sent emails"; other senders do not (administrators do).
 
 ---
 

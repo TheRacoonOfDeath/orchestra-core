@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-06 07:46+0100\n"
+"POT-Creation-Date: 2026-11-11 13:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,9 +79,9 @@ msgstr ""
 msgid "They are only delivered to users who may see them."
 msgstr ""
 
-#: src/Files/PrivateDirectoryCheck.php:257 src/Ui/LoginMenuItem.php:73
-#: src/Ui/NavigationShortcodes.php:33 src/Ui/PageSetup.php:34
-#: src/Ui/PageSetup.php:74
+#: src/Files/PrivateDirectoryCheck.php:257 src/Privacy/PolicyText.php:60
+#: src/Ui/LoginMenuItem.php:73 src/Ui/NavigationShortcodes.php:33
+#: src/Ui/PageSetup.php:34 src/Ui/PageSetup.php:74
 msgid "Orchestra"
 msgstr ""
 
@@ -119,6 +119,38 @@ msgstr ""
 msgid "Page {PAGE_NUM} of {PAGE_COUNT}"
 msgstr ""
 
+#: src/Privacy/PolicyText.php:30
+msgid ""
+"The orchestra pages are an internal area for members. Accounts are created "
+"by the orchestra; there is no self-registration. The pages are hidden from "
+"search engines, and the profiles of members cannot be found from outside."
+msgstr ""
+
+#: src/Privacy/PolicyText.php:36
+msgid ""
+"When you log in, WordPress sets the cookies needed for the login. When you "
+"open the link to set a new password, a cookie with your username and the key "
+"of the link is set until you have set the password or close the browser. "
+"After a form is sent, the browser keeps the scroll position for one minute "
+"in its session storage. These are needed for the pages to work; no tracking "
+"or analytics takes place."
+msgstr ""
+
+#: src/Privacy/PolicyText.php:44
+msgid ""
+"Failed logins and requests for a new password do not show whether an account "
+"exists. An account receives at most one email with a new password link every "
+"few minutes."
+msgstr ""
+
+#: src/Privacy/PolicyText.php:49
+msgid ""
+"Twice a day, the website asks GitHub (GitHub Inc., USA) whether there are "
+"updates of the orchestra plugins. The request contains the address of the "
+"website and the versions of WordPress, PHP and the plugins, but no data of "
+"members."
+msgstr ""
+
 #: src/Ui/EmailMoved.php:39
 msgid ""
 "Emails are now a plugin of their own: Orchestra Email. Install and activate "
@@ -130,12 +162,16 @@ msgstr ""
 msgid "Download Orchestra Email"
 msgstr ""
 
-#: src/Ui/Html.php:45 src/Ui/LoginMenuItem.php:59 src/Ui/LoginMenuItem.php:97
-#: src/Ui/LoginShortcode.php:76
+#: src/Ui/Html.php:45
+msgid "Privacy policy"
+msgstr ""
+
+#: src/Ui/Html.php:60 src/Ui/LoginMenuItem.php:59 src/Ui/LoginMenuItem.php:97
+#: src/Ui/LoginShortcode.php:77
 msgid "Log in"
 msgstr ""
 
-#: src/Ui/Html.php:127
+#: src/Ui/Html.php:142
 msgid "Sections"
 msgstr ""
 
@@ -153,7 +189,7 @@ msgid ""
 "site language."
 msgstr ""
 
-#: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:56
+#: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:57
 msgid "Log out"
 msgstr ""
 
@@ -170,25 +206,29 @@ msgid "Add to Menu"
 msgstr ""
 
 #. translators: %s: user's name
-#: src/Ui/LoginShortcode.php:52
+#: src/Ui/LoginShortcode.php:53
 #, php-format
 msgid "You are logged in as %s."
 msgstr ""
 
-#: src/Ui/LoginShortcode.php:55
+#: src/Ui/LoginShortcode.php:56
 msgid "Go to the orchestra pages"
 msgstr ""
 
-#: src/Ui/LoginShortcode.php:74 src/Ui/PasswordReset.php:167
+#: src/Ui/LoginShortcode.php:75 src/Ui/PasswordReset.php:200
 msgid "Username or email address"
 msgstr ""
 
-#: src/Ui/LoginShortcode.php:84 src/Ui/PasswordReset.php:159
+#: src/Ui/LoginShortcode.php:85 src/Ui/PasswordReset.php:192
 msgid "Forgot your password?"
 msgstr ""
 
-#: src/Ui/LoginShortcode.php:103
+#: src/Ui/LoginShortcode.php:107
 msgid "The login failed."
+msgstr ""
+
+#: src/Ui/LoginShortcode.php:126
+msgid "The username, email address or password is incorrect."
 msgstr ""
 
 #: src/Ui/NavigationShortcodes.php:36
@@ -251,70 +291,76 @@ msgstr ""
 msgid "The Orchestra pages have been created."
 msgstr ""
 
-#: src/Ui/PasswordReset.php:122
+#: src/Ui/PasswordReset.php:115
+msgid ""
+"An email with a link has just been sent. Please check your inbox or try "
+"again in a few minutes."
+msgstr ""
+
+#: src/Ui/PasswordReset.php:155
 msgid ""
 "If there is an account with this name or email address, it has received an "
 "email with a link."
 msgstr ""
 
-#: src/Ui/PasswordReset.php:125
+#: src/Ui/PasswordReset.php:158
 msgid "Your new password has been set. You can log in with it now."
 msgstr ""
 
-#: src/Ui/PasswordReset.php:127
+#: src/Ui/PasswordReset.php:160
 msgid "This link is invalid or has expired. Please ask for a new one."
 msgstr ""
 
 #. translators: %d: minimum number of characters
-#: src/Ui/PasswordReset.php:132
+#: src/Ui/PasswordReset.php:165
 #, php-format
 msgid "The new password must have at least %d characters."
 msgstr ""
 
-#: src/Ui/PasswordReset.php:135
+#: src/Ui/PasswordReset.php:168
 msgid "The new passwords do not match."
 msgstr ""
 
-#: src/Ui/PasswordReset.php:161
+#: src/Ui/PasswordReset.php:194
 msgid ""
 "Enter your username or email address. You will receive an email with a link "
 "to set a new password."
 msgstr ""
 
-#: src/Ui/PasswordReset.php:171
+#: src/Ui/PasswordReset.php:204
 msgid "Get a new password"
 msgstr ""
 
-#: src/Ui/PasswordReset.php:172
+#: src/Ui/PasswordReset.php:205
 msgid "Back to login"
 msgstr ""
 
-#: src/Ui/PasswordReset.php:186
+#: src/Ui/PasswordReset.php:219
 msgid "Get a new link"
 msgstr ""
 
 #. translators: %d: minimum number of characters
-#: src/Ui/PasswordReset.php:191
+#: src/Ui/PasswordReset.php:224
 #, php-format
 msgid "At least %d characters."
 msgstr ""
 
-#: src/Ui/PasswordReset.php:195
+#: src/Ui/PasswordReset.php:228
 msgid "Set a new password"
 msgstr ""
 
-#: src/Ui/PasswordReset.php:199
+#: src/Ui/PasswordReset.php:232
 msgid "New password"
 msgstr ""
 
-#: src/Ui/PasswordReset.php:206
+#: src/Ui/PasswordReset.php:239
 msgid "Repeat new password"
 msgstr ""
 
-#: src/Ui/PasswordReset.php:210
+#: src/Ui/PasswordReset.php:243
 msgid "Set password"
 msgstr ""
 
-#: src/Ui/PasswordReset.php:294
+#: src/Ui/PasswordReset.php:327
 msgid "The form has expired. Please try again."
 msgstr ""

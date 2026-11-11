@@ -8,7 +8,8 @@ namespace Orchestra\Core\Ui;
  * `[orchestra_login]`: the login form on a normal page. After logging in, users go back to the page
  * in `redirect_to` (e.g. a download that needed a login, see {@see LoginPageRedirect}), or to the
  * start page.
- * Failed logins come back to the page with WordPress's message, e.g. that the account is inactive.
+ * Failed logins come back to the page with a message. An unknown name and a wrong password get the
+ * same one, so that visitors cannot find out who has an account ({@see failureMessage()}).
  */
 final class LoginShortcode
 {
@@ -81,7 +82,8 @@ final class LoginShortcode
         $lostPassword = \wp_lostpassword_url(Redirect::currentUrl());
 
         return $html . $form . '<p class="orchestra-muted"><a href="' . \esc_url($lostPassword) . '">'
-            . \esc_html__('Forgot your password?', 'orchestra-core') . '</a></p></div>';
+            . \esc_html__('Forgot your password?', 'orchestra-core') . '</a></p>' . Html::privacyPolicyLink()
+            . '</div>';
     }
 
     /**
@@ -98,7 +100,9 @@ final class LoginShortcode
             return;
         }
 
-        $message = $error instanceof \WP_Error ? \implode(' ', $error->get_error_messages()) : '';
+        $message = $error instanceof \WP_Error
+            ? self::failureMessage($error->get_error_codes(), \implode(' ', $error->get_error_messages()))
+            : '';
         $token = \wp_generate_password(20, false);
         $message = $message !== '' ? $message : \__('The login failed.', 'orchestra-core');
         \set_transient(self::ERROR_TRANSIENT_PREFIX . $token, $message, 120);
@@ -106,6 +110,23 @@ final class LoginShortcode
         $page = \remove_query_arg(self::ERROR_PARAMETER, $page);
         \wp_safe_redirect(\add_query_arg(self::ERROR_PARAMETER, $token, $page));
         exit;
+    }
+
+    /**
+     * WordPress says whether the name or email address is unknown or the password is wrong, which
+     * tells anyone which accounts exist. These reasons get one message. Others are kept, e.g. that
+     * the account is inactive, which orchestra-members only reports after the correct password.
+     *
+     * @param array<int|string> $codes error codes of the failed login
+     */
+    public static function failureMessage(array $codes, string $message): string
+    {
+        $revealing = ['invalid_username', 'invalid_email', 'incorrect_password'];
+        if (\array_intersect(\array_map('strval', $codes), $revealing) !== []) {
+            return \esc_html__('The username, email address or password is incorrect.', 'orchestra-core');
+        }
+
+        return $message;
     }
 
     private static function takeError(): string

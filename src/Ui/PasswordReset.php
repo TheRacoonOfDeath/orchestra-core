@@ -18,6 +18,8 @@ use WP_User;
  *   page (`?orchestra_login=resetpass`), like WordPress does, so the key does not stay in the URL.
  * - Results are reported with a fixed `orchestra_password` state in the URL, never with user data:
  *   visitors have no notices of their own.
+ * - An account receives at most one email every few minutes ({@see limitEmails()}), also when the
+ *   link is requested on WordPress's login screen.
  *
  * Without an Orchestra login or start page, WordPress's screens are used.
  */
@@ -28,10 +30,12 @@ final class PasswordReset
     public const VIEW_RESET = 'resetpass';
     public const STATE = 'orchestra_password';
     public const MIN_LENGTH = 8;
+    public const EMAIL_INTERVAL = 300;
 
     private const REQUEST_ACTION = 'orchestra_core_lost_password';
     private const RESET_ACTION = 'orchestra_core_reset_password';
     private const COOKIE = 'orchestra_core_resetpass';
+    private const SENT_TRANSIENT_PREFIX = 'orchestra_core_reset_sent_';
     private const FIELD_LOGIN = 'user_login';
     private const FIELD_PASSWORD = 'new_password';
     private const FIELD_REPEAT = 'new_password_repeat';
@@ -41,6 +45,7 @@ final class PasswordReset
         \add_filter('lostpassword_url', [self::class, 'lostPasswordUrl']);
         \add_action('login_form_rp', [self::class, 'continueOnPage']);
         \add_action('login_form_resetpass', [self::class, 'continueOnPage']);
+        \add_filter('lostpassword_errors', [self::class, 'limitEmails'], 10, 2);
         foreach (['admin_post_nopriv_', 'admin_post_'] as $prefix) {
             \add_action($prefix . self::REQUEST_ACTION, [self::class, 'handleRequest']);
             \add_action($prefix . self::RESET_ACTION, [self::class, 'handleReset']);
@@ -88,6 +93,34 @@ final class PasswordReset
         \setcookie(self::COOKIE, $login . ':' . $key, self::cookieOptions(0));
         \wp_safe_redirect($page);
         exit;
+    }
+
+    /**
+     * Sends an account at most one reset email every {@see EMAIL_INTERVAL} seconds, so that nobody
+     * can fill a member's inbox with them. Only the user ID is remembered, nothing about who asked.
+     * On the Orchestra page the result is not shown, so it still does not tell whether the account
+     * exists.
+     *
+     * @internal Hooked to `lostpassword_errors` of `retrieve_password()`.
+     */
+    public static function limitEmails(\WP_Error $errors, mixed $user = false): \WP_Error
+    {
+        if (!$user instanceof WP_User || $errors->has_errors()) {
+            return $errors;
+        }
+
+        $transient = self::SENT_TRANSIENT_PREFIX . $user->ID;
+        if (\get_transient($transient) !== false) {
+            $errors->add('orchestra_core_reset_wait', \__(
+                'An email with a link has just been sent. Please check your inbox or try again in a few minutes.',
+                'orchestra-core'
+            ));
+
+            return $errors;
+        }
+        \set_transient($transient, 1, self::EMAIL_INTERVAL);
+
+        return $errors;
     }
 
     /**

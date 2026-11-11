@@ -31,6 +31,21 @@ final class Html
     }
 
     /**
+     * A paragraph with a link to the site's privacy policy (Settings → Privacy), or "" if there is
+     * none. Shown where people log in and where they enter personal data.
+     */
+    public static function privacyPolicyLink(): string
+    {
+        $url = \get_privacy_policy_url();
+        if ($url === '') {
+            return '';
+        }
+
+        return '<p class="orchestra-muted"><a href="' . \esc_url($url) . '">'
+            . \esc_html__('Privacy policy', 'orchestra-core') . '</a></p>';
+    }
+
+    /**
      * Shown by shortcodes to logged-out visitors.
      */
     public static function loginRequired(string $message): string

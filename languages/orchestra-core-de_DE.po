@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-06 07:46+0100\n"
+"POT-Creation-Date: 2026-11-11 13:12+0100\n"
 "PO-Revision-Date: 2026-10-16 00:00+0000\n"
 "Last-Translator: Julian Nickerl\n"
 "Language-Team: German\n"
@@ -82,9 +82,9 @@ msgstr ""
 msgid "They are only delivered to users who may see them."
 msgstr "Sie werden nur an Benutzer ausgeliefert, die sie sehen dürfen."
 
-#: src/Files/PrivateDirectoryCheck.php:257 src/Ui/LoginMenuItem.php:73
-#: src/Ui/NavigationShortcodes.php:33 src/Ui/PageSetup.php:34
-#: src/Ui/PageSetup.php:74
+#: src/Files/PrivateDirectoryCheck.php:257 src/Privacy/PolicyText.php:60
+#: src/Ui/LoginMenuItem.php:73 src/Ui/NavigationShortcodes.php:33
+#: src/Ui/PageSetup.php:34 src/Ui/PageSetup.php:74
 msgid "Orchestra"
 msgstr "Orchester"
 
@@ -124,6 +124,56 @@ msgstr "Erstellt am %s"
 msgid "Page {PAGE_NUM} of {PAGE_COUNT}"
 msgstr "Seite {PAGE_NUM} von {PAGE_COUNT}"
 
+#: src/Privacy/PolicyText.php:30
+msgid ""
+"The orchestra pages are an internal area for members. Accounts are created "
+"by the orchestra; there is no self-registration. The pages are hidden from "
+"search engines, and the profiles of members cannot be found from outside."
+msgstr ""
+"Die Orchesterseiten sind ein interner Bereich für Mitglieder. Konten werden "
+"vom Orchester angelegt; eine Selbstregistrierung gibt es nicht. Die Seiten "
+"sind vor Suchmaschinen verborgen, und die Profile der Mitglieder sind von "
+"außen nicht auffindbar."
+
+#: src/Privacy/PolicyText.php:36
+msgid ""
+"When you log in, WordPress sets the cookies needed for the login. When you "
+"open the link to set a new password, a cookie with your username and the key "
+"of the link is set until you have set the password or close the browser. "
+"After a form is sent, the browser keeps the scroll position for one minute "
+"in its session storage. These are needed for the pages to work; no tracking "
+"or analytics takes place."
+msgstr ""
+"Beim Einloggen setzt WordPress die dafür nötigen Cookies. Wenn du den Link "
+"zum Festlegen eines neuen Passworts öffnest, wird ein Cookie mit deinem "
+"Benutzernamen und dem Schlüssel des Links gesetzt, bis du das Passwort "
+"festgelegt oder den Browser geschlossen hast. Nach dem Absenden eines "
+"Formulars merkt sich der Browser die Scrollposition für eine Minute im "
+"Sitzungsspeicher. Beides ist für die Funktion der Seiten nötig; es findet "
+"kein Tracking und keine Analyse statt."
+
+#: src/Privacy/PolicyText.php:44
+msgid ""
+"Failed logins and requests for a new password do not show whether an account "
+"exists. An account receives at most one email with a new password link every "
+"few minutes."
+msgstr ""
+"Fehlgeschlagene Login-Versuche und Anfragen nach einem neuen Passwort zeigen "
+"nicht, ob ein Konto existiert. Ein Konto erhält höchstens alle paar Minuten "
+"eine E-Mail mit einem Link für ein neues Passwort."
+
+#: src/Privacy/PolicyText.php:49
+msgid ""
+"Twice a day, the website asks GitHub (GitHub Inc., USA) whether there are "
+"updates of the orchestra plugins. The request contains the address of the "
+"website and the versions of WordPress, PHP and the plugins, but no data of "
+"members."
+msgstr ""
+"Zweimal täglich fragt die Website bei GitHub (GitHub Inc., USA) nach Updates "
+"der Orchester-Plugins. Die Anfrage enthält die Adresse der Website und die "
+"Versionen von WordPress, PHP und den Plugins, aber keine Daten von "
+"Mitgliedern."
+
 #: src/Ui/EmailMoved.php:39
 msgid ""
 "Emails are now a plugin of their own: Orchestra Email. Install and activate "
@@ -138,12 +188,16 @@ msgstr ""
 msgid "Download Orchestra Email"
 msgstr "Orchestra Email herunterladen"
 
-#: src/Ui/Html.php:45 src/Ui/LoginMenuItem.php:59 src/Ui/LoginMenuItem.php:97
-#: src/Ui/LoginShortcode.php:76
+#: src/Ui/Html.php:45
+msgid "Privacy policy"
+msgstr "Datenschutzerklärung"
+
+#: src/Ui/Html.php:60 src/Ui/LoginMenuItem.php:59 src/Ui/LoginMenuItem.php:97
+#: src/Ui/LoginShortcode.php:77
 msgid "Log in"
 msgstr "Einloggen"
 
-#: src/Ui/Html.php:127
+#: src/Ui/Html.php:142
 msgid "Sections"
 msgstr "Bereiche"
 
@@ -163,7 +217,7 @@ msgstr ""
 "Die Sprache der Orchesterseiten und -ansichten. WordPress selbst behält die "
 "Sprache der Website."
 
-#: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:56
+#: src/Ui/LoginMenuItem.php:59 src/Ui/LoginShortcode.php:57
 msgid "Log out"
 msgstr "Ausloggen"
 
@@ -180,26 +234,30 @@ msgid "Add to Menu"
 msgstr "Zum Menü hinzufügen"
 
 #. translators: %s: user's name
-#: src/Ui/LoginShortcode.php:52
+#: src/Ui/LoginShortcode.php:53
 #, php-format
 msgid "You are logged in as %s."
 msgstr "Du bist als %s eingeloggt."
 
-#: src/Ui/LoginShortcode.php:55
+#: src/Ui/LoginShortcode.php:56
 msgid "Go to the orchestra pages"
 msgstr "Zu den Orchesterseiten"
 
-#: src/Ui/LoginShortcode.php:74 src/Ui/PasswordReset.php:167
+#: src/Ui/LoginShortcode.php:75 src/Ui/PasswordReset.php:200
 msgid "Username or email address"
 msgstr "Benutzername oder E-Mail-Adresse"
 
-#: src/Ui/LoginShortcode.php:84 src/Ui/PasswordReset.php:159
+#: src/Ui/LoginShortcode.php:85 src/Ui/PasswordReset.php:192
 msgid "Forgot your password?"
 msgstr "Passwort vergessen?"
 
-#: src/Ui/LoginShortcode.php:103
+#: src/Ui/LoginShortcode.php:107
 msgid "The login failed."
 msgstr "Das Einloggen ist fehlgeschlagen."
+
+#: src/Ui/LoginShortcode.php:126
+msgid "The username, email address or password is incorrect."
+msgstr "Benutzername, E-Mail-Adresse oder Passwort ist falsch."
 
 #: src/Ui/NavigationShortcodes.php:36
 msgid "Overview"
@@ -267,7 +325,15 @@ msgstr "Wähle die Seiten aus, die angelegt werden sollen."
 msgid "The Orchestra pages have been created."
 msgstr "Die Orchesterseiten wurden angelegt."
 
-#: src/Ui/PasswordReset.php:122
+#: src/Ui/PasswordReset.php:115
+msgid ""
+"An email with a link has just been sent. Please check your inbox or try "
+"again in a few minutes."
+msgstr ""
+"Gerade wurde eine E-Mail mit einem Link gesendet. Bitte sieh in deinem "
+"Posteingang nach oder versuche es in ein paar Minuten noch einmal."
+
+#: src/Ui/PasswordReset.php:155
 msgid ""
 "If there is an account with this name or email address, it has received an "
 "email with a link."
@@ -275,26 +341,26 @@ msgstr ""
 "Falls es ein Konto mit diesem Namen oder dieser E-Mail-Adresse gibt, hat es "
 "eine E-Mail mit einem Link bekommen."
 
-#: src/Ui/PasswordReset.php:125
+#: src/Ui/PasswordReset.php:158
 msgid "Your new password has been set. You can log in with it now."
 msgstr "Dein neues Passwort ist gesetzt. Du kannst dich jetzt damit anmelden."
 
-#: src/Ui/PasswordReset.php:127
+#: src/Ui/PasswordReset.php:160
 msgid "This link is invalid or has expired. Please ask for a new one."
 msgstr ""
 "Dieser Link ist ungültig oder abgelaufen. Bitte fordere einen neuen an."
 
 #. translators: %d: minimum number of characters
-#: src/Ui/PasswordReset.php:132
+#: src/Ui/PasswordReset.php:165
 #, php-format
 msgid "The new password must have at least %d characters."
 msgstr "Das neue Passwort muss mindestens %d Zeichen haben."
 
-#: src/Ui/PasswordReset.php:135
+#: src/Ui/PasswordReset.php:168
 msgid "The new passwords do not match."
 msgstr "Die neuen Passwörter stimmen nicht überein."
 
-#: src/Ui/PasswordReset.php:161
+#: src/Ui/PasswordReset.php:194
 msgid ""
 "Enter your username or email address. You will receive an email with a link "
 "to set a new password."
@@ -302,40 +368,40 @@ msgstr ""
 "Gib deinen Benutzernamen oder deine E-Mail-Adresse ein. Du bekommst eine E-"
 "Mail mit einem Link, um ein neues Passwort zu setzen."
 
-#: src/Ui/PasswordReset.php:171
+#: src/Ui/PasswordReset.php:204
 msgid "Get a new password"
 msgstr "Neues Passwort anfordern"
 
-#: src/Ui/PasswordReset.php:172
+#: src/Ui/PasswordReset.php:205
 msgid "Back to login"
 msgstr "Zurück zur Anmeldung"
 
-#: src/Ui/PasswordReset.php:186
+#: src/Ui/PasswordReset.php:219
 msgid "Get a new link"
 msgstr "Neuen Link anfordern"
 
 #. translators: %d: minimum number of characters
-#: src/Ui/PasswordReset.php:191
+#: src/Ui/PasswordReset.php:224
 #, php-format
 msgid "At least %d characters."
 msgstr "Mindestens %d Zeichen."
 
-#: src/Ui/PasswordReset.php:195
+#: src/Ui/PasswordReset.php:228
 msgid "Set a new password"
 msgstr "Neues Passwort setzen"
 
-#: src/Ui/PasswordReset.php:199
+#: src/Ui/PasswordReset.php:232
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: src/Ui/PasswordReset.php:206
+#: src/Ui/PasswordReset.php:239
 msgid "Repeat new password"
 msgstr "Neues Passwort wiederholen"
 
-#: src/Ui/PasswordReset.php:210
+#: src/Ui/PasswordReset.php:243
 msgid "Set password"
 msgstr "Passwort setzen"
 
-#: src/Ui/PasswordReset.php:294
+#: src/Ui/PasswordReset.php:327
 msgid "The form has expired. Please try again."
 msgstr "Das Formular ist abgelaufen. Bitte versuche es noch einmal."

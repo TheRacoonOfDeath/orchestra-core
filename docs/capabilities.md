@@ -222,6 +222,14 @@ their own participation. Conductors do not play.
 Which projects members can see and when they can respond depends on the project status. These
 rules are business rules of orchestra-projects, checked in addition to the capabilities.
 
+### orchestra-email
+
+Who may email a group is decided by the plugin that registers it (see the capabilities above).
+
+| Capability | Member | Conductor | Organizer | Librarian |
+|-----------|:------:|:---------:|:---------:|:---------:|
+| `orchestra_email_log_read_others` (see the emails of all senders in "Sent emails"; everyone else sees their own) | | | | |
+
 ### orchestra-seating
 
 | Capability | Member | Conductor | Organizer | Librarian |

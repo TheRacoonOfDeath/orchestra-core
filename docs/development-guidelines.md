@@ -38,6 +38,13 @@ Commit `composer.lock`. Releases are built from it (see [BUILD.md](../BUILD.md))
   the object ID (see [capabilities.md](capabilities.md)).
 - Escape all output, verify nonces on every state-changing request.
 
+## Privacy
+
+Data protection is a fundamental requirement ([gdpr.md](gdpr.md)). Every change that stores, shows
+or sends personal data goes through the [development checklist](gdpr.md#development-checklist):
+store only what is needed, check a capability, add it to the exporter and eraser, handle
+`deleted_user` and `uninstall.php`, update the privacy policy text and gdpr.md.
+
 ## Security scans
 
 Every repo runs the security scan of

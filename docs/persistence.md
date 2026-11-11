@@ -32,7 +32,7 @@
 | Whether a member receives automatic emails | orchestra-members | user meta `orchestra_members_no_automatic_emails` |
 | Texts of the automatic emails | orchestra-email | option `orchestra_email_automatic_templates` |
 | Communication groups | orchestra-members, orchestra-projects | not stored, computed on demand |
-| Email log (metadata only) | orchestra-email | table `orchestra_core_email_log` (name kept from orchestra-core) |
+| Email log (sender, subject, groups, counts) | orchestra-email | table `orchestra_core_email_log` (name kept from orchestra-core) |
 | Emails waiting to be sent | orchestra-email | table `orchestra_core_email_queue` (name kept from orchestra-core; automatic emails with a subject and body per recipient) |
 | Email attachments until sent | orchestra-email | table `orchestra_email_attachments`, files in a private directory |
 | Seating plans (grid, organizer switch; project ID 0 is the master seating) | orchestra-seating | table `orchestra_seating_plans` |
@@ -115,14 +115,21 @@ add_filter('orchestra_library_piece_delete_blockers', function (array $blockers,
 
 ## Personal Data
 
-- When a member is set to inactive, orchestra-members deletes the sensitive profile meta
-  (the values of all profile fields, e.g. financial support and dietary restrictions).
+What is stored, why, for how long and who sees it is documented in [gdpr.md](gdpr.md), the
+central data protection document of the suite. In short:
+
+- When a member is set to inactive or loses the Orchestra role, orchestra-members deletes the
+  sensitive profile meta (the values of all profile fields, e.g. financial support and dietary
+  restrictions).
 - Every plugin that stores personal data registers a personal data exporter and eraser
-  (`wp_privacy_personal_data_exporters`, `wp_privacy_personal_data_erasers`).
-  Records needed for history (participation, assignments) are anonymized instead of deleted.
+  (`wp_privacy_personal_data_exporters`, `wp_privacy_personal_data_erasers`) and a privacy policy
+  text. Records needed for history (participation, assignments) are kept by the eraser and
+  anonymized when the account is deleted; everything else is erased.
+- On `deleted_user`, every plugin removes or anonymizes its references to the user, including
+  "who did it" columns and the author of pieces and projects.
 - The email log keeps the message text and attachments only until the email has been sent and
-  never stores recipient addresses; the queue holds user IDs until delivery. Log entries are deleted after
-  12 months.
+  never stores recipient addresses; single recipients are kept as a user ID, not by name. The queue
+  holds user IDs until delivery. Log entries are deleted after 12 months.
 
 ---
 

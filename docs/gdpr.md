@@ -222,8 +222,8 @@ profile values as sensitive:
 - Monitoring: an uptime check and access to the PHP error log, so that a failing WP-Cron or mail
   delivery is noticed.
 - Plugin updates install automatically from the GitHub releases. Their zips are built by GitHub
-  Actions with a signed build provenance; `gh attestation verify <zip> --repo
-  TheRacoonOfDeath/<plugin>` checks one.
+  Actions with a signed build provenance; each plugin's `SECURITY.md` shows how to check one with
+  `gh attestation verify`.
 
 ---
 

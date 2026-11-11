@@ -44,7 +44,8 @@ built for a release on a developer's machine, so a compromised laptop cannot shi
 sites. Anyone can check a zip:
 
 ```bash
-gh attestation verify orchestra-core-X.Y.Z.zip --repo TheRacoonOfDeath/orchestra-core
+gh attestation verify orchestra-core-X.Y.Z.zip --repo TheRacoonOfDeath/orchestra-core \
+    --signer-workflow TheRacoonOfDeath/orchestra-workflows/.github/workflows/release.yml
 ```
 
 ## First installation

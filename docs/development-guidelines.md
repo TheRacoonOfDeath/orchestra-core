@@ -22,6 +22,12 @@
 
 Commit `composer.lock`. Releases are built from it (see [BUILD.md](../BUILD.md)).
 
+GitHub Actions runs the same checks on every push and pull request (`.github/workflows/ci.yml`,
+from [orchestra-workflows](https://github.com/TheRacoonOfDeath/orchestra-workflows#tests)):
+`composer check` on PHP 8.3 and the latest PHP, and `composer e2e` on WordPress 6.5 and the
+latest for plugins with end-to-end tests. Raise "Requires at least", "Tested up to" (main plugin
+file) and the `min-wordpress` of the workflow together.
+
 ## Tests
 
 - Unit tests cover behaviour, not structure. Do not write tests that only check that a class or

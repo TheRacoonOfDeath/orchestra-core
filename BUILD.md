@@ -29,10 +29,23 @@ Your local `vendor/` directory is never copied.
 
 1. Run `composer check`.
 2. Bump `Version:` in `orchestra-core.php`.
-3. Run `./build-plugin.sh`.
-4. Create a GitHub release `v{VERSION}` and attach the zip **and `update.json`** as release
-   assets. Installed sites read `update.json` from the latest release and pick up the update
-   automatically, within 12 hours or with **Dashboard → Updates → Check again**.
+3. Commit and push, then push an annotated tag with short user-facing notes:
+   `git tag -a v{VERSION} -m "notes" && git push origin v{VERSION}`. GitHub Actions runs
+   `composer check`, builds the zip and `update.json` with `./build-plugin.sh`, signs their build
+   provenance and creates the release
+   ([orchestra-workflows](https://github.com/TheRacoonOfDeath/orchestra-workflows#releases)).
+   `./build-plugin.sh` stays available for local test builds.
+
+Installed sites read `update.json` from the latest release and pick up the update automatically,
+within 12 hours or with **Dashboard → Updates → Check again**.
+
+Every plugin of the suite releases this way (`.github/workflows/release.yml`). Zips are never
+built for a release on a developer's machine, so a compromised laptop cannot ship code to the
+sites. Anyone can check a zip:
+
+```bash
+gh attestation verify orchestra-core-X.Y.Z.zip --repo TheRacoonOfDeath/orchestra-core
+```
 
 ## First installation
 

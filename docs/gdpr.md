@@ -47,6 +47,15 @@ The orchestra has to:
    need. Fields that reveal health or religion are special categories ([Art. 9](#special-categories-art-9)).
 5. **Run the site securely** ([operator checklist](#operator-checklist)).
 6. **Answer requests** of members (access, erasure) with the WordPress tools ([rights](#rights-of-the-people)).
+7. **Have a legal basis in the association:** the statutes or a resolution of the members' meeting
+   should cover the membership data and the project history, and new members get the privacy
+   notice when they join. A data protection officer is only required when at least 20 people
+   regularly process personal data (§38 BDSG), which is rare for an orchestra.
+8. **Publish an Impressum** (§5 DDG) if the website is public.
+9. **Know what to do after a data breach** ([below](#data-breaches)).
+
+The plugins link to the privacy policy only once a page is published and selected under
+Settings → Privacy.
 
 ---
 
@@ -195,7 +204,10 @@ profile values as sensitive:
 
 ## Operator checklist
 
+- A published privacy policy (Settings → Privacy) and, for a public site, an Impressum.
 - HTTPS for the whole site.
+- Two-factor authentication for administrators and organizers, who see sensitive profile data
+  (a 2FA plugin; WordPress has none built in).
 - On nginx, deny the private directories or define `ORCHESTRA_LIBRARY_STORAGE_DIR` and
   `ORCHESTRA_EMAIL_STORAGE_DIR` outside the web root; check **Tools → Site Health**.
 - A working WP-Cron (or a server cron): it sends emails and purges the log. Without it, the log is
@@ -205,7 +217,37 @@ profile values as sensitive:
 - Page caches must not cache logged-in users ([architecture.md](architecture.md#orchestra-pages)).
 - Single sites only: on multisite, removing a user from one site does not remove their Orchestra
   data there.
-- Backups contain all personal data: protect them and delete old ones.
+- Backups: regular, encrypted, stored apart from the server, a restore tested once, old ones
+  deleted. They contain all personal data, including deleted and erased data until they expire.
+- Monitoring: an uptime check and access to the PHP error log, so that a failing WP-Cron or mail
+  delivery is noticed.
+- Plugin updates install automatically from the GitHub releases. Their zips are built by GitHub
+  Actions with a signed build provenance; `gh attestation verify <zip> --repo
+  TheRacoonOfDeath/<plugin>` checks one.
+
+---
+
+## Data breaches
+
+A data breach is any loss, disclosure or unauthorised access to personal data, e.g. a hacked
+administrator account, sheet music or attachment directories found to be public (Site Health
+reports this), a lost laptop with a participants CSV, or an email sent to the wrong group with
+personal data.
+
+1. **Contain it:** change the affected passwords (Users → the user → "Log out everywhere else"),
+   remove the cause (e.g. fix the server rule, update the plugin), restrict the access.
+2. **Assess it:** which data, how many people, which risk. Profile values can be special
+   categories (health, religion) and raise the risk.
+3. **Report it within 72 hours** of becoming aware to the data protection authority of the
+   association's federal state (Art. 33), unless the breach is unlikely to result in a risk to
+   people. Most authorities have an online form.
+4. **Inform the affected members** without undue delay if the risk is high (Art. 34), e.g. with
+   an email to the affected group.
+5. **Document it** in every case (Art. 33(5)): what happened, the effects, what was done, and why
+   it was or was not reported.
+
+Security problems in the plugins themselves are reported privately to the developers (each repo's
+`SECURITY.md`).
 
 ---
 

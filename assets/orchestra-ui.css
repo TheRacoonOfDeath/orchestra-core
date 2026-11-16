@@ -1054,41 +1054,39 @@ a.orchestra-card:focus-visible {
     width: 100%;
 }
 
-/* Sortable rows (data-orchestra-sortable) ---------------------------------------------------- */
+/* Sortable rows (data-orchestra-sortable, Html::moveButtons()) -------------------------------- */
 
-.orchestra .orchestra-drag-handle {
+.orchestra-move {
+    display: inline-flex;
+    gap: 0.15rem;
+}
+
+.orchestra .orchestra-move__button {
     align-items: center;
     background: none;
-    border: 1px solid transparent;
+    border: 1px solid var(--orchestra-border);
     border-radius: var(--orchestra-radius-small);
-    color: var(--orchestra-muted);
-    cursor: grab;
+    color: inherit;
+    cursor: pointer;
     display: inline-flex;
-    font-size: 1.2em;
+    font-size: 1em;
     justify-content: center;
     line-height: 1;
-    min-height: 2.4rem;
-    min-width: 2.4rem;
+    min-height: 2.2rem;
+    min-width: 2.2rem;
     padding: 0;
-    touch-action: none;
-    user-select: none;
 }
 
-.orchestra .orchestra-drag-handle:hover {
+.orchestra .orchestra-move__button:hover:not(:disabled) {
     background: var(--orchestra-surface-strong);
-    color: inherit;
 }
 
-.orchestra .orchestra-dragging {
-    background: var(--orchestra-surface-strong);
-    opacity: 0.75;
+.orchestra .orchestra-move__button:disabled {
+    cursor: default;
+    opacity: 0.35;
 }
 
-.orchestra .orchestra-dragging .orchestra-drag-handle {
-    cursor: grabbing;
-}
-
-/* A line at the top of a row: drag handle, title and actions on the right. */
+/* A line at the top of a row: move buttons, title and actions on the right. */
 .orchestra-row-header {
     align-items: center;
     display: flex;

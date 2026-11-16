@@ -149,6 +149,28 @@ final class Html
     }
 
     /**
+     * Since 0.19: the buttons that move a row of a `data-orchestra-sortable` container one place up
+     * or down. The row submits its place in the order through fields of its own.
+     *
+     * @param string $name What the row is called, for screen readers, e.g. "Gitarre 1"
+     */
+    public static function moveButtons(string $name): string
+    {
+        /* translators: %s: name of the row, e.g. a part */
+        $up = \sprintf(\__('Move "%s" up', 'orchestra-core'), $name);
+        /* translators: %s: name of the row, e.g. a part */
+        $down = \sprintf(\__('Move "%s" down', 'orchestra-core'), $name);
+
+        return '<span class="orchestra-move">'
+            . '<button type="button" class="orchestra-move__button" data-orchestra-move="up" aria-label="'
+            . \esc_attr($up) . '" title="' . \esc_attr__('Move up', 'orchestra-core') . '">'
+            . '<span aria-hidden="true">&#8593;</span></button>'
+            . '<button type="button" class="orchestra-move__button" data-orchestra-move="down" aria-label="'
+            . \esc_attr($down) . '" title="' . \esc_attr__('Move down', 'orchestra-core') . '">'
+            . '<span aria-hidden="true">&#8595;</span></button></span>';
+    }
+
+    /**
      * A form field with label and optional hint.
      */
     public static function field(string $id, string $label, string $control, string $hint = ''): string

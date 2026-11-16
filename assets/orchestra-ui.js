@@ -16,13 +16,17 @@
  * - data-orchestra-switch                       on a <select>: in the same row (<tr> or
  *   [data-orchestra-row]), elements with data-orchestra-show-for="value1 value2" are only shown
  *   while one of these values is selected; also in rows added with data-orchestra-add-row
- * - data-orchestra-sortable                     on a container (e.g. <tbody>): its children can be
- *   reordered by dragging their [data-orchestra-drag-handle] (mouse and touch; the page scrolls
- *   near the window edges) or with the arrow keys while the handle has focus. The order is
- *   submitted through fields inside the rows.
+ * - data-orchestra-sortable                     on a container (e.g. <tbody>): its children move one
+ *   place up or down with their buttons [data-orchestra-move="up"] and [data-orchestra-move="down"]
+ *   (Html::moveButtons(), since 0.19; drag and drop until 0.18). The order is submitted through
+ *   fields inside the rows.
  * - data-orchestra-copy="element-id"           on a button (rendered hidden, shown by this script):
  *   copies the value (or the text) of that element to the clipboard; the button's label becomes
  *   data-orchestra-copied="Copied" for a few seconds
+ * - Unsaved changes (since 0.19): leaving a page after changing a form that posts to admin-post.php
+ *   (typing, choosing, adding, removing or moving rows) asks first, until the form is submitted.
+ *   Scripts that change a form without input events dispatch an "orchestra:change" event (bubbling)
+ *   on it or one of its fields. data-orchestra-no-unsaved on a form or field leaves it out.
  * - Forms posting to admin-post.php return to the same scroll position (not in wp-admin): the position is kept in
  *   sessionStorage on submit and restored if the next page is the same page (same path, all of its
  *   query arguments) within a minute. Notices of that return ([data-orchestra-returned]) then float
@@ -199,7 +203,12 @@
             event.preventDefault();
             var removed = remove.closest('[data-orchestra-row], tr');
             if (removed) {
+                var parent = removed.parentElement;
+                markChanged(remove);
                 removed.remove();
+                if (parent && parent.hasAttribute('data-orchestra-sortable')) {
+                    updateMoveButtons(parent);
+                }
             }
             return;
         }
@@ -226,6 +235,10 @@
             if (added.matches('select[data-orchestra-switch]')) {
                 applySwitch(added);
             }
+        }
+        markChanged(target);
+        if (target.hasAttribute('data-orchestra-sortable')) {
+            updateMoveButtons(target);
         }
         var input = target.lastElementChild && target.lastElementChild.querySelector('input, select, textarea');
         if (input) {
@@ -281,108 +294,94 @@
 
     // Sorting ----------------------------------------------------------------------------------
 
-    function sortableRow(handle) {
-        var container = handle.closest('[data-orchestra-sortable]');
-        var row = handle;
+    function sortableRow(element) {
+        var container = element.closest('[data-orchestra-sortable]');
+        var row = element;
         while (row && row.parentElement !== container) {
             row = row.parentElement;
         }
         return container && row ? {container: container, row: row} : null;
     }
 
-    var drag = null;
-    var EDGE = 60;
-
-    function placeDraggedRow(clientY) {
-        var siblings = Array.prototype.filter.call(drag.container.children, function (child) {
-            return child !== drag.row;
+    // The first row cannot move up, the last one not down.
+    function updateMoveButtons(container) {
+        var rows = container.children;
+        Array.prototype.forEach.call(rows, function (row, index) {
+            row.querySelectorAll('[data-orchestra-move]').forEach(function (button) {
+                if (sortableRow(button).row !== row) {
+                    return;
+                }
+                var up = button.getAttribute('data-orchestra-move') === 'up';
+                button.disabled = up ? index === 0 : index === rows.length - 1;
+            });
         });
-        var before = null;
-        for (var i = 0; i < siblings.length; i++) {
-            var box = siblings[i].getBoundingClientRect();
-            if (clientY < box.top + box.height / 2) {
-                before = siblings[i];
-                break;
-            }
-        }
-        if (before !== drag.row.nextElementSibling) {
-            drag.container.insertBefore(drag.row, before);
-        }
     }
 
-    // Scrolls while the pointer is held near the top or bottom edge of the window.
-    function autoScroll() {
-        if (!drag) {
-            return;
-        }
-        var step = 0;
-        if (drag.y < EDGE) {
-            step = -Math.ceil((EDGE - drag.y) / 3);
-        } else if (drag.y > window.innerHeight - EDGE) {
-            step = Math.ceil((drag.y - window.innerHeight + EDGE) / 3);
-        }
-        if (step !== 0) {
-            window.scrollBy(0, step);
-            placeDraggedRow(drag.y);
-        }
-        window.requestAnimationFrame(autoScroll);
+    function updateAllMoveButtons() {
+        document.querySelectorAll('[data-orchestra-sortable]').forEach(updateMoveButtons);
     }
 
-    document.addEventListener('pointerdown', function (event) {
-        var handle = event.target instanceof Element ? event.target.closest('[data-orchestra-drag-handle]') : null;
-        var found = handle && event.button === 0 ? sortableRow(handle) : null;
+    document.addEventListener('click', function (event) {
+        var button = event.target instanceof Element ? event.target.closest('[data-orchestra-move]') : null;
+        var found = button ? sortableRow(button) : null;
         if (!found) {
             return;
         }
         event.preventDefault();
-        handle.setPointerCapture(event.pointerId);
-        found.row.classList.add('orchestra-dragging');
-        drag = {
-            handle: handle,
-            row: found.row,
-            container: found.container,
-            pointerId: event.pointerId,
-            y: event.clientY
-        };
-        window.requestAnimationFrame(autoScroll);
-    });
-
-    document.addEventListener('pointermove', function (event) {
-        if (!drag || event.pointerId !== drag.pointerId) {
-            return;
-        }
-        event.preventDefault();
-        drag.y = event.clientY;
-        placeDraggedRow(event.clientY);
-    });
-
-    function endDrag(event) {
-        if (!drag || event.pointerId !== drag.pointerId) {
-            return;
-        }
-        drag.row.classList.remove('orchestra-dragging');
-        drag.handle.focus();
-        drag = null;
-    }
-
-    document.addEventListener('pointerup', endDrag);
-    document.addEventListener('pointercancel', endDrag);
-
-    document.addEventListener('keydown', function (event) {
-        if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') {
-            return;
-        }
-        var handle = event.target instanceof Element ? event.target.closest('[data-orchestra-drag-handle]') : null;
-        var found = handle ? sortableRow(handle) : null;
-        if (!found) {
-            return;
-        }
-        event.preventDefault();
-        if (event.key === 'ArrowUp' && found.row.previousElementSibling) {
+        var up = button.getAttribute('data-orchestra-move') === 'up';
+        if (up && found.row.previousElementSibling) {
             found.container.insertBefore(found.row, found.row.previousElementSibling);
-        } else if (event.key === 'ArrowDown' && found.row.nextElementSibling) {
+        } else if (!up && found.row.nextElementSibling) {
             found.container.insertBefore(found.row.nextElementSibling, found.row);
+        } else {
+            return;
         }
-        handle.focus();
+        updateMoveButtons(found.container);
+        markChanged(found.container);
+        // At the top or bottom the button is disabled now; the other one keeps the focus.
+        var other = found.row.querySelector('[data-orchestra-move="' + (up ? 'down' : 'up') + '"]');
+        (button.disabled && other ? other : button).focus();
+    });
+
+    updateAllMoveButtons();
+
+    // Unsaved changes --------------------------------------------------------------------------
+
+    // Orchestra forms that save something: they post to admin-post.php.
+    function isTrackedForm(form) {
+        return form instanceof HTMLFormElement && !form.hasAttribute('data-orchestra-no-unsaved')
+            && (form.getAttribute('method') || '').toLowerCase() === 'post'
+            && (form.getAttribute('action') || '').indexOf('admin-post.php') !== -1;
+    }
+
+    function markChanged(element) {
+        var form = element instanceof HTMLFormElement ? element
+            : (element.form || (element.closest ? element.closest('form') : null));
+        if (isTrackedForm(form)) {
+            form.setAttribute('data-orchestra-changed', '');
+        }
+    }
+
+    ['input', 'change', 'orchestra:change'].forEach(function (type) {
+        document.addEventListener(type, function (event) {
+            if (event.target instanceof Element && !event.target.closest('[data-orchestra-no-unsaved]')) {
+                markChanged(event.target);
+            }
+        });
+    });
+
+    // Registered after the confirmations, so a cancelled submit keeps the changes marked.
+    document.addEventListener('submit', function (event) {
+        if (!event.defaultPrevented && event.target instanceof HTMLFormElement) {
+            event.target.removeAttribute('data-orchestra-changed');
+        }
+    });
+
+    window.addEventListener('beforeunload', function (event) {
+        if (document.querySelector('form[data-orchestra-changed]')) {
+            event.preventDefault();
+            // Older browsers only ask if returnValue is set; the text is the browser's own.
+            event.returnValue = '';
+        }
     });
 }());

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-11 13:12+0100\n"
+"POT-Creation-Date: 2026-11-16 13:17+0100\n"
 "PO-Revision-Date: 2026-10-16 00:00+0000\n"
 "Last-Translator: Julian Nickerl\n"
 "Language-Team: German\n"
@@ -200,6 +200,26 @@ msgstr "Einloggen"
 #: src/Ui/Html.php:142
 msgid "Sections"
 msgstr "Bereiche"
+
+#. translators: %s: name of the row, e.g. a part
+#: src/Ui/Html.php:160
+#, php-format
+msgid "Move \"%s\" up"
+msgstr "„%s“ nach oben verschieben"
+
+#. translators: %s: name of the row, e.g. a part
+#: src/Ui/Html.php:162
+#, php-format
+msgid "Move \"%s\" down"
+msgstr "„%s“ nach unten verschieben"
+
+#: src/Ui/Html.php:166
+msgid "Move up"
+msgstr "Nach oben"
+
+#: src/Ui/Html.php:169
+msgid "Move down"
+msgstr "Nach unten"
 
 #: src/Ui/Language.php:42
 msgid "Site language"

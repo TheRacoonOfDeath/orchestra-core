@@ -19,6 +19,7 @@ Core repo providing some fundamental functionality to the orchestra plugins and 
   - `[orchestra_portal]` start page, `[orchestra_menu]` navigation, `[orchestra_login]` login form,
     also for "Forgot your password?" and setting a new password, in the site's design
   - a shared, theme-aware design for all Orchestra pages
+  - leaving a page with unsaved changes in an Orchestra form asks first
   - members, conductors and organizers are kept out of wp-admin; administrators keep it
   - **Create Orchestra pages**: a notice in wp-admin lists every missing Orchestra page (also the
     page of a new area, e.g. after installing another plugin) and creates the selected ones

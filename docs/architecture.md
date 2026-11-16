@@ -201,7 +201,13 @@ Core provides the shared pieces in `Orchestra\Core\Ui`:
   `assets/orchestra-ui.js` is chosen with `data-orchestra-*` attributes, listed at the top of the
   script (e.g. `data-orchestra-switch` and `data-orchestra-show-for` show the parts of a row that
   belong to the selected option, since 0.14; `data-orchestra-copy` on a hidden button copies a
-  field to the clipboard, since 0.16). Everything also works without JavaScript. After a form
+  field to the clipboard, since 0.16). Rows of a `data-orchestra-sortable` container are moved with
+  the up and down buttons of `Html::moveButtons()` (since 0.19; drag and drop until 0.18, which
+  was fiddly on phones and in long lists). Everything else also works without JavaScript.
+  Leaving a page with unsaved changes in an Orchestra form (one posting to `admin-post.php`) asks
+  first, with the browser's own question (since 0.19); scripts that change a form without input
+  events, like the seating editor, dispatch an `orchestra:change` event on it, and
+  `data-orchestra-no-unsaved` leaves a form or field out. After a form
   returns to the same page, the script restores the scroll position (kept in `sessionStorage` for
   a minute) and floats that page's notices at the bottom of the screen; success notices disappear
   after a few seconds. wp-admin screens open at the top, where WordPress shows the notices.

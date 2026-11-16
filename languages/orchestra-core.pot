@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orchestra-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-11 13:12+0100\n"
+"POT-Creation-Date: 2026-11-16 13:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,6 +173,26 @@ msgstr ""
 
 #: src/Ui/Html.php:142
 msgid "Sections"
+msgstr ""
+
+#. translators: %s: name of the row, e.g. a part
+#: src/Ui/Html.php:160
+#, php-format
+msgid "Move \"%s\" up"
+msgstr ""
+
+#. translators: %s: name of the row, e.g. a part
+#: src/Ui/Html.php:162
+#, php-format
+msgid "Move \"%s\" down"
+msgstr ""
+
+#: src/Ui/Html.php:166
+msgid "Move up"
+msgstr ""
+
+#: src/Ui/Html.php:169
+msgid "Move down"
 msgstr ""
 
 #: src/Ui/Language.php:42

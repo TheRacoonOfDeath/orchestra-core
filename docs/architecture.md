@@ -173,7 +173,7 @@ through shortcodes on normal pages ([development guidelines](development-guideli
 | `[orchestra_login]` | core | login form with the messages of WordPress (e.g. inactive account) |
 | `[orchestra_email]` | orchestra-email | write emails to groups, sent emails |
 | `[orchestra_projects]` | orchestra-projects | projects; management for conductors and organizers |
-| `[orchestra_library]` | orchestra-library | library and downloads; piece editor for conductors |
+| `[orchestra_library]` | orchestra-library | library and downloads; piece editor for conductors, organizers and librarians |
 | `[orchestra_members]` | orchestra-members | member list; profiles and status for organizers |
 | `[orchestra_profile]` | orchestra-members | the user's own profile and password |
 | `[orchestra_seating]` | orchestra-seating | the master seating, for conductors and organizers |

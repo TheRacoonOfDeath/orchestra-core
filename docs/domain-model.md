@@ -101,7 +101,8 @@ Owned by orchestra-members.
 ## Roles
 
 - Member: plays in projects.
-- Organizer: manages projects and participation. Organizers may also play in projects.
+- Organizer: manages projects and participation, and also the library (but does not delete
+  pieces). Organizers may also play in projects.
 - Conductor: manages the library and assignments. Conductors do not play in projects.
 - Librarian: plays in projects like a member and also manages the library (but does not delete
   pieces).

@@ -186,10 +186,10 @@ organizers and administrators may read other members' profiles.
 | Capability | Member | Conductor | Organizer | Librarian |
 |-----------|:------:|:---------:|:---------:|:---------:|
 | `orchestra_library_piece_read` (pieces and parts) | ✓ | ✓ | ✓ | ✓ |
-| `orchestra_library_piece_edit` (create, edit, archive pieces and their parts; maintain the instruments) | | ✓ | | ✓ |
+| `orchestra_library_piece_edit` (create, edit, archive pieces and their parts; maintain the instruments) | | ✓ | ✓ | ✓ |
 | `orchestra_library_piece_delete` | | | | |
 | `orchestra_library_sheet_music_download` | ✓ | ✓ | ✓ | ✓ |
-| `orchestra_library_sheet_music_manage` (upload, replace, delete part sheet music and piece files) | | ✓ | | ✓ |
+| `orchestra_library_sheet_music_manage` (upload, replace, delete part sheet music and piece files) | | ✓ | ✓ | ✓ |
 
 Parts are always edited as part of their piece and need no separate capabilities.
 Deleting pieces is reserved for administrators; pieces are archived instead, because projects

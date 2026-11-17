@@ -224,6 +224,14 @@ Organizers and conductors see projects in every status.
 
 Opening a project for participation creates the participation records (see Participation).
 
+### Deleting
+
+Projects are normally completed, not deleted, because the assignment history depends on them.
+Organizers can delete a project that was never opened for participation (a draft without
+participation records), e.g. one created by mistake; administrators can delete every project.
+Deleting is permanent and removes the project's program, participation, assignments, answers and
+seating.
+
 ### Registration deadline
 
 The deadline is information only: members can respond until the organizers move the project on,

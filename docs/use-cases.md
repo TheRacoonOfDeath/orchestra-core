@@ -60,6 +60,7 @@ Administrators may perform all actions available to other actors.
 | UC-025 | Define Project Fields | Organizer |
 | UC-026 | Answer Project Questions | Member |
 | UC-027 | Remind Undecided Members | System |
+| UC-028 | Delete Project | Organizer, Administrator |
 
 ---
 
@@ -976,3 +977,32 @@ System
 - The reminder is not sent again for this deadline.
 
 The text of the email is set by the organizers.
+
+---
+
+# UC-028 Delete Project
+
+## Goal
+
+Remove a project that was created by mistake or is no longer wanted.
+
+## Primary Actor
+
+Organizer, Administrator
+
+## Preconditions
+
+- Project exists.
+- For organizers: the project was never opened for participation.
+
+## Flow
+
+1. User opens the project form ("Edit").
+2. User selects "Delete project".
+3. System asks for confirmation and says that it cannot be undone.
+4. System deletes the project with its program, participation, assignments, answers and seating.
+5. System shows the project list.
+
+## Postconditions
+
+- The project no longer exists, also not in the assignment history.

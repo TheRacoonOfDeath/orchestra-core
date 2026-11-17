@@ -201,7 +201,8 @@ and assignment history refer to them.
 |-----------|:------:|:---------:|:---------:|:---------:|
 | `orchestra_projects_project_read` | ✓ | ✓ | ✓ | ✓ |
 | `orchestra_projects_project_manage` (create, edit, change status, assign conductors) | | | ✓ | |
-| `orchestra_projects_project_delete` | | | | |
+| `orchestra_projects_project_delete` (delete every project) | | | | |
+| `orchestra_projects_project_delete_unopened` (delete projects that were never opened for participation) | | | ✓ | |
 | `orchestra_projects_program_manage` | | ✓ | ✓ | |
 | `orchestra_projects_participation_read` *meta* → `_read_own` / `_read_others` | own | others | own + others | own |
 | `orchestra_projects_participation_respond` *meta* → `_respond_own` / `orchestra_projects_participation_manage` | own | | own + others | own |

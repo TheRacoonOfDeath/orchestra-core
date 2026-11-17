@@ -150,8 +150,8 @@ Profile data is personal data under the GDPR.
 - Only organizers and administrators can read other members' profiles.
 - Other members only see names.
 - Personal data can be exported and erased with the WordPress privacy tools. Erasing deletes
-  everything that is not history (profile, comments and notes, seats, references in the email
-  log); deleting the account then anonymizes the history. See [gdpr.md](gdpr.md).
+  everything that is not history (profile, comments and notes, answers to project fields, seats,
+  references in the email log); deleting the account then anonymizes the history. See [gdpr.md](gdpr.md).
 
 ---
 
@@ -178,6 +178,7 @@ Examples:
 - Start Date
 - End Date
 - Concert Dates (any number, also none)
+- Registration Deadline (optional): until when members should respond
 
 ### Personnel
 
@@ -189,6 +190,10 @@ These are informational ("who runs this project"). They do not grant permissions
 ### Program
 
 An ordered list of pieces (see Program Entry).
+
+### Questions
+
+The project fields the project asks its participants (see Project Field).
 
 ## Lifecycle
 
@@ -218,6 +223,13 @@ yet, or that the seating has not been finished yet. Conductors and organizers al
 Organizers and conductors see projects in every status.
 
 Opening a project for participation creates the participation records (see Participation).
+
+### Registration deadline
+
+The deadline is information only: members can respond until the organizers move the project on,
+also after it. While the project is Open for Participation, it is shown highlighted. Seven days
+before it, every active member who has not responded yet receives a reminder email, once per
+deadline. A project opened, or a deadline set, with less than seven days left gets no reminder.
 
 ---
 
@@ -270,6 +282,32 @@ some of the concerts. They can change it later, as long as the project is open f
 Organizers can add a note to every participation. Both are visible to organizers only (the member
 also sees their own comment, never the note); conductors see neither. Both are removed when the
 member's account is deleted.
+
+---
+
+# Project Field
+
+## Description
+
+A question a project asks its participants, e.g. how they arrive. The organizers define the project
+fields centrally; each project chooses which of them it shows.
+
+## Attributes
+
+- Label, hint
+- Type: text, long text, checkbox or choice list (optionally with a free-text answer "Other")
+- Required (yes or no)
+
+## Business Rules
+
+- Members who accepted answer the fields of a project while it is Open for Participation;
+  afterwards they see their answers without changing them.
+- Only the member and the organizers see the answers; conductors do not.
+- A required field must be answered (a checkbox ticked) for the answers to be saved; until then the
+  member is asked to answer.
+- A field that a project no longer shows hides its answers there; showing it again brings them back.
+- Deleting a project field deletes its answers in all projects.
+- Answers are not history: they are deleted with the account and on request.
 
 ---
 
@@ -620,6 +658,7 @@ Owns:
 
 - Projects
 - Participation
+- Project Fields and their answers
 - Programs
 - Assignments
 - Assignment History

@@ -57,6 +57,9 @@ Administrators may perform all actions available to other actors.
 | UC-022 | Deactivate Or Reactivate Member | Organizer |
 | UC-023 | Archive Piece | Conductor, Organizer, Librarian |
 | UC-024 | Inform Members About Changed Parts | Conductor, Organizer |
+| UC-025 | Define Project Fields | Organizer |
+| UC-026 | Answer Project Questions | Member |
+| UC-027 | Remind Undecided Members | System |
 
 ---
 
@@ -347,6 +350,8 @@ Organizer
     - Start date
     - End date
     - Concert dates (any number; none by default)
+    - Registration deadline (optional)
+    - The project fields the project asks (UC-025)
 3. System stores the project with status Draft.
 
 ## Postconditions
@@ -659,7 +664,8 @@ Organizer
 With orchestra-email. The choice is preselected the first time the project reaches the status.
 
 1. System sends the automatic email of the status to each member who receives automatic emails:
-   - Open for Participation: the players who have not responded yet.
+   - Open for Participation: the players who have not responded yet, with the description of the
+     project.
    - Parts Assigned: the participants who accepted.
 2. System tells the organizer how many members were informed.
 
@@ -874,5 +880,99 @@ Conductor, Organizer
 
 - Affected members who receive automatic emails know their new parts.
 - No changes are listed any more.
+
+The text of the email is set by the organizers.
+
+---
+
+# UC-025 Define Project Fields
+
+## Goal
+
+Ask the participants of projects what the organizers need to know, e.g. how they arrive.
+
+## Primary Actor
+
+Organizer
+
+## Flow
+
+1. Organizer opens the project fields.
+2. Organizer adds, changes, orders or deletes fields: label, hint, type (text, long text, checkbox,
+   choice list), whether "Other" is offered (choice lists) and whether the field is required.
+3. System stores the fields.
+4. In each project, the organizer chooses which fields it asks (UC-009).
+
+## Alternative Flows
+
+### 2a. Organizer deletes a field
+
+1. System warns that the answers of all projects are deleted.
+2. On confirmation, the field and its answers are deleted.
+
+## Postconditions
+
+- Projects can ask the fields.
+
+---
+
+# UC-026 Answer Project Questions
+
+## Goal
+
+Give the organizers the information a project asks for.
+
+## Primary Actor
+
+Member
+
+## Preconditions
+
+- Project is Open for Participation and asks at least one project field.
+- Participation status is Accepted.
+
+## Flow
+
+1. User opens "Questions" on the project card (collapsed by default) or on the project page.
+2. User answers the questions.
+3. System validates the answers and stores them.
+
+## Alternative Flows
+
+### 3a. A required question is not answered
+
+1. System saves nothing and names the question.
+
+## Postconditions
+
+- Organizers see the answers on the participation overview and in the participants export.
+- After the project left Open for Participation, the user sees the answers without changing them.
+
+---
+
+# UC-027 Remind Undecided Members
+
+## Goal
+
+Remind members who have not responded before the registration deadline.
+
+## Primary Actor
+
+System
+
+## Preconditions
+
+- Project is Open for Participation and has a registration deadline.
+- The project was open and the deadline set at least seven days before the deadline.
+- orchestra-email is running.
+
+## Flow
+
+1. Seven days before the deadline, the system sends the automatic reminder email to every active
+   member whose participation is still Open and who receives automatic emails.
+
+## Postconditions
+
+- The reminder is not sent again for this deadline.
 
 The text of the email is set by the organizers.

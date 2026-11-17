@@ -96,10 +96,11 @@ banner is needed for the Orchestra plugins.
 |------|---------|-------|-------------|------|
 | Participation (decision, dates, who entered it) | Planning | (b) | Accepted names: everyone who sees the project; the rest: conductors, organizers | History; anonymized when the account is deleted |
 | Member comment, organizer note | Planning | (b) | Organizers (the member: own comment) | Deleted by the eraser and with the account |
+| Answers to project fields (questions of a project, e.g. arrival) | Planning | (b) | The member, organizers | Deleted by the eraser, with the account, with the field and with the project |
 | Assignments (who plays which part) | Planning, history | (b), (f) | Everyone from "Parts assigned"; history marks: conductors, organizers | History; anonymized when the account is deleted |
 | Conductors and organizers of a project | Information | (b) | Everyone who sees the project | Deleted by the eraser and with the account |
 | Changed parts not yet reported | Informing members | (b) | Conductors, organizers | Until reported or dismissed |
-| CSV of accepted participants with profile fields | Planning (e.g. catering, funding) | (b), (a) | Organizers who may read all those profiles | Not stored on the site |
+| CSV of accepted participants with profile fields and answers to project fields | Planning (e.g. catering, funding) | (b), (a) | Organizers who may read all those profiles | Not stored on the site |
 
 ### orchestra-seating
 
@@ -127,9 +128,9 @@ every member, so they should not contain names of people.
 
 | Right | How |
 |-------|-----|
-| Access (Art. 15), portability (Art. 20) | **Tools → Export Personal Data**: every plugin adds its data (profile, participation with comments and notes, assignments, projects run, seats, emails sent and written to the person). |
+| Access (Art. 15), portability (Art. 20) | **Tools → Export Personal Data**: every plugin adds its data (profile, participation with comments and notes, answers to project fields, assignments, projects run, seats, emails sent and written to the person). |
 | Rectification (Art. 16) | Members change their profile and email address themselves; organizers and administrators correct the rest. |
-| Erasure (Art. 17) | **Tools → Erase Personal Data** deletes what is not history: profile values, comments and notes, being named as conductor or organizer, seats, references in the email log, changed parts. It keeps (and reports) participation and assignments as the orchestra's history and the inactive status and email opt-out, so that the account stays blocked and receives nothing. **Deleting the account** then anonymizes the history: it shows "Former member". |
+| Erasure (Art. 17) | **Tools → Erase Personal Data** deletes what is not history: profile values, comments and notes, answers to project fields, being named as conductor or organizer, seats, references in the email log, changed parts. It keeps (and reports) participation and assignments as the orchestra's history and the inactive status and email opt-out, so that the account stays blocked and receives nothing. **Deleting the account** then anonymizes the history: it shows "Former member". |
 | Restriction, objection (Art. 18, 21) | Setting the member inactive stops all processing except the history and deletes the profile values. |
 | Withdrawing consent (Art. 7(3)) | Deleting the profile values; turning off automatic emails. |
 
@@ -163,6 +164,7 @@ profile values as sensitive:
 | Profile values | Own | Own | All | All |
 | Declined / pending participation | Own | ✓ | ✓ | ✓ |
 | Comments and notes | Own comment | — | ✓ | ✓ |
+| Answers to project fields | Own | — | ✓ | ✓ |
 | Assignments, seating | From "Parts assigned" | ✓ | ✓ | ✓ |
 | Assignment history marks | — | ✓ | ✓ | ✓ |
 | Email log | — | Own emails | Own emails | All emails |

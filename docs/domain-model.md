@@ -130,8 +130,10 @@ Active
   revealed to others)
 - receive no participation records for new projects
 - are not part of any communication group
-- remain in historical records (participation, assignments, assignment history); only conductors
-  and organizers see that they are inactive, members see their name
+- remain in historical records (accepted participation, assignments, assignment history); only
+  conductors and organizers see that they are inactive, members see their name
+- are not listed among the participants of a project, and not counted, if they did not accept
+  (pending or declined)
 
 When a member is set to inactive, the sensitive profile data (the values of all profile fields)
 is deleted. It must be entered again after a reactivation.

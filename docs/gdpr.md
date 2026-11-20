@@ -87,6 +87,7 @@ banner is needed for the Orchestra plugins.
 |------|---------|-------|-------------|------|
 | Name, email address, role (WordPress user) | Account, contact | (b) | Organizers, administrators; names: everyone | Until the account is deleted |
 | Profile fields chosen by the administrators (e.g. dietary restrictions, financial support) | Planning projects | (a), 9(2)(a) | The member, organizers, administrators | Deleted when set inactive, when the Orchestra role is removed, when the field is deleted, by the eraser |
+| Birth date (since orchestra-members 0.22) | Planning projects (e.g. age for funding or insurance) | (a) | The member, organizers, administrators | Deleted when set inactive, when the Orchestra role is removed, by the eraser |
 | Active status | Blocking former members | (f) | Organizers, administrators | Until the account is deleted |
 | No automatic emails (opt-out) | Respecting the choice | (b) | The member | Until the account is deleted |
 
@@ -100,7 +101,7 @@ banner is needed for the Orchestra plugins.
 | Assignments (who plays which part) | Planning, history | (b), (f) | Everyone from "Parts assigned"; history marks: conductors, organizers | History; anonymized when the account is deleted |
 | Conductors and organizers of a project | Information | (b) | Everyone who sees the project | Deleted by the eraser and with the account |
 | Changed parts not yet reported | Informing members | (b) | Conductors, organizers | Until reported or dismissed |
-| CSV of accepted participants with profile fields and answers to project fields | Planning (e.g. catering, funding) | (b), (a) | Organizers who may read all those profiles | Not stored on the site |
+| CSV of accepted participants with birth date, age at the project's start, profile fields and answers to project fields | Planning (e.g. catering, funding) | (b), (a) | Organizers who may read all those profiles | Not stored on the site |
 
 ### orchestra-seating
 

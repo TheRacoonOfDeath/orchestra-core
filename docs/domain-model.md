@@ -339,6 +339,7 @@ Pieces belong to the music library and may be reused across multiple projects.
 
 - Title
 - Composer
+- Duration (optional, minutes and seconds)
 - Description
 - Archived Status
 - Piece Files: any number of files that belong to the piece as a whole, e.g. the full score or
@@ -466,6 +467,9 @@ A project may contain multiple pieces.
 A piece appears at most once in a project's program.
 
 The program and its order can be changed until the project is completed.
+
+The program shows the duration of each piece and their total; the total says how many pieces have
+no duration.
 
 Removing a piece from a program removes its assignments in that project.
 

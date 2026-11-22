@@ -449,7 +449,8 @@ Member
     - Conductors
     - Own participation status
     - Own assignments
-3. On the tab "Program", the system lists the pieces in program order.
+3. On the tab "Program", the system lists the pieces in program order with their durations and
+   the total duration.
 4. On the tab "Who accepted", the system lists the names of everyone who accepted.
 
 ## Postconditions

@@ -160,8 +160,9 @@ Member
 ## Editable Fields
 
 - Email address
-- The profile fields chosen by the administrators (by default financial support requirement and
-  dietary restrictions)
+- Birth date
+- The profile fields chosen by the administrators (e.g. financial support requirement or dietary
+  restrictions; a new orchestra has none)
 
 ## Postconditions
 

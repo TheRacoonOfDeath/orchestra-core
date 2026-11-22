@@ -95,8 +95,8 @@ Examples:
 Owned by orchestra-members.
 
 - Active Status
-- Profile fields chosen by the administrators (sensitive); by default Financial Support Required
-  and Dietary Restrictions
+- Profile fields chosen by the administrators (sensitive), e.g. Financial Support Required or
+  Dietary Restrictions; a new orchestra has none
 
 ## Roles
 

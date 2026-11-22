@@ -95,9 +95,7 @@ actions and filters.
 
 Responsibilities:
 
-- member profile extensions
-- dietary restrictions
-- financial support information
+- member profile extensions: the birth date and the profile fields chosen by the administrators
 - active status and blocking inactive members from logging in
 - global communication groups
 

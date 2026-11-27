@@ -29,7 +29,7 @@
 | Assignments | orchestra-projects | table `orchestra_projects_assignments` |
 | Assignment history | orchestra-projects | derived from assignments of past projects |
 | Assignments members were last informed about (Parts assigned) | orchestra-projects | table `orchestra_projects_informed` |
-| Registration deadline and its reminder | orchestra-projects | post meta of `orchestra_project` |
+| Registration deadline and its reminders | orchestra-projects | post meta of `orchestra_project` |
 | Project fields (central list; the fields of each project) | orchestra-projects | option `orchestra_projects_fields`; post meta |
 | Answers to project fields | orchestra-projects | table `orchestra_projects_answers` |
 | Whether a member receives automatic emails | orchestra-members | user meta `orchestra_members_no_automatic_emails` |

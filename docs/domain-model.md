@@ -240,6 +240,8 @@ The deadline is information only: members can respond until the organizers move 
 also after it. While the project is Open for Participation, it is shown highlighted. Seven days
 before it, every active member who has not responded yet receives a reminder email, once per
 deadline. A project opened, or a deadline set, with less than seven days left gets no reminder.
+On the day of the deadline, they receive a second email that starts with a red "Last chance!", also
+once per deadline, unless the project was opened or the deadline set on that day.
 
 ---
 

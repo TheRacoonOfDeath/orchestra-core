@@ -966,19 +966,22 @@ System
 ## Preconditions
 
 - Project is Open for Participation and has a registration deadline.
-- The project was open and the deadline set at least seven days before the deadline.
 - orchestra-email is running.
 
 ## Flow
 
-1. Seven days before the deadline, the system sends the automatic reminder email to every active
-   member whose participation is still Open and who receives automatic emails.
+1. Seven days before the deadline, if the project was open and the deadline set by then, the system
+   sends the automatic reminder email to every active member whose participation is still Open and
+   who receives automatic emails.
+2. On the day of the deadline, if the project was open and the deadline set before that day, the
+   system sends these members the automatic "last chance" email, which starts with a red
+   "Last chance!". If the reminder of step 1 is still due, only this email is sent.
 
 ## Postconditions
 
-- The reminder is not sent again for this deadline.
+- Neither email is sent again for this deadline.
 
-The text of the email is set by the organizers.
+The texts of both emails are set by the organizers.
 
 ---
 
